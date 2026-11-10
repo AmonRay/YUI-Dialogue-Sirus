@@ -262,14 +262,63 @@ do
         Undress = noop,
         UndressSlot = noop,
         FreezeAnimation = noop,
+        SetModelAlpha = noop,
+        SetUseTransmogSkin = noop,
+        SetPortraitZoom = noop,
+        SetCamDistanceScale = noop,
     }
+
+    local function ColorRGB(c, r, g, b)
+        if type(c) == "table" then
+            if c.GetRGB then return c:GetRGB() end
+            return c.r or r, c.g or g, c.b or b
+        end
+        return r, g, b
+    end
+
+    --Retail Model:SetLight(enabled, lightTable); 3.3.5 only accepts positional numbers:
+    --SetLight(enabled, omni, dirX, dirY, dirZ, ambIntensity, ambR, ambG, ambB, dirIntensity, dirR, dirG, dirB)
+    local function WrapSetLight(index)
+        local orig = index and rawget(index, "SetLight")
+        if type(orig) ~= "function" or rawget(index, "__duiSetLight") then return end
+        rawset(index, "__duiSetLight", true)
+        rawset(index, "SetLight", function(self, enabled, light, ...)
+            if type(light) ~= "table" then
+                return orig(self, enabled, light, ...)
+            end
+            local x, y, z = 0, 0, -1
+            local p = light.point
+            if type(p) == "table" then
+                if p.GetXYZ then x, y, z = p:GetXYZ() else x, y, z = p.x or x, p.y or y, p.z or z end
+            end
+            local ar, ag, ab = ColorRGB(light.ambientColor, 1, 1, 1)
+            local dr, dg, db = ColorRGB(light.diffuseColor, 1, 1, 1)
+            return orig(self, enabled and 1 or 0, light.omnidirectional and 1 or 0, x, y, z,
+                light.ambientIntensity or 1, ar, ag, ab, light.diffuseIntensity or 1, dr, dg, db)
+        end)
+    end
+
     for _, widget in ipairs({"Model", "PlayerModel", "DressUpModel"}) do
         local ok, obj = pcall(CreateFrame, widget)
         if ok and obj then
             local index = Index(obj)
             for k, v in pairs(Region) do Add(index, k, v) end
             for k, v in pairs(ModelExtras) do Add(index, k, v) end
+            WrapSetLight(index)
             obj:Hide()
+        end
+    end
+
+    -- EditBox: ClearHighlightText does not exist in 3.3.5
+    do
+        local ok, eb = pcall(CreateFrame, "EditBox")
+        if ok and eb then
+            if eb.SetAutoFocus then eb:SetAutoFocus(false) end
+            eb:Hide()
+            local index = Index(eb)
+            Add(index, "ClearHighlightText", function(self) self:HighlightText(0, 0) end)
+            Add(index, "SetCountInvisibleLetters", noop)
+            Add(index, "SetHighlightColor", noop)
         end
     end
 
