@@ -396,6 +396,81 @@ for _, name in ipairs({
 end
 
 
+-- C_EventUtils: 3.3.5 can't query events, so answer from a known list
+do
+    local C_EventUtils = Namespace("C_EventUtils")
+    local ValidEvents335 = {
+        CONFIRM_TALENT_WIPE = true,
+        LEARNED_SPELL_IN_TAB = true,
+        GOSSIP_SHOW = true, GOSSIP_CLOSED = true, GOSSIP_CONFIRM = true, GOSSIP_CONFIRM_CANCEL = true, GOSSIP_ENTER_CODE = true,
+        QUEST_GREETING = true, QUEST_DETAIL = true, QUEST_PROGRESS = true, QUEST_COMPLETE = true, QUEST_FINISHED = true,
+        QUEST_ITEM_UPDATE = true, QUEST_LOG_UPDATE = true, QUEST_ACCEPTED = true, QUEST_ACCEPT_CONFIRM = true,
+        UNIT_PORTRAIT_UPDATE = true, ITEM_TEXT_BEGIN = true, ITEM_TEXT_READY = true, ITEM_TEXT_CLOSED = true,
+        MERCHANT_SHOW = true, MERCHANT_CLOSED = true, PLAYER_ENTERING_WORLD = true, ZONE_CHANGED_NEW_AREA = true,
+        PLAYER_REGEN_ENABLED = true, PLAYER_REGEN_DISABLED = true, MODIFIER_STATE_CHANGED = true, UPDATE_FACTION = true,
+        PLAYER_LEVEL_UP = true, UI_ERROR_MESSAGE = true, UI_INFO_MESSAGE = true, CHAT_MSG_LOOT = true, CHAT_MSG_SYSTEM = true,
+        LOOT_OPENED = true, LOOT_CLOSED = true, UPDATE_BINDINGS = true, PLAYER_TARGET_CHANGED = true, UNIT_MODEL_CHANGED = true,
+        PLAYER_LOGOUT = true, PLAYER_QUITING = true, PLAYER_CAMPING = true, UPDATE_SHAPESHIFT_FORM = true, CINEMATIC_START = true,
+        CINEMATIC_STOP = true, PLAY_MOVIE = true, PLAYER_EQUIPMENT_CHANGED = true, BAG_UPDATE = true, BAG_UPDATE_COOLDOWN = true,
+        LFG_PROPOSAL_SHOW = true, LFG_PROPOSAL_FAILED = true, LFG_PROPOSAL_SUCCEEDED = true, UPDATE_INSTANCE_INFO = true,
+    }
+    if rawget(C_EventUtils, "IsEventValid") == nil then
+        C_EventUtils.IsEventValid = function(event) return ValidEvents335[event] == true end
+    end
+end
+
+
+-- C_PlayerInteractionManager: track gossip / quest-giver interaction from 3.3.5 events
+do
+    if type(Enum) ~= "table" then Enum = {} end
+    if type(rawget(Enum, "PlayerInteractionType")) ~= "table" then
+        Enum.PlayerInteractionType = {Gossip = 3, QuestGiver = 4}
+    end
+
+    local TYPE_GOSSIP = Enum.PlayerInteractionType.Gossip or 3
+    local TYPE_QUEST_GIVER = Enum.PlayerInteractionType.QuestGiver or 4
+    local state = {}
+
+    local tracker = CreateFrame("Frame")
+    for _, e in ipairs({"GOSSIP_SHOW", "GOSSIP_CLOSED", "QUEST_GREETING", "QUEST_DETAIL", "QUEST_PROGRESS", "QUEST_COMPLETE", "QUEST_FINISHED", "PLAYER_ENTERING_WORLD"}) do
+        tracker:RegisterEvent(e)
+    end
+    tracker:SetScript("OnEvent", function(self, event)
+        if event == "GOSSIP_SHOW" then
+            state[TYPE_GOSSIP] = true
+        elseif event == "GOSSIP_CLOSED" then
+            state[TYPE_GOSSIP] = nil
+        elseif event == "QUEST_FINISHED" then
+            state[TYPE_QUEST_GIVER] = nil
+        elseif event == "PLAYER_ENTERING_WORLD" then
+            state[TYPE_GOSSIP] = nil
+            state[TYPE_QUEST_GIVER] = nil
+        else
+            state[TYPE_QUEST_GIVER] = true
+        end
+    end)
+
+    local C_PlayerInteractionManager = C_PlayerInteractionManager
+    if rawget(C_PlayerInteractionManager, "IsInteractingWithNpcOfType") == nil then
+        C_PlayerInteractionManager.IsInteractingWithNpcOfType = function(interactionType)
+            if state[interactionType] then
+                if UnitExists("npc") then
+                    return true
+                end
+                state[interactionType] = nil    --interaction ended without the closing event (walked away)
+            end
+            return false
+        end
+    end
+    if rawget(C_PlayerInteractionManager, "ClearInteraction") == nil then
+        C_PlayerInteractionManager.ClearInteraction = function()
+            if CloseGossip then CloseGossip() end
+            if CloseQuest then CloseQuest() end
+        end
+    end
+end
+
+
 -- C_AddOns / C_CVar / C_Timer fallbacks
 do
     local C_AddOns = C_AddOns
