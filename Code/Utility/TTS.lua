@@ -38,7 +38,7 @@ local UnitExists = UnitExists;
 local UnitSex = UnitSex;
 local C_VoiceChat = C_VoiceChat;
 local C_TTSSettings = C_TTSSettings;
-local After = C_Timer.After;
+local After = DUI_C_Timer.After;
 local gsub = string.gsub;
 
 local TTSButtons = {};      --DialogueUI, BookUI
@@ -1082,7 +1082,7 @@ do  --Debug for 12.0.5 VOICE_CHAT_TTS_PLAYBACK_FINISHED issue
 
         SpeakText(voiceID, text, rate, volume, overlap);
 
-        C_Timer.After(1, function()
+        DUI_C_Timer.After(1, function()
             print("C_VoiceChat.StopSpeakingText");
             C_VoiceChat.StopSpeakingText();
         end);

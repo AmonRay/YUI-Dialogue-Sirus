@@ -80,7 +80,7 @@ local GetNumQuestChoices = GetNumQuestChoices;
 local AcknowledgeAutoAcceptQuest = API.AcknowledgeAutoAcceptQuest;
 
 
-local After = C_Timer.After;
+local After = DUI_C_Timer.After;
 local tinsert = table.insert;
 local tsort = table.sort;
 local find = string.find;

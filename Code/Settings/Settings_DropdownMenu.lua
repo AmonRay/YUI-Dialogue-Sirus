@@ -567,7 +567,7 @@ addon.GetDropdownMenu = GetDropdownMenu;
 
 
 --[[
-C_Timer.After(4, function()
+DUI_C_Timer.After(4, function()
     local DD = GetDropdownMenu();
     DD:SetPoint("CENTER", 0, 0);
     DD:SetSize(8*24, 4*24);

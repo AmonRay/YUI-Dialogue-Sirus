@@ -84,7 +84,7 @@ do  --Mute Target Lost Sound while interacting with NPC     --Mute UI open/close
         local s1, s2 = 567490, 567464;
         MuteSoundFile(s1);
         MuteSoundFile(s2);
-        C_Timer.After(0.03, function()
+        DUI_C_Timer.After(0.03, function()
             UnmuteSoundFile(s1);
             UnmuteSoundFile(s2);
         end);

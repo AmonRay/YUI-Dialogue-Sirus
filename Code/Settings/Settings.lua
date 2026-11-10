@@ -2419,7 +2419,7 @@ do
         --We wait after hotkey frame size update
         local f = MainFrame;
 
-        if f.Init then return end;
+        if (not f) or f.Init then return end;
 
         if f.arrowOptionPool then
             local function ModifyArrowOption(widget)
@@ -2451,7 +2451,7 @@ do
         INPUT_DEVICE_ID = dbValue;
 
         local f = MainFrame;
-        if f.Init then return end;
+        if (not f) or f.Init then return end;
 
         f:Layout();
         f:UpdateCurrentTab();

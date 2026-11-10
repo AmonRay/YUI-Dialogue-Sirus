@@ -2019,7 +2019,7 @@ do  --Settings
 
         if not self.settingsDirty then
             self.settingsDirty = true;
-            C_Timer.After(0, function()
+            DUI_C_Timer.After(0, function()
                 self.settingsDirty = nil;
                 CalculateSizeData();
                 Cache:CalculateTextHeight();

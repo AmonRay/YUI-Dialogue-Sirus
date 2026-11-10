@@ -751,7 +751,7 @@ do  --Debug
     local Colors = {};
 
 
-    C_Timer.After(0.5, function()
+    DUI_C_Timer.After(0.5, function()
         for _, v in ipairs(MESSAGE_TYPES) do
             local r, g, b, events = GetMessageTypeColor(v);
             local event = events[1];

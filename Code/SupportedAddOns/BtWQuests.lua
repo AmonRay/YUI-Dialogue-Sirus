@@ -231,7 +231,7 @@ function Updater:LoadQuest()
                 function onClickFunc()
                     addon.CallbackRegistry:Trigger("PlayerInteraction.ShowUI", true);
                     BtWQuestsFrame:Show();
-                    C_Timer.After(0, function()
+                    DUI_C_Timer.After(0, function()
                         local scrollTo = nil;   --require Number
                         BtWQuestsFrame:SelectFromLink(link, scrollTo);
                     end)

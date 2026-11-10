@@ -530,7 +530,7 @@ do
 
                     local effectText, cached = API.GetItemEffect(equippedItemLink);
                     if not cached then
-                        C_Timer.After(0.25, function()
+                        DUI_C_Timer.After(0.25, function()
                             self:ReTriggerOnEnter();
                         end);
                     end
@@ -611,7 +611,7 @@ do
                         if not cached then
                             if not requery then
                                 requery = true;
-                                C_Timer.After(0.25, function()
+                                DUI_C_Timer.After(0.25, function()
                                     self:ReTriggerOnEnter();
                                 end);
                             end

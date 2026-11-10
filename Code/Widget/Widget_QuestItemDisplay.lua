@@ -11,7 +11,7 @@ local GetNumLetters = strlenutf8 or string.len;
 local Round = API.Round;
 local IsQuestLoreItem = API.IsQuestLoreItem;
 local GetBagQuestItemInfo = API.GetBagQuestItemInfo;
-local After = C_Timer.After;
+local After = DUI_C_Timer.After;
 
 local MerchantFrame = MerchantFrame;
 

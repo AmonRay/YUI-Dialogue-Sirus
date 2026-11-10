@@ -698,7 +698,7 @@ function FadeHelper:HideUIParentInstantly()
             self.t = 2;
             self:SetScript("OnUpdate", self.HideSparkles_OnUpdate);
         end
-        C_Timer.After(0, function()
+        DUI_C_Timer.After(0, function()
             FadeHelper:RestoreAlternatePowerBar();
         end);
     end

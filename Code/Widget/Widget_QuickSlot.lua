@@ -504,7 +504,7 @@ do  --debug
 
         local case = "equipment";   --equipment container cosmetic link
 
-        C_Timer.After(3, function()
+        DUI_C_Timer.After(3, function()
             local button = self:GetItemButton();
             local allowPressKeyToUse = true;
             if case == "equipment" then

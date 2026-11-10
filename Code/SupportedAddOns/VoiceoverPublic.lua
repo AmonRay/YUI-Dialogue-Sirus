@@ -81,7 +81,7 @@ local function SetVOProvider(provider)
 
         if not temp then
             temp = true;
-            C_Timer.After(0.1, function()
+            DUI_C_Timer.After(0.1, function()
                 OnAddOnLoaded();
             end);
         elseif provider.name ~= VOAddOnName then

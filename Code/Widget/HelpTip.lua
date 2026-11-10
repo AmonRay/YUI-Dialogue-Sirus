@@ -364,7 +364,7 @@ do  --Load Tips (TipPresets);
     end
 
     --[[    --debug
-    C_Timer.After(1, function()
+    DUI_C_Timer.After(1, function()
         addon.ResetTutorials();
     end)
     --]]

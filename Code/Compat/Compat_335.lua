@@ -626,6 +626,21 @@ do
             return ticker
         end
     end
+
+    --Sirus SharedXML\C_TimerAugment.lua defines colon methods (C_Timer:After(duration, callback)),
+    --while retail code calls C_Timer.After(duration, callback) ("attempt to compare number with function").
+    --The addon uses its own dot-style DUI_C_Timer so the global (and Blizzard's secure timers) stay untouched.
+    local T = {}
+    if C_Timer2 then
+        T.After = function(delay, callback) return C_Timer:After(delay, callback) end
+        T.NewTimer = function(delay, callback) return (C_Timer.NewTimer and C_Timer:NewTimer(delay, callback)) or C_Timer:After(delay, callback) end
+        T.NewTicker = function(delay, callback, iterations) return C_Timer:NewTicker(delay, callback, iterations) end
+    else
+        T.After = function(delay, callback) return C_Timer.After(delay, callback) end
+        T.NewTimer = function(delay, callback) return C_Timer.NewTimer(delay, callback) end
+        T.NewTicker = function(delay, callback, iterations) return C_Timer.NewTicker(delay, callback, iterations) end
+    end
+    DUI_C_Timer = T
 end
 
 

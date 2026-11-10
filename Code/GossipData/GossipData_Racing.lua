@@ -85,7 +85,7 @@ function DataSource:OnEvent(event, ...)
     elseif event == "ADDON_RESTRICTION_STATE_CHANGED" then
         if not self.pauseUpdate then
             self.pauseUpdate = true;
-            C_Timer.After(0.2, function()
+            DUI_C_Timer.After(0.2, function()
                 self.pauseUpdate = nil;
                 self:UpdateRaceTimesFromAura();
             end);

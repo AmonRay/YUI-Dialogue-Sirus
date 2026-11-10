@@ -29,7 +29,7 @@ do
             return
         end
 
-        C_Timer.After(0, function()
+        DUI_C_Timer.After(0, function()
             self:GetParent():UpdateScrollChildRect();   --?
             self:GetParent():UpdateScrollRange();
         end);

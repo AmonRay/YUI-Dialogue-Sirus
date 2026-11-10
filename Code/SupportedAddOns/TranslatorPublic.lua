@@ -89,7 +89,7 @@ local function SetTranslator(translator)
 
         if not temp then
             temp = true;
-            C_Timer.After(0.1, function()
+            DUI_C_Timer.After(0.1, function()
                 OnTranslatorLoaded();
             end);
         elseif translator.name ~= TranslatorName then

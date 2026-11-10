@@ -320,7 +320,7 @@ do  --Module Control
     end
 
     if false then
-        C_Timer.After(2, function()
+        DUI_C_Timer.After(2, function()
             DUI_ToggleSkimmer(true);
         end)
     end

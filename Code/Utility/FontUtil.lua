@@ -343,7 +343,7 @@ do
         local success = self.TestFont:SetFont(textFontFile, 12, "");
         if not success then
             if not isRequery then
-                C_Timer.After(0.2, function()  --Wait until "PostFontSizeChanged" tiggered in SharedUITemplate.lua
+                DUI_C_Timer.After(0.2, function()  --Wait until "PostFontSizeChanged" tiggered in SharedUITemplate.lua
                     self:SetFontByFile(textFontFile, true);
                 end);
             end
@@ -389,7 +389,7 @@ do
                     OVERRIDE_FONT[fontObjectName] = file;
                 else
                     if not isRequery then
-                        C_Timer.After(0.2, function()
+                        DUI_C_Timer.After(0.2, function()
                             self:SetOverrideFont(fontObjectName, file, true);
                         end);
                     end
@@ -427,7 +427,7 @@ do  --Settings Callbacks
     local function Settings_MobileDeviceMode(dbValue, userInput)
         if userInput then
             FontUtil:SetFontSizeByID(GetDBValue("FontSizeBase"));
-            C_Timer.After(0.05, function()  --Wait until "PostFontSizeChanged" tiggered in SharedUITemplate.lua
+            DUI_C_Timer.After(0.05, function()  --Wait until "PostFontSizeChanged" tiggered in SharedUITemplate.lua
                 addon.SetDBValue("FrameSize", GetDBValue("FrameSize"));
             end);
         end

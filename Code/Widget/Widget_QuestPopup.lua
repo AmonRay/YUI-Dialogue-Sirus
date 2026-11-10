@@ -6,7 +6,7 @@ local WidgetManager = addon.WidgetManager;
 local ThemeUtil = addon.ThemeUtil;
 local FontUtil = addon.FontUtil;
 local easeFunc = addon.EasingFunctions.outQuart;
-local After = C_Timer.After;
+local After = DUI_C_Timer.After;
 local GetQuestID = GetQuestID;
 local AddAutoQuestPopUp = AddAutoQuestPopUp;
 local RemoveAutoQuestPopUp = RemoveAutoQuestPopUp;
@@ -160,7 +160,7 @@ do
         self.Title:SetText("");
         self.Title:SetMaxLines(1);
         FontUtil:SetAutoScalingText(self.Title, title);
-        C_Timer.After(0.0, function()
+        DUI_C_Timer.After(0.0, function()
             if self.Title:IsTruncated() then
                 local scale = self.Title:GetTextScale();
                 self.Title:SetMaxLines(2);
@@ -448,7 +448,7 @@ end
 
 
 --[[
-C_Timer.After(3, function()
+DUI_C_Timer.After(3, function()
     local f = WidgetManager:AcquireQuestPopup();
     f:SetAcceptedQuest(72291);
     local b = WidgetManager:AcquireQuestPopup();

@@ -340,4 +340,4 @@ end
 addon.TryShowGamepadSplashScreen = TryShowGamepadSplashScreen;
 
 -- Debug
---C_Timer.After(0, function() SHOULD_SHOW_SPLASH_SCREEN = true; TryShowGamepadSplashScreen(); end)
+--DUI_C_Timer.After(0, function() SHOULD_SHOW_SPLASH_SCREEN = true; TryShowGamepadSplashScreen(); end)
