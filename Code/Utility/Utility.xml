@@ -31,7 +31,7 @@
             </Layer>
         </Layers>
         <Scripts>
-            <OnLoad>self:OnLoad(...);</OnLoad>
+            <OnLoad>self:OnLoad();</OnLoad>
         </Scripts>
     </Frame>
 

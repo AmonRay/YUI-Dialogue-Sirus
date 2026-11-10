@@ -18,11 +18,11 @@
         </Layers>
         <Scripts>
 <OnLoad>DUI_ApplyMixin(self, "DUIDialogSettingsTabButtonMixin");</OnLoad>
-            <OnEnter>self:OnEnter(...);</OnEnter>
-            <OnLeave>self:OnLeave(...);</OnLeave>
-            <OnClick>self:OnClick(...);</OnClick>
-            <OnMouseDown>self:OnMouseDown(...);</OnMouseDown>
-            <OnMouseUp>self:OnMouseUp(...);</OnMouseUp>
+            <OnEnter>self:OnEnter(motion);</OnEnter>
+            <OnLeave>self:OnLeave(motion);</OnLeave>
+            <OnClick>self:OnClick(button, down);</OnClick>
+            <OnMouseDown>self:OnMouseDown(button);</OnMouseDown>
+            <OnMouseUp>self:OnMouseUp(button);</OnMouseUp>
         </Scripts>
     </Button>
 
@@ -57,9 +57,9 @@
         </Layers>
         <Scripts>
 <OnLoad>DUI_ApplyMixin(self, "DUIDialogSettingsCheckboxMixin");</OnLoad>
-            <OnEnter>self:OnEnter(...);</OnEnter>
-            <OnLeave>self:OnLeave(...);</OnLeave>
-            <OnClick>self:OnClick(...);</OnClick>
+            <OnEnter>self:OnEnter(motion);</OnEnter>
+            <OnLeave>self:OnLeave(motion);</OnLeave>
+            <OnClick>self:OnClick(button, down);</OnClick>
         </Scripts>
     </Button>
 
@@ -130,7 +130,7 @@
             </Button>
         </Frames>
         <Scripts>
-            <OnLoad>DUI_ApplyMixin(self, "DUIDialogSettingsArrowOptionMixin"); self:OnLoad(...);</OnLoad>
+            <OnLoad>DUI_ApplyMixin(self, "DUIDialogSettingsArrowOptionMixin"); self:OnLoad();</OnLoad>
         </Scripts>
     </Frame>
 
@@ -319,9 +319,9 @@
         </Layers>
         <Scripts>
 <OnLoad>DUI_ApplyMixin(self, "DUIDialogSettingsDropdownButtonMixin");</OnLoad>
-            <OnEnter>self:OnEnter(...);</OnEnter>
-            <OnLeave>self:OnLeave(...);</OnLeave>
-            <OnClick>self:OnClick(...);</OnClick>
+            <OnEnter>self:OnEnter(motion);</OnEnter>
+            <OnLeave>self:OnLeave(motion);</OnLeave>
+            <OnClick>self:OnClick(button, down);</OnClick>
         </Scripts>
     </Button>
 
@@ -338,9 +338,9 @@
         </Layers>
         <Scripts>
 <OnLoad>DUI_ApplyMixin(self, "DUIDialogSettingsOptionMixin");</OnLoad>
-            <OnEnter>self:OnEnter(...);</OnEnter>
-            <OnLeave>self:OnLeave(...);</OnLeave>
-            <OnClick>self:OnClick(...);</OnClick>
+            <OnEnter>self:OnEnter(motion);</OnEnter>
+            <OnLeave>self:OnLeave(motion);</OnLeave>
+            <OnClick>self:OnClick(button, down);</OnClick>
         </Scripts>
     </Button>
 
@@ -365,12 +365,12 @@
             </Layer>
         </Layers>
         <Scripts>
-            <OnLoad>DUI_ApplyMixin(self, "DUIDialogSettingsKeybindingMixin"); self:OnLoad(...);</OnLoad>
-            <OnEnter>self:OnEnter(...);</OnEnter>
-            <OnLeave>self:OnLeave(...);</OnLeave>
-            <OnClick>self:OnClick(...);</OnClick>
-            <OnMouseDown>self:OnMouseDown(...);</OnMouseDown>
-            <OnMouseUp>self:OnMouseUp(...);</OnMouseUp>
+            <OnLoad>DUI_ApplyMixin(self, "DUIDialogSettingsKeybindingMixin"); self:OnLoad();</OnLoad>
+            <OnEnter>self:OnEnter(motion);</OnEnter>
+            <OnLeave>self:OnLeave(motion);</OnLeave>
+            <OnClick>self:OnClick(button, down);</OnClick>
+            <OnMouseDown>self:OnMouseDown(button);</OnMouseDown>
+            <OnMouseUp>self:OnMouseUp(button);</OnMouseUp>
         </Scripts>
     </Button>
 
@@ -468,12 +468,12 @@
             <KeyValue key="nodeignore" value="true" type="boolean"/>
         </KeyValues>
         <Scripts>
-            <OnLoad>DUI_ApplyMixin(self, "DUIDialogSettingsMixin"); self:OnLoad(...);</OnLoad>
-            <OnShow>self:OnShow_First(...);</OnShow>
-            <OnHide>self:OnHide(...);</OnHide>
+            <OnLoad>DUI_ApplyMixin(self, "DUIDialogSettingsMixin"); self:OnLoad();</OnLoad>
+            <OnShow>self:OnShow_First();</OnShow>
+            <OnHide>self:OnHide();</OnHide>
             <OnEvent>self:OnEvent(...);</OnEvent>
-            <OnKeyDown>self:OnKeyDown(...);</OnKeyDown>
-            <OnMouseWheel>self:OnMouseWheel(...);</OnMouseWheel>
+            <OnKeyDown>self:OnKeyDown(key);</OnKeyDown>
+            <OnMouseWheel>self:OnMouseWheel(delta);</OnMouseWheel>
         </Scripts>
     </Frame>
 </Ui>

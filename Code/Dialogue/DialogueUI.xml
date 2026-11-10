@@ -46,7 +46,7 @@
             </Layer>
         </Layers>
         <Scripts>
-            <OnLoad>DUI_ApplyMixin(self, "DUIDialogHotkeyFrameMixin"); self:OnLoad(...);</OnLoad>
+            <OnLoad>DUI_ApplyMixin(self, "DUIDialogHotkeyFrameMixin"); self:OnLoad();</OnLoad>
         </Scripts>
     </Frame>
 
@@ -106,12 +106,12 @@
             </Frame>
         </Frames>
         <Scripts>
-            <OnLoad>DUI_ApplyMixin(self, "DUIDialogOptionButtonMixin"); DUI_SetScriptSafe(self, "OnHyperlinkEnter", "OnHyperlinkEnter"); DUI_SetScriptSafe(self, "OnHyperlinkLeave", "OnHyperlinkLeave"); DUI_SetScriptSafe(self, "OnHyperlinkClick", "OnHyperlinkClick"); self:OnLoad(...);</OnLoad>
-            <OnEnter>self:OnEnter(...);</OnEnter>
-            <OnLeave>self:OnLeave(...);</OnLeave>
-            <OnClick>self:OnClick(...);</OnClick>
-            <OnMouseDown>self:OnMouseDown(...);</OnMouseDown>
-            <OnMouseUp>self:OnMouseUp(...);</OnMouseUp>
+            <OnLoad>DUI_ApplyMixin(self, "DUIDialogOptionButtonMixin"); DUI_SetScriptSafe(self, "OnHyperlinkEnter", "OnHyperlinkEnter"); DUI_SetScriptSafe(self, "OnHyperlinkLeave", "OnHyperlinkLeave"); DUI_SetScriptSafe(self, "OnHyperlinkClick", "OnHyperlinkClick"); self:OnLoad();</OnLoad>
+            <OnEnter>self:OnEnter(motion);</OnEnter>
+            <OnLeave>self:OnLeave(motion);</OnLeave>
+            <OnClick>self:OnClick(button, down);</OnClick>
+            <OnMouseDown>self:OnMouseDown(button);</OnMouseDown>
+            <OnMouseUp>self:OnMouseUp(button);</OnMouseUp>
             
             
             
@@ -134,8 +134,8 @@
             <Frame parentKey="ActionBlocker" setAllPoints="true" enableMouse="true"/>
         </Frames>
         <Scripts>
-            <OnLoad>DUI_ApplyMixin(self, "DUIDialogOptionButtonLockMixin"); self:OnLoad(...);</OnLoad>
-            <OnHide>self:OnHide(...);</OnHide>
+            <OnLoad>DUI_ApplyMixin(self, "DUIDialogOptionButtonLockMixin"); self:OnLoad();</OnLoad>
+            <OnHide>self:OnHide();</OnHide>
         </Scripts>
     </Frame>
 
@@ -174,9 +174,9 @@
             </EditBox>
         </Frames>
         <Scripts>
-            <OnLoad>DUI_ApplyMixin(self, "DUIDialogInputBoxMixin"); self:OnLoad(...);</OnLoad>
-            <OnShow>self:OnShow(...);</OnShow>
-            <OnHide>self:OnHide(...);</OnHide>
+            <OnLoad>DUI_ApplyMixin(self, "DUIDialogInputBoxMixin"); self:OnLoad();</OnLoad>
+            <OnShow>self:OnShow();</OnShow>
+            <OnHide>self:OnHide();</OnHide>
             <OnEvent>self:OnEvent(...);</OnEvent>
         </Scripts>
     </Frame>
@@ -267,10 +267,10 @@
 			</AnimationGroup>
 		</Animations>
         <Scripts>
-            <OnLoad>DUI_ApplyMixin(self, "DUIDialogItemButtonMixin"); self:OnLoad(...);</OnLoad>
-            <OnEnter>self:OnEnter(...);</OnEnter>
-            <OnLeave>self:OnLeave(...);</OnLeave>
-            <OnClick>self:OnClick(...);</OnClick>
+            <OnLoad>DUI_ApplyMixin(self, "DUIDialogItemButtonMixin"); self:OnLoad();</OnLoad>
+            <OnEnter>self:OnEnter(motion);</OnEnter>
+            <OnLeave>self:OnLeave(motion);</OnLeave>
+            <OnClick>self:OnClick(button, down);</OnClick>
         </Scripts>
     </Button>
 
@@ -305,9 +305,9 @@
             </Layer>
         </Layers>
         <Scripts>
-            <OnLoad>DUI_ApplyMixin(self, "DUIDialogSmallItemButtonMixin"); self:OnLoad(...);</OnLoad>
-            <OnEnter>self:OnEnter(...);</OnEnter>
-            <OnLeave>self:OnLeave(...);</OnLeave>
+            <OnLoad>DUI_ApplyMixin(self, "DUIDialogSmallItemButtonMixin"); self:OnLoad();</OnLoad>
+            <OnEnter>self:OnEnter(motion);</OnEnter>
+            <OnLeave>self:OnLeave(motion);</OnLeave>
         </Scripts>
     </Button>
 
@@ -522,8 +522,8 @@
                             </Frame>
                         </Frames>
                         <Scripts>
-                            <OnLoad>DUI_ApplyMixin(self, "DUIDialogQuestPortraitMixin"); self:OnLoad(...);</OnLoad>
-                            <OnHide>self:OnHide(...);</OnHide>
+                            <OnLoad>DUI_ApplyMixin(self, "DUIDialogQuestPortraitMixin"); self:OnLoad();</OnLoad>
+                            <OnHide>self:OnHide();</OnHide>
                         </Scripts>
                     </Frame>
                 </Frames>
@@ -563,12 +563,12 @@
             <KeyValue key="nodeignore" value="true" type="boolean"/>
         </KeyValues>
         <Scripts>
-            <OnLoad>DUI_ApplyMixin(self, "DUIDialogBaseMixin"); self:OnLoad(...);</OnLoad>
-            <OnShow>self:OnShow(...);</OnShow>
-            <OnHide>self:OnHide(...);</OnHide>
+            <OnLoad>DUI_ApplyMixin(self, "DUIDialogBaseMixin"); self:OnLoad();</OnLoad>
+            <OnShow>self:OnShow();</OnShow>
+            <OnHide>self:OnHide();</OnHide>
             <OnEvent>self:OnEvent(...);</OnEvent>
-            <OnMouseUp>self:OnMouseUp(...);</OnMouseUp>
-            <OnMouseWheel>self:OnMouseWheel(...);</OnMouseWheel>
+            <OnMouseUp>self:OnMouseUp(button);</OnMouseUp>
+            <OnMouseWheel>self:OnMouseWheel(delta);</OnMouseWheel>
         </Scripts>
     </Frame>
 

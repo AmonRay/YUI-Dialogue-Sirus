@@ -166,6 +166,14 @@ Enum.QuestFrequency.Default = Enum.QuestFrequency.Default or 0
 Enum.QuestFrequency.Daily = Enum.QuestFrequency.Daily or 1
 Enum.QuestFrequency.Weekly = Enum.QuestFrequency.Weekly or 2
 
+-- Quest tag IDs (same values as GetQuestTagInfo on 3.3.5)
+if type(rawget(Enum, "QuestTag")) ~= "table" then
+    Enum.QuestTag = {Group = 1, PvP = 41, Raid = 62, Dungeon = 81, Legendary = 83, Heroic = 85, Raid10 = 88, Raid25 = 89, Scenario = 98, Account = 102}
+end
+if type(rawget(Enum, "QuestTagType")) ~= "table" then
+    Enum.QuestTagType = {Tag = 0, Profession = 1, Normal = 2, PvP = 3, PetBattle = 4, Bounty = 5, Dungeon = 6, Invasion = 7, Raid = 8, Contribution = 9, RatedReward = 10, InvasionWrapper = 11, FactionAssault = 12, Islands = 13, Threat = 14, CovenantCalling = 15}
+end
+
 
 -- ---------------------------------------------------------------------------
 -- Widget methods missing in 3.3.5
@@ -225,7 +233,9 @@ do
     local frameIndex = Index(frame)
     for k, v in pairs(Region) do Add(frameIndex, k, v) end
     for _, widget in ipairs({"Button", "CheckButton", "EditBox", "ScrollFrame", "Slider", "StatusBar", "Cooldown", "Model", "PlayerModel", "MessageFrame", "ScrollingMessageFrame", "SimpleHTML", "GameTooltip", "ColorSelect"}) do
-        local ok, obj = pcall(CreateFrame, widget, nil, nil, widget == "GameTooltip" and "GameTooltipTemplate" or nil)
+        --No template: GameTooltipTemplate's OnLoad concatenates self:GetName() and errors on unnamed frames.
+        --The widget metatable is shared regardless of template, so a bare probe is enough.
+        local ok, obj = pcall(CreateFrame, widget)
         if ok and obj then
             local index = Index(obj)
             for k, v in pairs(Region) do Add(index, k, v) end
@@ -391,8 +401,79 @@ for _, name in ipairs({
     "C_PetJournal", "C_ToyBox", "C_Heirloom", "C_LFGList", "C_QuestSession", "C_ContentTracking", "C_GameRules",
     "C_Seasons", "C_DateAndTime", "C_ScenarioInfo", "C_SpellBook", "C_AzeriteEmpoweredItem", "C_ItemUpgrade",
     "C_NamePlate", "C_Minimap", "C_EncodingUtil", "C_Navigation", "C_Housing", "C_StringUtil", "C_Bank",
+    "C_GamePad",
 }) do
     Namespace(name)
+end
+
+
+-- GLOBAL_MOUSE_DOWN / GLOBAL_MOUSE_UP emulation (events don't exist on 3.3.5)
+-- Used to close dropdowns, flyouts, clipboard, keybinding capture on outside click.
+do
+    local EMULATED = {GLOBAL_MOUSE_DOWN = true, GLOBAL_MOUSE_UP = true}
+    local subscribers = {GLOBAL_MOUSE_DOWN = setmetatable({}, {__mode = "k"}), GLOBAL_MOUSE_UP = setmetatable({}, {__mode = "k"})}
+    local BUTTONS = {"LeftButton", "RightButton", "MiddleButton"}
+    local wasDown = {}
+
+    local function Dispatch(event, button)
+        for frame in pairs(subscribers[event]) do
+            local handler = frame.GetScript and frame:GetScript("OnEvent")
+            if handler then
+                local ok, err = pcall(handler, frame, event, button)
+                if not ok and geterrorhandler then geterrorhandler()(err) end
+            end
+        end
+    end
+
+    local poller = CreateFrame("Frame")
+    poller:SetScript("OnUpdate", function()
+        if not IsMouseButtonDown then return end
+        for _, button in ipairs(BUTTONS) do
+            local down = IsMouseButtonDown(button) and true or false
+            if down ~= (wasDown[button] or false) then
+                wasDown[button] = down
+                Dispatch(down and "GLOBAL_MOUSE_DOWN" or "GLOBAL_MOUSE_UP", button)
+            end
+        end
+    end)
+
+    local patched = {}
+    local function PatchWidgetType(widgetType)
+        local ok, obj = pcall(CreateFrame, widgetType)
+        if not ok or not obj then return end
+        obj:Hide()
+        local mt = getmetatable(obj)
+        local index = mt and mt.__index
+        if type(index) ~= "table" or patched[index] then return end
+        patched[index] = true
+
+        local origRegister, origUnregister, origUnregisterAll, origIsRegistered = index.RegisterEvent, index.UnregisterEvent, index.UnregisterAllEvents, index.IsEventRegistered
+        index.RegisterEvent = function(self, event, ...)
+            if EMULATED[event] then subscribers[event][self] = true return true end
+            return origRegister(self, event, ...)
+        end
+        index.UnregisterEvent = function(self, event, ...)
+            if EMULATED[event] then subscribers[event][self] = nil return end
+            return origUnregister(self, event, ...)
+        end
+        if origUnregisterAll then
+            index.UnregisterAllEvents = function(self, ...)
+                subscribers.GLOBAL_MOUSE_DOWN[self] = nil
+                subscribers.GLOBAL_MOUSE_UP[self] = nil
+                return origUnregisterAll(self, ...)
+            end
+        end
+        if origIsRegistered then
+            index.IsEventRegistered = function(self, event, ...)
+                if EMULATED[event] then return subscribers[event][self] == true end
+                return origIsRegistered(self, event, ...)
+            end
+        end
+    end
+
+    for _, widgetType in ipairs({"Frame", "Button", "CheckButton", "ScrollFrame", "EditBox", "Slider", "StatusBar", "Model", "PlayerModel", "DressUpModel", "Cooldown", "GameTooltip", "MessageFrame", "ScrollingMessageFrame", "SimpleHTML", "ColorSelect", "Minimap"}) do
+        PatchWidgetType(widgetType)
+    end
 end
 
 

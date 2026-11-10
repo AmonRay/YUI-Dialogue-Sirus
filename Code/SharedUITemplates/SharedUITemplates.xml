@@ -10,7 +10,7 @@
             </Layer>
         </Layers>
         <Scripts>
-            <OnLoad>DUI_ApplyMixin(self, "DUIGenericTitledFrameMixin"); self:OnLoad(...);</OnLoad>
+            <OnLoad>DUI_ApplyMixin(self, "DUIGenericTitledFrameMixin"); self:OnLoad();</OnLoad>
         </Scripts>
     </Frame>
 </Ui>

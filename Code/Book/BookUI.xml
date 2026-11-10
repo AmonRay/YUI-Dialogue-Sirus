@@ -173,10 +173,10 @@
             <KeyValue key="nodeignore" value="true" type="boolean"/>
         </KeyValues>
         <Scripts>
-            <OnLoad>DUI_ApplyMixin(self, "DUIBookUIMixin"); self:OnLoad(...);</OnLoad>
-            <OnShow>self:OnShow(...);</OnShow>
-            <OnHide>self:OnHide(...);</OnHide>
-            <OnMouseUp>self:OnMouseUp(...);</OnMouseUp>
+            <OnLoad>DUI_ApplyMixin(self, "DUIBookUIMixin"); self:OnLoad();</OnLoad>
+            <OnShow>self:OnShow();</OnShow>
+            <OnHide>self:OnHide();</OnHide>
+            <OnMouseUp>self:OnMouseUp(button);</OnMouseUp>
         </Scripts>
     </Frame>
 </Ui>
