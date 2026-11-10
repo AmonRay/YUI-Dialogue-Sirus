@@ -174,6 +174,13 @@ local function LoadDatabase()
         end
     end
 
+    if addon.IS_335 then
+        --3.3.5a has no Text To Speech
+        DB.TTSEnabled = false;
+        DB.TTSAutoPlay = false;
+        DB.BookTTSClickToRead = false;
+    end
+
     for dbKey, defaultValue in pairs(DefaultValues) do
         SetDBValue(dbKey, DB[dbKey]);
     end

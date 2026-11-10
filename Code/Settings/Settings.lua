@@ -867,6 +867,34 @@ local Schematic = { --Scheme
     },
 };
 
+if addon.IS_335 then
+    --3.3.5a has no Text To Speech: remove every TTS-related option from the settings
+    local TTSSubheaders = {
+        [L["TTS"]] = true,
+        [L["TTS Include Content"]] = true,
+        [L["Readable Objects"]] = true,
+    };
+
+    local function IsTTSOption(option)
+        if option.action == "TTS" then return true end
+        if option.dbKey and (string.find(option.dbKey, "^TTS") or string.find(option.dbKey, "^BookTTS")) then return true end
+        if option.type == "Subheader" and option.name and TTSSubheaders[option.name] then return true end
+        return false
+    end
+
+    for _, tabData in ipairs(Schematic) do
+        if tabData.options then
+            local kept = {};
+            for _, option in ipairs(tabData.options) do
+                if not IsTTSOption(option) then
+                    kept[#kept + 1] = option;
+                end
+            end
+            tabData.options = kept;
+        end
+    end
+end
+
 
 local CloseButtonScripts = {};
 

@@ -1002,6 +1002,47 @@ do  --Temp Fix For FCF_GetCurrentFullScreenFrame missing on TBC
 end
 
 
+if addon.IS_335 then  --3.3.5a: no Text To Speech API, turn the whole module into no-ops
+    local function Noop() end
+    local function ReturnFalse() return false end
+
+    TTSUtil.UpdateTTSSettings = Noop;
+    TTSUtil.TryStopSpeaking = Noop;
+    TTSUtil.ProcessQueue = Noop;
+    TTSUtil.QueueText = Noop;
+    TTSUtil.StopThenPlay = Noop;
+    TTSUtil.SpeakText = Noop;
+    TTSUtil.ReadCurrentDialogue = Noop;
+    TTSUtil.ToggleSpeaking = Noop;
+    TTSUtil.StopLastTTS = Noop;
+    TTSUtil.ReadBookLine = Noop;
+    TTSUtil.RequestReadNextBookLine = Noop;
+    TTSUtil.StopReadingBook = Noop;
+    TTSUtil.PlaySample = Noop;
+    TTSUtil.IsSpeaking = ReturnFalse;
+    TTSUtil.GetAvailableVoices = function() return {} end;
+
+    function TTSUtil:EnableModule(state)
+        self:UnregisterAllEvents();
+        self:SetScript("OnUpdate", nil);
+    end
+
+    TTSUtil:UnregisterAllEvents();
+    TTSUtil:SetScript("OnUpdate", nil);
+
+    --Never create the TTS play button on dialogue/book frames
+    local RealCreateTTSButton = addon.CreateTTSButton;
+    addon.CreateTTSButton = function(...)
+        local b = RealCreateTTSButton(...);
+        if b then
+            b:Hide();
+            b.Show = Noop;
+        end
+        return b
+    end
+end
+
+
 --[[
 do  --Debug for 12.0.5 VOICE_CHAT_TTS_PLAYBACK_FINISHED issue
     local f = CreateFrame("Frame");
