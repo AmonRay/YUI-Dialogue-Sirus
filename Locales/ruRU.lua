@@ -1,3 +1,4 @@
+setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
 --Contributors: Voopie
 if not (GetLocale() == "ruRU") then return end;
 

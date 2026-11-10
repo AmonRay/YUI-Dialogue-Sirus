@@ -1,3 +1,4 @@
+setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
 --Manually define WoW textures used in the book that doesn't have TexCoord (Artifact Book)
 
 local _, addon = ...

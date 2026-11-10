@@ -1,3 +1,4 @@
+setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
 -- Add a button to show quest texts in Czech language
 -- CurseForge link https://www.curseforge.com/wow/addons/czech-quests-retail for retail
 

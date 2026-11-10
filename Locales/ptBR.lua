@@ -1,3 +1,4 @@
+setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
 --Translators: Wefin & cathtail ♡, anon1231823
 if not (GetLocale() == "ptBR") then return end;
 

@@ -1,3 +1,4 @@
+setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
 -- Add a button to show quest texts in different languages
 -- See "UpdateQuestTranslationFrame()" in  https://github.com/rubenzantingh/MultiLanguage/blob/master/MultiLanguage.lua
 -- Note: this addon has several global variables in lowercase initial (e.g. questData, languageCode), possibly an oversight

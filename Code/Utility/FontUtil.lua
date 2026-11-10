@@ -1,3 +1,4 @@
+setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
 -- Customize Font
 ---- 1. Support LibSharedMedia
 ---- 1. Font Select and Comparison UI (Accessed via Settings)

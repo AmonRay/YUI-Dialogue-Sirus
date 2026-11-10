@@ -1,3 +1,4 @@
+setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
 -- Mostly for touchscreen devices:
 -- Emulate Swipe on DialogueUI using GLOBAL_MOUSE_DOWN/UP
 

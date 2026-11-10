@@ -1,3 +1,4 @@
+setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
 -- Create a simple smooth scroll frame
 
 local _, addon = ...

@@ -1,3 +1,4 @@
+setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
 -- Notify player when there is an available breadcomb quest for the current quest.
 -- It's, in fact, the Grail addon that we need. But the notification is created by Wholly
 local _, addon = ...

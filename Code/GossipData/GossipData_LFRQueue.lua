@@ -1,3 +1,4 @@
+setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
 if not (C_RaidLocks and C_LFGInfo and EJ_GetEncounterInfo) then return end;
 
 local _, addon = ...

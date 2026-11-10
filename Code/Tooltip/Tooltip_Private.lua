@@ -1,3 +1,4 @@
+setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
 -- This tooltip is used within our UI
 
 local _, addon = ...

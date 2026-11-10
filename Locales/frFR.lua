@@ -1,3 +1,4 @@
+setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
 --Contributors: Brainc3ll, Zazou89, anon1231823
 if not (GetLocale() == "frFR") then return end;
 

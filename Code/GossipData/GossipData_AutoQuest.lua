@@ -1,3 +1,4 @@
+setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
 -- Auto Complete Quest (Weekly, Hallow's End: Candy Bucket)
 -- Auto Accept certain quest if it's the only option
 

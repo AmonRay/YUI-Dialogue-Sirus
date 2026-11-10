@@ -1,3 +1,4 @@
+setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
 -- Create a pseudo GameTooltip that captures AddLine, AddDoubleLine
 -- Currently used to get Pawn updrade info
 

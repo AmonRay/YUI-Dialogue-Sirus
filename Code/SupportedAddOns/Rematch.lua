@@ -1,3 +1,4 @@
+setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
 -- Rematch shows a pet preset window when targeting a supported NPC, our Hide UI breaks it
 -- We move Rematch window out of UIParent then restore it after interaction.
 

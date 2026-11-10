@@ -1,3 +1,4 @@
+setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
 -- Implement our own escape sequance
 ---- Device Button:     [KEY:F1] [KEY:XBOX:PAD1]
 ---- Localized NPC Name:    [NPC:12345:Fallback Name] (Unused)

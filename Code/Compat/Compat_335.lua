@@ -9,18 +9,25 @@ local function noop() end
 
 addon.IS_335 = true
 
+-- Private environment: every DialogueUI file runs with setfenv(1, addon.Env).
+-- Retail shims (C_* namespaces, Enum, WOW_PROJECT_*) live here instead of _G,
+-- so other addons' feature detection is not affected. Writes still go to _G.
+local Env = setmetatable({}, {__index = _G, __newindex = _G})
+addon.Env = Env
+setfenv(1, Env)
+
 
 -- ---------------------------------------------------------------------------
 -- Project constants (Initialization.lua compares WOW_PROJECT_ID with these)
 -- ---------------------------------------------------------------------------
-WOW_PROJECT_MAINLINE = WOW_PROJECT_MAINLINE or 1
-WOW_PROJECT_CLASSIC = WOW_PROJECT_CLASSIC or 2
-WOW_PROJECT_BURNING_CRUSADE_CLASSIC = WOW_PROJECT_BURNING_CRUSADE_CLASSIC or 5
-WOW_PROJECT_WRATH_CLASSIC = WOW_PROJECT_WRATH_CLASSIC or 11
-WOW_PROJECT_CATACLYSM_CLASSIC = WOW_PROJECT_CATACLYSM_CLASSIC or 14
-WOW_PROJECT_MISTS_CLASSIC = WOW_PROJECT_MISTS_CLASSIC or 19
-WOW_PROJECT_CAMELOT = WOW_PROJECT_CAMELOT or 1001
-WOW_PROJECT_ID = WOW_PROJECT_ID or WOW_PROJECT_WRATH_CLASSIC
+Env.WOW_PROJECT_MAINLINE = rawget(_G, "WOW_PROJECT_MAINLINE") or 1
+Env.WOW_PROJECT_CLASSIC = rawget(_G, "WOW_PROJECT_CLASSIC") or 2
+Env.WOW_PROJECT_BURNING_CRUSADE_CLASSIC = rawget(_G, "WOW_PROJECT_BURNING_CRUSADE_CLASSIC") or 5
+Env.WOW_PROJECT_WRATH_CLASSIC = rawget(_G, "WOW_PROJECT_WRATH_CLASSIC") or 11
+Env.WOW_PROJECT_CATACLYSM_CLASSIC = rawget(_G, "WOW_PROJECT_CATACLYSM_CLASSIC") or 14
+Env.WOW_PROJECT_MISTS_CLASSIC = rawget(_G, "WOW_PROJECT_MISTS_CLASSIC") or 19
+Env.WOW_PROJECT_CAMELOT = rawget(_G, "WOW_PROJECT_CAMELOT") or 1001
+Env.WOW_PROJECT_ID = rawget(_G, "WOW_PROJECT_ID") or Env.WOW_PROJECT_WRATH_CLASSIC
 
 
 -- ---------------------------------------------------------------------------
@@ -89,7 +96,7 @@ function DUI_SetScriptSafe(object, scriptName, handler)
 end
 
 if not GetTimePreciseSec then
-    function GetTimePreciseSec()
+    function Env.GetTimePreciseSec()
         return debugprofilestop() / 1000
     end
 end
@@ -110,15 +117,15 @@ if not CreateVector3D then
 end
 
 if not GetMaxPlayerLevel then
-    function GetMaxPlayerLevel() return MAX_PLAYER_LEVEL or 80 end
+    function Env.GetMaxPlayerLevel() return MAX_PLAYER_LEVEL or 80 end
 end
 
 if not GetMaxLevelForPlayerExpansion then
-    function GetMaxLevelForPlayerExpansion() return GetMaxPlayerLevel() end
+    function Env.GetMaxLevelForPlayerExpansion() return GetMaxPlayerLevel() end
 end
 
 if not UnitHasVehiclePlayerFrameUI then
-    function UnitHasVehiclePlayerFrameUI(unit)
+    function Env.UnitHasVehiclePlayerFrameUI(unit)
         return UnitHasVehicleUI and UnitHasVehicleUI(unit) or false
     end
 end
@@ -149,28 +156,32 @@ if not CopyTable then
 end
 
 if not GetQuestID then
-    function GetQuestID() return 0 end
+    function Env.GetQuestID() return 0 end
 end
 
 -- Enum: unknown enum groups resolve to empty tables so lookups return nil
-Enum = Enum or {}
-if not getmetatable(Enum) then
-    setmetatable(Enum, {__index = function(t, k)
-        local v = {}
-        rawset(t, k, v)
-        return v
-    end})
+local function NativeEnum(k)
+    local real = rawget(_G, "Enum")
+    local g = type(real) == "table" and real[k] or nil
+    if type(g) == "table" then return g end
 end
+addon.NativeEnum = NativeEnum
+-- Private Enum: groups fall back to the client's Enum; unknown groups are empty tables.
+Env.Enum = setmetatable({}, {__index = function(t, k)
+    local v = setmetatable({}, {__index = NativeEnum(k)})
+    rawset(t, k, v)
+    return v
+end})
 Enum.QuestFrequency = Enum.QuestFrequency or {}
 Enum.QuestFrequency.Default = Enum.QuestFrequency.Default or 0
 Enum.QuestFrequency.Daily = Enum.QuestFrequency.Daily or 1
 Enum.QuestFrequency.Weekly = Enum.QuestFrequency.Weekly or 2
 
 -- Quest tag IDs (same values as GetQuestTagInfo on 3.3.5)
-if type(rawget(Enum, "QuestTag")) ~= "table" then
+if not NativeEnum("QuestTag") then
     Enum.QuestTag = {Group = 1, PvP = 41, Raid = 62, Dungeon = 81, Legendary = 83, Heroic = 85, Raid10 = 88, Raid25 = 89, Scenario = 98, Account = 102}
 end
-if type(rawget(Enum, "QuestTagType")) ~= "table" then
+if not NativeEnum("QuestTagType") then
     Enum.QuestTagType = {Tag = 0, Profession = 1, Normal = 2, PvP = 3, PetBattle = 4, Bounty = 5, Dungeon = 6, Invasion = 7, Raid = 8, Contribution = 9, RatedReward = 10, InvasionWrapper = 11, FactionAssault = 12, Islands = 13, Threat = 14, CovenantCalling = 15}
 end
 
@@ -228,6 +239,17 @@ do
         SetDrawLayerEnabled = noop,
         SetSize = function(self, w, h) self:SetWidth(w) self:SetHeight(h or w) end,
         GetSize = function(self) return self:GetWidth(), self:GetHeight() end,
+        EnableMouseMotion = function(self, v) if v and self.EnableMouse then self:EnableMouse(true) end end,
+        EnableGamePadButton = noop,
+        EnableGamePadStick = noop,
+        --No masks in 3.3.5: hand out a hidden texture so AddMaskTexture/SetTexture calls stay valid
+        CreateMaskTexture = function(self, name, layer, inherits, sublevel)
+            local mask = self:CreateTexture(name, layer or "ARTWORK")
+            mask:Hide()
+            mask.Show = noop
+            mask.SetShown = noop
+            return mask
+        end,
     }
 
     local frameIndex = Index(frame)
@@ -266,6 +288,14 @@ do
         SetUseTransmogSkin = noop,
         SetPortraitZoom = noop,
         SetCamDistanceScale = noop,
+        SetPitch = noop,
+        SetRoll = noop,
+        SetModelByFileID = noop,
+        SetPreferModelCollisionBounds = noop,
+        SetModelByCreatureDisplayID = function(self, displayID)
+            if displayID and self.SetDisplayInfo then self:SetDisplayInfo(displayID) end
+        end,
+        GetActiveBoundingBox = function() return -0.5, -0.5, 0, 0.5, 0.5, 2 end,
     }
 
     local function ColorRGB(c, r, g, b)
@@ -319,6 +349,8 @@ do
             Add(index, "ClearHighlightText", function(self) self:HighlightText(0, 0) end)
             Add(index, "SetCountInvisibleLetters", noop)
             Add(index, "SetHighlightColor", noop)
+            Add(index, "LockHighlight", noop)
+            Add(index, "UnlockHighlight", noop)
         end
     end
 
@@ -361,7 +393,20 @@ do
     Add(fsIndex, "GetUnboundedStringWidth", function(self) return self:GetStringWidth() end)
     Add(fsIndex, "GetLineHeight", function(self) local _, h = self:GetFont() return h or 12 end)
     Add(fsIndex, "SetFontObjectsToTry", noop)
+    Add(fsIndex, "GetWrappedWidth", function(self)
+        local sw, w = self:GetStringWidth() or 0, self:GetWidth() or 0
+        if w > 0 and sw > w then return w end
+        return sw
+    end)
     Add(fsIndex, "SetFormattedText", function(self, fmt, ...) self:SetText(string.format(fmt, ...)) end)
+
+    --GameTooltip: retail currency setters (3.3.5 has no currency tooltips by ID)
+    if GameTooltip then
+        local ttIndex = Index(GameTooltip)
+        Add(ttIndex, "SetCurrencyByID", noop)
+        Add(ttIndex, "SetQuestCurrency", noop)
+        Add(ttIndex, "SetQuestLogCurrency", noop)
+    end
 
     local agIndex = Index(animGroup)
     Add(agIndex, "SetToFinalAlpha", noop)
@@ -428,14 +473,24 @@ end
 -- ---------------------------------------------------------------------------
 -- Namespaces: unknown functions become no-ops instead of nil-call errors
 -- ---------------------------------------------------------------------------
+-- Private copy per namespace: native functions are copied (so rawget checks still see them),
+-- later lookups fall back to the client table, anything else is a no-op. _G is never touched.
 local function Namespace(name)
-    local ns = _G[name]
-    if type(ns) ~= "table" then
+    local ns = rawget(Env, name)
+    if ns == nil then
         ns = {}
-        _G[name] = ns
-    end
-    if not getmetatable(ns) then
-        setmetatable(ns, {__index = function() return noop end})
+        local real = rawget(_G, name)
+        if type(real) == "table" then
+            for k, v in pairs(real) do ns[k] = v end
+        end
+        setmetatable(ns, {__index = function(_, k)
+            local native = rawget(_G, name)
+            local v
+            if type(native) == "table" then v = native[k] end
+            if v == nil then return noop end
+            return v
+        end})
+        rawset(Env, name, ns)
     end
     return ns
 end
@@ -445,14 +500,111 @@ for _, name in ipairs({
     "C_AddOns", "C_AdventureMap", "C_ArtifactUI", "C_CVar", "C_CampaignInfo", "C_Container", "C_CurrencyInfo",
     "C_GossipInfo", "C_Item", "C_Map", "C_MajorFactions", "C_QuestInfoSystem", "C_QuestLine", "C_QuestLog",
     "C_QuestOffer", "C_Reputation", "C_Spell", "C_SuperTrack", "C_TaskQuest", "C_TooltipInfo", "C_TTSSettings",
-    "C_VoiceChat", "C_Timer", "C_PlayerInfo", "C_UnitAuras", "C_QuestItemUse", "C_PlayerInteractionManager",
+    "C_VoiceChat", "C_PlayerInfo", "C_UnitAuras", "C_QuestItemUse", "C_PlayerInteractionManager",
     "C_ClassColor", "C_Texture", "C_Covenants", "C_Garrison", "C_TransmogCollection", "C_MountJournal",
     "C_PetJournal", "C_ToyBox", "C_Heirloom", "C_LFGList", "C_QuestSession", "C_ContentTracking", "C_GameRules",
     "C_Seasons", "C_DateAndTime", "C_ScenarioInfo", "C_SpellBook", "C_AzeriteEmpoweredItem", "C_ItemUpgrade",
-    "C_NamePlate", "C_Minimap", "C_EncodingUtil", "C_Navigation", "C_Housing", "C_StringUtil", "C_Bank",
+    "C_NamePlate", "C_EncodingUtil", "C_Navigation", "C_Housing", "C_StringUtil", "C_Bank",
     "C_GamePad",
 }) do
     Namespace(name)
+end
+
+-- Retail functions whose result is iterated or indexed without a nil check.
+-- Provide safe defaults (empty list / placeholder table) when the client lacks them.
+do
+    local function Default(nsName, fnName, fn)
+        local ns = Namespace(nsName)
+        if rawget(ns, fnName) == nil then
+            ns[fnName] = fn
+        end
+    end
+    local function EmptyList() return {} end
+
+    Default("C_GamePad", "GetAllDeviceIDs", EmptyList)
+    Default("C_GamePad", "IsEnabled", function() return false end)
+
+    Default("C_NamePlate", "GetNamePlates", function()
+        -- 3.3.5 has no nameplate API; scan WorldFrame children for visible nameplates.
+        local list = {}
+        local n = WorldFrame and WorldFrame:GetNumChildren() or 0
+        if n > 0 then
+            local children = {WorldFrame:GetChildren()}
+            for i = 1, n do
+                local f = children[i]
+                if f and f:IsShown() and not f:GetName() and f.GetRegions then
+                    local region = select(2, f:GetRegions())
+                    if region and region.GetTexture and region:GetTexture() == "Interface\\Tooltips\\Nameplate-Border" then
+                        list[#list + 1] = f
+                    end
+                end
+            end
+        end
+        return list
+    end)
+
+    Default("C_MajorFactions", "GetMajorFactionData", function(factionID)
+        local name = factionID and GetFactionInfoByID and GetFactionInfoByID(factionID)
+        return {name = name or "", factionID = factionID, renownLevel = 0, renownReputationEarned = 0, renownLevelThreshold = 1}
+    end)
+    Default("C_MajorFactions", "HasMaximumRenown", function() return false end)
+
+    Default("C_CampaignInfo", "GetCampaignInfo", function()
+        return {name = "", description = "", isWarCampaign = false}
+    end)
+
+    Default("C_Garrison", "GetFollowerInfo", function()
+        return {name = "", quality = 1, level = 1, portraitIconID = 134400, isTroop = false}
+    end)
+    Default("C_Garrison", "GetFollowerAbilityInfo", function()
+        return {name = "", description = "", icon = 134400}
+    end)
+    Default("C_Garrison", "GetFollowerAbilities", EmptyList)
+
+    Default("C_QuestLine", "GetQuestLineQuests", EmptyList)
+    Default("C_QuestInfoSystem", "GetQuestRewardSpells", EmptyList)
+    Default("C_QuestInfoSystem", "HasQuestRewardSpells", function() return false end)
+    Default("C_QuestInfoSystem", "HasQuestRewardCurrencies", function()
+        return (GetNumRewardCurrencies and GetNumRewardCurrencies() or 0) > 0
+    end)
+    Default("C_QuestLog", "GetQuestLogMajorFactionReputationRewards", EmptyList)
+    Default("C_QuestOffer", "GetQuestOfferMajorFactionReputationRewards", EmptyList)
+    Default("C_Garrison", "IsFollowerCollected", function() return false end)
+
+    Default("C_QuestLog", "IsQuestFlaggedCompleted", function(questID)
+        if not questID then return false end
+        if type(IsQuestFlaggedCompleted) == "function" then
+            return IsQuestFlaggedCompleted(questID) and true or false
+        end
+        if type(GetQuestsCompleted) == "function" then
+            local done = {}
+            GetQuestsCompleted(done)
+            return done[questID] and true or false
+        end
+        return false
+    end)
+
+    Default("C_Item", "IsEquippedItem", function(item)
+        return IsEquippedItem and IsEquippedItem(item) and true or false
+    end)
+    Default("C_Item", "GetDetailedItemLevelInfo", function(item)
+        local _, _, _, ilvl = GetItemInfo(item)
+        return ilvl
+    end)
+    Default("C_Container", "GetItemCooldown", function(itemID)
+        if GetItemCooldown then return GetItemCooldown(itemID) end
+        return 0, 0, 0
+    end)
+    Default("C_CurrencyInfo", "GetCoinTextureString", function(amount)
+        if GetCoinTextureString then return GetCoinTextureString(amount) end
+        return tostring(amount or 0)
+    end)
+    Default("C_StringUtil", "StripHyperlinks", function(text)
+        if type(text) ~= "string" then return text end
+        text = text:gsub("|H.-|h(.-)|h", "%1")
+        text = text:gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", "")
+        return text
+    end)
 end
 
 
@@ -552,8 +704,7 @@ end
 
 -- C_PlayerInteractionManager: track gossip / quest-giver interaction from 3.3.5 events
 do
-    if type(Enum) ~= "table" then Enum = {} end
-    if type(rawget(Enum, "PlayerInteractionType")) ~= "table" then
+    if not NativeEnum("PlayerInteractionType") then
         Enum.PlayerInteractionType = {Gossip = 3, QuestGiver = 4}
     end
 
@@ -628,13 +779,14 @@ do
 
     if not GetCameraZoom then
         --No zoom query on 3.3.5: report the max follow distance so zoom math stays valid
-        function GetCameraZoom()
+        function Env.GetCameraZoom()
             return tonumber(SafeGetCVar("cameraDistanceMax")) or 15
         end
     end
     if rawget(C_CVar, "GetCVarDefault") == nil then C_CVar.GetCVarDefault = GetCVarDefault or noop end
 
-    local C_Timer = C_Timer
+    if type(rawget(_G, "C_Timer")) ~= "table" then _G.C_Timer = {} end
+    local C_Timer = _G.C_Timer
     if rawget(C_Timer, "After") == nil then
         local timerFrame = CreateFrame("Frame")
         local timers = {}

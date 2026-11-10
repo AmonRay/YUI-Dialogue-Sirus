@@ -1,3 +1,4 @@
+setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
 -- Add a button to show quest texts in different languages
 -- https://github.com/Cancri55E/WowUkrainizer
 

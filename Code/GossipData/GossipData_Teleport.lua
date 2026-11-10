@@ -1,3 +1,4 @@
+setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
 -- Disable hotkey control when detecting teleportation gossips
 -- (teleport to another continent where returning isn't as easy)
 -- We use the NPC's ID to determine if teleport is available

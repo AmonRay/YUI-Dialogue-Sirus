@@ -1,4 +1,5 @@
-﻿--Contributors: It's a ME!
+﻿setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
+--Contributors: It's a ME!
 if not (GetLocale() == "zhCN") then return end;
 
 local _, addon = ...

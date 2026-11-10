@@ -1,3 +1,4 @@
+setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
 -- Narrator (Use VoiceC for Quest objective, <Enclosed Text>) is contributed by https://github.com/BelegCufea
 
 local _, addon = ...

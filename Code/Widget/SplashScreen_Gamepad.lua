@@ -1,3 +1,4 @@
+setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
 local _, addon = ...
 
 local SHOULD_SHOW_SPLASH_SCREEN; -- turns True if: Never shown before & Gamepad is active but DUI layout is not set to controller

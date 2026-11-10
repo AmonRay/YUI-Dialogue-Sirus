@@ -1,3 +1,4 @@
+setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
 -- Fix for WoW repeatedly offering a quest that you're already on, such as:
 -- (in TWW, possibly fixed now) Certain weekly quests popped up when you flew around.
 -- "A New Adventure Awaits": When you reach the Chromie Time level cap.

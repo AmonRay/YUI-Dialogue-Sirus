@@ -1,3 +1,4 @@
+setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
 -- Show UIParent immediately after clicking on this option
 -- These options usually open other Blizzard Interface, which may not work correctly if the UIParent is hidden  
 

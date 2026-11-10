@@ -1,3 +1,4 @@
+setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
 -- Change our TTS button to play CLN voiceover
 -- https://github.com/mantaskazlauskas/ChattyLittleNpc
 

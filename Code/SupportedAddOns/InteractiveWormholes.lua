@@ -1,3 +1,4 @@
+setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
 -- Let InteractiveWormholes handle gossip options when needed
 local _, addon = ...
 
