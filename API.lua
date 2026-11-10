@@ -773,6 +773,9 @@ do  -- NPC Interaction
     end
 
     local function EvaluateUnitSize(unit)
+        if addon.IS_335 then
+            return false    --3.3.5: no ModelScene/actors, camera uses default zoom
+        end
         CreateModelScene();
 
         if API.ShouldUnitIdentityBeSecret(unit) then
@@ -795,6 +798,9 @@ do  -- NPC Interaction
 
 
     local function EvaluateMountScale(mountID)
+        if addon.IS_335 then
+            return
+        end
         CreateModelScene();
 
         if not MountActor then
@@ -2129,6 +2135,11 @@ do  -- Model
 
 
     local function SetModelLight(model, enabled, omni, dirX, dirY, dirZ, ambIntensity, ambR, ambG, ambB, dirIntensity, dirR, dirG, dirB)
+        if addon.IS_335 then
+            --3.3.5 Model:SetLight takes the values positionally (enabled as 1/nil)
+            model:SetLight(enabled and 1 or nil, omni and 1 or 0, dirX or 0, dirY or 0, dirZ or 0, ambIntensity or 1, ambR or 1, ambG or 1, ambB or 1, dirIntensity or 1, dirR or 1, dirG or 1, dirB or 1);
+            return
+        end
         local lightValues = {
             omnidirectional = omni or false;
             point = CreateVector3D(dirX or 0, dirY or 0, dirZ or 0),

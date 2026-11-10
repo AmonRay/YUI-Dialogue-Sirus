@@ -100,7 +100,15 @@ do
 
 
         --Use ModelScene for Decor because it has a smarter camera (SetPreferModelCollisionBounds)
-        local ModelScene = CreateFrame("ModelScene", nil, parent, "PanningModelSceneMixinTemplate");
+        local ModelScene;
+        if addon.IS_335 then
+            --3.3.5: no ModelScene; a plain frame keeps the call sites safe (decor preview is never shown)
+            ModelScene = CreateFrame("Frame", nil, parent);
+            ModelScene.TransitionToModelSceneID = function() end;
+            ModelScene.GetActorByTag = function() end;
+        else
+            ModelScene = CreateFrame("ModelScene", nil, parent, "PanningModelSceneMixinTemplate");
+        end
         self.ModelScene = ModelScene;
         ModelScene:SetPoint("CENTER", model, "CENTER", 0, 0);
         ModelScene:Hide();

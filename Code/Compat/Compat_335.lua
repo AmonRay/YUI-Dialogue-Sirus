@@ -233,6 +233,36 @@ do
         end
     end
 
+    -- Model widgets: retail-only setters become no-ops
+    local ModelExtras = {
+        SetKeepModelOnHide = noop,
+        SetModelDrawLayer = noop,
+        SetAutoDress = noop,
+        SetDoBlend = noop,
+        SetParticlesEnabled = noop,
+        SetViewTranslation = noop,
+        SetViewInsets = noop,
+        SetDesaturation = noop,
+        SetPaused = noop,
+        SetAnimation = noop,
+        SetDisplayInfo = noop,
+        SetCreature = noop,
+        SetItemAppearance = noop,
+        TryOn = noop,
+        Undress = noop,
+        UndressSlot = noop,
+        FreezeAnimation = noop,
+    }
+    for _, widget in ipairs({"Model", "PlayerModel", "DressUpModel"}) do
+        local ok, obj = pcall(CreateFrame, widget)
+        if ok and obj then
+            local index = Index(obj)
+            for k, v in pairs(Region) do Add(index, k, v) end
+            for k, v in pairs(ModelExtras) do Add(index, k, v) end
+            obj:Hide()
+        end
+    end
+
     local textureIndex = Index(texture)
     for k, v in pairs(Region) do Add(textureIndex, k, v) end
     Add(textureIndex, "SetColorTexture", function(self, r, g, b, a) self:SetTexture(r, g, b, a) end)
