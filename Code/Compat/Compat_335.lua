@@ -16,18 +16,23 @@ local Env = setmetatable({}, {__index = _G, __newindex = _G})
 addon.Env = Env
 setfenv(1, Env)
 
+-- P.X = v stores X privately in Env (Env.X = v would leak into _G through __newindex).
+-- Leaking Enum / WOW_PROJECT_ID into _G broke Sirus FrameXML (nameplates) and other addons,
+-- and made NativeEnum recurse forever ("error in error handling" at load).
+local P = setmetatable({}, {__index = Env, __newindex = function(_, k, v) rawset(Env, k, v) end})
+
 
 -- ---------------------------------------------------------------------------
 -- Project constants (Initialization.lua compares WOW_PROJECT_ID with these)
 -- ---------------------------------------------------------------------------
-Env.WOW_PROJECT_MAINLINE = rawget(_G, "WOW_PROJECT_MAINLINE") or 1
-Env.WOW_PROJECT_CLASSIC = rawget(_G, "WOW_PROJECT_CLASSIC") or 2
-Env.WOW_PROJECT_BURNING_CRUSADE_CLASSIC = rawget(_G, "WOW_PROJECT_BURNING_CRUSADE_CLASSIC") or 5
-Env.WOW_PROJECT_WRATH_CLASSIC = rawget(_G, "WOW_PROJECT_WRATH_CLASSIC") or 11
-Env.WOW_PROJECT_CATACLYSM_CLASSIC = rawget(_G, "WOW_PROJECT_CATACLYSM_CLASSIC") or 14
-Env.WOW_PROJECT_MISTS_CLASSIC = rawget(_G, "WOW_PROJECT_MISTS_CLASSIC") or 19
-Env.WOW_PROJECT_CAMELOT = rawget(_G, "WOW_PROJECT_CAMELOT") or 1001
-Env.WOW_PROJECT_ID = rawget(_G, "WOW_PROJECT_ID") or Env.WOW_PROJECT_WRATH_CLASSIC
+P.WOW_PROJECT_MAINLINE = rawget(_G, "WOW_PROJECT_MAINLINE") or 1
+P.WOW_PROJECT_CLASSIC = rawget(_G, "WOW_PROJECT_CLASSIC") or 2
+P.WOW_PROJECT_BURNING_CRUSADE_CLASSIC = rawget(_G, "WOW_PROJECT_BURNING_CRUSADE_CLASSIC") or 5
+P.WOW_PROJECT_WRATH_CLASSIC = rawget(_G, "WOW_PROJECT_WRATH_CLASSIC") or 11
+P.WOW_PROJECT_CATACLYSM_CLASSIC = rawget(_G, "WOW_PROJECT_CATACLYSM_CLASSIC") or 14
+P.WOW_PROJECT_MISTS_CLASSIC = rawget(_G, "WOW_PROJECT_MISTS_CLASSIC") or 19
+P.WOW_PROJECT_CAMELOT = rawget(_G, "WOW_PROJECT_CAMELOT") or 1001
+P.WOW_PROJECT_ID = rawget(_G, "WOW_PROJECT_ID") or rawget(Env, "WOW_PROJECT_WRATH_CLASSIC")
 
 
 -- ---------------------------------------------------------------------------
@@ -96,7 +101,7 @@ function DUI_SetScriptSafe(object, scriptName, handler)
 end
 
 if not GetTimePreciseSec then
-    function Env.GetTimePreciseSec()
+    function P.GetTimePreciseSec()
         return debugprofilestop() / 1000
     end
 end
@@ -117,15 +122,15 @@ if not CreateVector3D then
 end
 
 if not GetMaxPlayerLevel then
-    function Env.GetMaxPlayerLevel() return MAX_PLAYER_LEVEL or 80 end
+    function P.GetMaxPlayerLevel() return MAX_PLAYER_LEVEL or 80 end
 end
 
 if not GetMaxLevelForPlayerExpansion then
-    function Env.GetMaxLevelForPlayerExpansion() return GetMaxPlayerLevel() end
+    function P.GetMaxLevelForPlayerExpansion() return GetMaxPlayerLevel() end
 end
 
 if not UnitHasVehiclePlayerFrameUI then
-    function Env.UnitHasVehiclePlayerFrameUI(unit)
+    function P.UnitHasVehiclePlayerFrameUI(unit)
         return UnitHasVehicleUI and UnitHasVehicleUI(unit) or false
     end
 end
@@ -156,18 +161,20 @@ if not CopyTable then
 end
 
 if not GetQuestID then
-    function Env.GetQuestID() return 0 end
+    function P.GetQuestID() return 0 end
 end
 
 -- Enum: unknown enum groups resolve to empty tables so lookups return nil
+local NATIVE_ENUM = rawget(_G, "Enum")
 local function NativeEnum(k)
-    local real = rawget(_G, "Enum")
+    local real = NATIVE_ENUM or rawget(_G, "Enum")
+    if real == nil or real == rawget(Env, "Enum") then return end
     local g = type(real) == "table" and real[k] or nil
     if type(g) == "table" then return g end
 end
 addon.NativeEnum = NativeEnum
 -- Private Enum: groups fall back to the client's Enum; unknown groups are empty tables.
-Env.Enum = setmetatable({}, {__index = function(t, k)
+P.Enum = setmetatable({}, {__index = function(t, k)
     local v = setmetatable({}, {__index = NativeEnum(k)})
     rawset(t, k, v)
     return v
@@ -610,7 +617,9 @@ end
 
 -- GLOBAL_MOUSE_DOWN / GLOBAL_MOUSE_UP emulation (events don't exist on 3.3.5)
 -- Used to close dropdowns, flyouts, clipboard, keybinding capture on outside click.
-do
+-- Disabled: the Sirus client fires GLOBAL_MOUSE_DOWN/UP natively (UIParent.lua, Custom_Menu register them).
+-- Overriding RegisterEvent on every widget metatable hijacked those native registrations for all addons.
+if false then
     local EMULATED = {GLOBAL_MOUSE_DOWN = true, GLOBAL_MOUSE_UP = true}
     local subscribers = {GLOBAL_MOUSE_DOWN = setmetatable({}, {__mode = "k"}), GLOBAL_MOUSE_UP = setmetatable({}, {__mode = "k"})}
     local BUTTONS = {"LeftButton", "RightButton", "MiddleButton"}
@@ -695,6 +704,7 @@ do
         PLAYER_LOGOUT = true, PLAYER_QUITING = true, PLAYER_CAMPING = true, UPDATE_SHAPESHIFT_FORM = true, CINEMATIC_START = true,
         CINEMATIC_STOP = true, PLAY_MOVIE = true, PLAYER_EQUIPMENT_CHANGED = true, BAG_UPDATE = true, BAG_UPDATE_COOLDOWN = true,
         LFG_PROPOSAL_SHOW = true, LFG_PROPOSAL_FAILED = true, LFG_PROPOSAL_SUCCEEDED = true, UPDATE_INSTANCE_INFO = true,
+        GLOBAL_MOUSE_DOWN = true, GLOBAL_MOUSE_UP = true,
     }
     if rawget(C_EventUtils, "IsEventValid") == nil then
         C_EventUtils.IsEventValid = function(event) return ValidEvents335[event] == true end
@@ -779,7 +789,7 @@ do
 
     if not GetCameraZoom then
         --No zoom query on 3.3.5: report the max follow distance so zoom math stays valid
-        function Env.GetCameraZoom()
+        function P.GetCameraZoom()
             return tonumber(SafeGetCVar("cameraDistanceMax")) or 15
         end
     end
