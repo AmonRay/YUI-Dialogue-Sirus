@@ -481,9 +481,27 @@ do
     if rawget(C_AddOns, "GetNumAddOns") == nil then C_AddOns.GetNumAddOns = GetNumAddOns end
 
     local C_CVar = C_CVar
-    if rawget(C_CVar, "GetCVar") == nil then C_CVar.GetCVar = GetCVar end
-    if rawget(C_CVar, "SetCVar") == nil then C_CVar.SetCVar = function(k, v) return SetCVar(k, v) end end
-    if rawget(C_CVar, "GetCVarBool") == nil then C_CVar.GetCVarBool = function(k) return GetCVarBool and GetCVarBool(k) or GetCVar(k) == "1" end end
+    --Retail-only CVars (test_cameraOverShoulder, cameraFov, Outline...) don't exist on 3.3.5: never let them throw
+    local function SafeGetCVar(k)
+        local ok, v = pcall(GetCVar, k)
+        if ok then return v end
+    end
+    if rawget(C_CVar, "GetCVar") == nil then C_CVar.GetCVar = SafeGetCVar end
+    if rawget(C_CVar, "SetCVar") == nil then
+        C_CVar.SetCVar = function(k, v)
+            if v == nil or SafeGetCVar(k) == nil then return end
+            local ok, r = pcall(SetCVar, k, v)
+            if ok then return r end
+        end
+    end
+    if rawget(C_CVar, "GetCVarBool") == nil then C_CVar.GetCVarBool = function(k) return SafeGetCVar(k) == "1" end end
+
+    if not GetCameraZoom then
+        --No zoom query on 3.3.5: report the max follow distance so zoom math stays valid
+        function GetCameraZoom()
+            return tonumber(SafeGetCVar("cameraDistanceMax")) or 15
+        end
+    end
     if rawget(C_CVar, "GetCVarDefault") == nil then C_CVar.GetCVarDefault = GetCVarDefault or noop end
 
     local C_Timer = C_Timer
