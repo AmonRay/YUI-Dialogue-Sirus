@@ -4,7 +4,7 @@
     <Script file="Skimmer_UI.lua"/>
 
 
-    <Frame name="DUISkimmerOptionTemplate" mixin="DUISkimmerOptionMixin" virtual="true">
+    <Frame name="DUISkimmerOptionTemplate" virtual="true">
         <Size x="256" y="48"/>
         <Layers>
             <Layer level="OVERLAY">
@@ -28,5 +28,6 @@
                 </FontString>
             </Layer>
         </Layers>
-    </Frame>
+    <Scripts><OnLoad>DUI_ApplyMixin(self, "DUISkimmerOptionMixin");</OnLoad></Scripts>
+</Frame>
 </Ui>

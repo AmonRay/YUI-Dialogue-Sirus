@@ -65,20 +65,15 @@
                         <Anchor point="CENTER" relativeKey="$parent.ItemBorder" relativePoint="CENTER"/>
                     </Anchors>
                 </Texture>
-                <MaskTexture parentKey="IconMask" file="Interface/AddOns/DialogueUI/Art/BasicShapes/Mask-Circle" hWrapMode="CLAMPTOBLACKADDITIVE" vWrapMode="CLAMPTOBLACKADDITIVE">
-                    <MaskedTextures>
-                        <MaskedTexture childKey="ItemIcon"/>
-                    </MaskedTextures>
+                <Texture parentKey="IconMask" file="Interface/AddOns/DialogueUI/Art/BasicShapes/Mask-Circle" hidden="true">
                     <Anchors>
                         <Anchor point="TOPLEFT" relativeKey="$parent.ItemIcon" relativePoint="TOPLEFT"/>
                         <Anchor point="BOTTOMRIGHT" relativeKey="$parent.ItemIcon" relativePoint="BOTTOMRIGHT"/>
                     </Anchors>
-                </MaskTexture>
+                </Texture>
             </Layer>
             <Layer level="BACKGROUND">
                 <Texture parentKey="TextBackground" hidden="true" alpha="0.4">
-                    <TextureSliceMode mode="Stretched"/>
-                    <TextureSliceMargins left="16" right="16" top="16" bottom="16"/>
                     <Anchors>
                         <Anchor point="CENTER" relativeKey="$parent.ItemText" relativePoint="CENTER"/>
                     </Anchors>
@@ -87,7 +82,7 @@
         </Layers>
     </Frame>
 
-    <Frame name="DUIBookFrame" mixin="DUIBookUIMixin" hidden="true" frameStrata="DIALOG" flattenRenderLayers="true" topLevel="true">
+    <Frame name="DUIBookFrame" hidden="true" frameStrata="DIALOG" flattenRenderLayers="true" toplevel="true">
         <Anchors>
             <Anchor point="LEFT" relativeTo="UIParent" relativePoint="LEFT" x="48"/>
         </Anchors>
@@ -129,15 +124,12 @@
                             </Anchors>
                         </Texture>
 
-                        <MaskTexture parentKey="HeaderDividerExclusion" hWrapMode="CLAMPTOWHITE" vWrapMode="CLAMPTOWHITE" file="Interface\AddOns\DialogueUI\Art\BasicShapes\Mask-AllBlack">
+                        <Texture parentKey="HeaderDividerExclusion" file="Interface\AddOns\DialogueUI\Art\BasicShapes\Mask-AllBlack" hidden="true">
                             <Size x="1" y="80"/>
                             <Anchors>
                                 <Anchor point="CENTER" relativeKey="$parent.HeaderDivider" relativePoint="CENTER"/>
                             </Anchors>
-                            <MaskedTextures>
-                                <MaskedTexture childKey="HeaderDivider"/>
-                            </MaskedTextures>
-                        </MaskTexture>
+                        </Texture>
                     </Layer>
                     <Layer level="OVERLAY" textureSubLevel="3">
                         <Texture parentKey="HeaderScrollOverlap" hidden="true">
@@ -181,10 +173,10 @@
             <KeyValue key="nodeignore" value="true" type="boolean"/>
         </KeyValues>
         <Scripts>
-            <OnLoad method="OnLoad"/>
-            <OnShow method="OnShow"/>
-            <OnHide method="OnHide"/>
-            <OnMouseUp method="OnMouseUp"/>
+            <OnLoad>DUI_ApplyMixin(self, "DUIBookUIMixin"); self:OnLoad(...);</OnLoad>
+            <OnShow>self:OnShow(...);</OnShow>
+            <OnHide>self:OnHide(...);</OnHide>
+            <OnMouseUp>self:OnMouseUp(...);</OnMouseUp>
         </Scripts>
     </Frame>
 </Ui>

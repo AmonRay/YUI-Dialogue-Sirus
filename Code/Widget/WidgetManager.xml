@@ -18,15 +18,12 @@
                         <Anchor point="CENTER"/>
                     </Anchors>
                 </Texture>
-                <MaskTexture parentKey="BrushMask" file="Interface/AddOns/DialogueUI/Art/Theme_Shared/QuestPopup-Brush-Mask" hWrapMode="CLAMP" vWrapMode="CLAMP">
-                    <MaskedTextures>
-                        <MaskedTexture childKey="Background"/>
-                    </MaskedTextures>
+                <Texture parentKey="BrushMask" file="Interface/AddOns/DialogueUI/Art/Theme_Shared/QuestPopup-Brush-Mask" hidden="true">
                     <Size x="576" y="128"/>
                     <Anchors>
                         <Anchor point="LEFT" relativeKey="$parent" relativePoint="LEFT" x="0" y="0"/>
                     </Anchors>
-                </MaskTexture>
+                </Texture>
             </Layer>
 
             <Layer level="OVERLAY">
@@ -92,15 +89,12 @@
                         <Anchor point="CENTER" relativeKey="$parent.IconBorder" relativePoint="CENTER"/>
                     </Anchors>
                 </Texture>
-                <MaskTexture parentKey="IconMask" file="Interface/AddOns/DialogueUI/Art/BasicShapes/Mask-Circle" hWrapMode="CLAMPTOBLACKADDITIVE" vWrapMode="CLAMPTOBLACKADDITIVE">
-                    <MaskedTextures>
-                        <MaskedTexture childKey="Icon"/>
-                    </MaskedTextures>
+                <Texture parentKey="IconMask" file="Interface/AddOns/DialogueUI/Art/BasicShapes/Mask-Circle" hidden="true">
                     <Anchors>
                         <Anchor point="TOPLEFT" relativeKey="$parent.Icon" relativePoint="TOPLEFT"/>
                         <Anchor point="BOTTOMRIGHT" relativeKey="$parent.Icon" relativePoint="BOTTOMRIGHT"/>
                     </Anchors>
-                </MaskTexture>
+                </Texture>
             </Layer>
 
             <Layer level="BACKGROUND">
@@ -181,11 +175,11 @@
                     </Layer>
                 </Layers>
                 <Animations>
-                    <AnimationGroup parentKey="AnimPointRight" looping="REPEAT" setToFinalAlpha="true">
+                    <AnimationGroup parentKey="AnimPointRight" looping="REPEAT">
                         <Translation childKey="Arrow1" order="1" offsetX="-6" duration="0" startDelay="0"/>
-                        <Alpha childKey="Arrow1" order="1" fromAlpha="0" toAlpha="0" duration="1.0" startDelay="0"/>
-                        <Alpha childKey="Arrow1" order="2" fromAlpha="0" toAlpha="1" duration="0.2" startDelay="0"/>
-                        <Alpha childKey="Arrow1" order="2" fromAlpha="1" toAlpha="0" duration="0.4" startDelay="1.0"/>
+                        <Alpha change="0" childKey="Arrow1" order="1" duration="1.0" startDelay="0"/>
+                        <Alpha change="1" childKey="Arrow1" order="2" duration="0.2" startDelay="0"/>
+                        <Alpha change="-1" childKey="Arrow1" order="2" duration="0.4" startDelay="1.0"/>
                         <Translation childKey="Arrow1" order="2" offsetX="10" duration="1.0" startDelay="0" smoothing="OUT"/>
                     </AnimationGroup>
                 </Animations>

@@ -227,8 +227,7 @@ end);
 do
     local currentToCVersion = select(4, GetBuildInfo());
     if not currentToCVersion then
-        print("API Changed: GetBuildInfo()")
-        currentToCVersion = 999999;
+        currentToCVersion = addon.IS_335 and 30300 or 999999;
     end
     currentToCVersion = tonumber(currentToCVersion);
 
@@ -246,6 +245,11 @@ do
     addon.IS_VANILLA = game == "Vanilla" or WOW_PROJECT_ID == WOW_PROJECT_CLASSIC;
     addon.IS_RETAIL = game == "Standard" or WOW_PROJECT_ID == WOW_PROJECT_MAINLINE;
     addon.IS_CATA = game == "Cata" or WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC;
+    addon.IS_WRATH = game == "Wrath" or addon.IS_335 or WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC;
+
+    if addon.IS_335 then
+        addon.IS_FOREVER, addon.IS_MISTS, addon.IS_TBC, addon.IS_VANILLA, addon.IS_RETAIL, addon.IS_CATA = false, false, false, false, false, false;
+    end
 
     -- Modern (Standard & Forever) have Secrets, etc.
     addon.IS_MODERN = addon.IS_RETAIL or addon.IS_FOREVER;

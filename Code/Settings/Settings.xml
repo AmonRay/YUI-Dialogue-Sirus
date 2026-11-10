@@ -5,7 +5,7 @@
     <Script file="Settings_DropdownMenu.lua"/>
     <Script file="Settings.lua"/>
 
-    <Button name="DUIDialogSettingsTabButtonTemplate" mixin="DUIDialogSettingsTabButtonMixin" registerForClicks="LeftButtonUp" virtual="true">
+    <Button name="DUIDialogSettingsTabButtonTemplate" registerForClicks="LeftButtonUp" virtual="true">
         <Size x="72" y="36"/>
         <Layers>
             <Layer level="OVERLAY">
@@ -17,11 +17,12 @@
             </Layer>
         </Layers>
         <Scripts>
-            <OnEnter method="OnEnter"/>
-            <OnLeave method="OnLeave"/>
-            <OnClick method="OnClick"/>
-            <OnMouseDown method="OnMouseDown"/>
-            <OnMouseUp method="OnMouseUp"/>
+<OnLoad>DUI_ApplyMixin(self, "DUIDialogSettingsTabButtonMixin");</OnLoad>
+            <OnEnter>self:OnEnter(...);</OnEnter>
+            <OnLeave>self:OnLeave(...);</OnLeave>
+            <OnClick>self:OnClick(...);</OnClick>
+            <OnMouseDown>self:OnMouseDown(...);</OnMouseDown>
+            <OnMouseUp>self:OnMouseUp(...);</OnMouseUp>
         </Scripts>
     </Button>
 
@@ -34,7 +35,7 @@
         </Layers>
     </Frame>
 
-    <Button name="DUIDialogSettingsCheckboxTemplate" mixin="DUIDialogSettingsCheckboxMixin" virtual="true">
+    <Button name="DUIDialogSettingsCheckboxTemplate" virtual="true">
         <Size x="24" y="24"/>
         <Layers>
             <Layer level="BACKGROUND">
@@ -55,13 +56,14 @@
             </Layer>
         </Layers>
         <Scripts>
-            <OnEnter method="OnEnter"/>
-            <OnLeave method="OnLeave"/>
-            <OnClick method="OnClick"/>
+<OnLoad>DUI_ApplyMixin(self, "DUIDialogSettingsCheckboxMixin");</OnLoad>
+            <OnEnter>self:OnEnter(...);</OnEnter>
+            <OnLeave>self:OnLeave(...);</OnLeave>
+            <OnClick>self:OnClick(...);</OnClick>
         </Scripts>
     </Button>
 
-    <Frame name="DUIDialogSettingsArrowOptionTemplate" mixin="DUIDialogSettingsArrowOptionMixin" virtual="true">
+    <Frame name="DUIDialogSettingsArrowOptionTemplate" virtual="true">
         <Size x="168" y="24"/>
         <Layers>
             <Layer level="OVERLAY">
@@ -128,7 +130,7 @@
             </Button>
         </Frames>
         <Scripts>
-            <OnLoad method="OnLoad"/>
+            <OnLoad>DUI_ApplyMixin(self, "DUIDialogSettingsArrowOptionMixin"); self:OnLoad(...);</OnLoad>
         </Scripts>
     </Frame>
 
@@ -137,8 +139,6 @@
         <Layers>
             <Layer level="BACKGROUND" textureSubLevel="4">
                 <Texture parentKey="Border">
-                    <TextureSliceMode mode="Tiled"/>
-                    <TextureSliceMargins left="16" right="16" top="16" bottom="16"/>
                     <TexCoords left="0" right="0.25" top="0" bottom="0.25"/>
                 </Texture>
             </Layer>
@@ -191,8 +191,6 @@
                 <Layers>
                     <Layer level="BACKGROUND" textureSubLevel="5">
                         <Texture parentKey="BackTexture" setAllPoints="true">
-                            <TextureSliceMode mode="Tiled"/>
-                            <TextureSliceMargins left="24" right="24" top="24" bottom="24"/>
                         </Texture>
                     </Layer>
                 </Layers>
@@ -292,7 +290,7 @@
         </Frames>
     </Frame>
 
-    <Button name="DUIDialogSettingsDropdownButtonTemplate" mixin="DUIDialogSettingsDropdownButtonMixin" virtual="true">
+    <Button name="DUIDialogSettingsDropdownButtonTemplate" virtual="true">
         <Size x="192" y="24"/>
         <HitRectInsets>
             <AbsInset left="0" right="0" top="-4" bottom="-4"/> <!--Extend Y to match ArrowOptionButton-->
@@ -320,13 +318,14 @@
             </Layer>
         </Layers>
         <Scripts>
-            <OnEnter method="OnEnter"/>
-            <OnLeave method="OnLeave"/>
-            <OnClick method="OnClick"/>
+<OnLoad>DUI_ApplyMixin(self, "DUIDialogSettingsDropdownButtonMixin");</OnLoad>
+            <OnEnter>self:OnEnter(...);</OnEnter>
+            <OnLeave>self:OnLeave(...);</OnLeave>
+            <OnClick>self:OnClick(...);</OnClick>
         </Scripts>
     </Button>
 
-    <Button name="DUIDialogSettingsOptionTemplate" mixin="DUIDialogSettingsOptionMixin" virtual="true">
+    <Button name="DUIDialogSettingsOptionTemplate" virtual="true">
         <Size x="360" y="36"/>
         <Layers>
             <Layer level="OVERLAY">
@@ -338,13 +337,14 @@
             </Layer>
         </Layers>
         <Scripts>
-            <OnEnter method="OnEnter"/>
-            <OnLeave method="OnLeave"/>
-            <OnClick method="OnClick"/>
+<OnLoad>DUI_ApplyMixin(self, "DUIDialogSettingsOptionMixin");</OnLoad>
+            <OnEnter>self:OnEnter(...);</OnEnter>
+            <OnLeave>self:OnLeave(...);</OnLeave>
+            <OnClick>self:OnClick(...);</OnClick>
         </Scripts>
     </Button>
 
-    <Button name="DUIDialogSettingsKeybindingTemplate" mixin="DUIDialogSettingsKeybindingMixin" registerForClicks="LeftButtonUp, RightButtonUp" virtual="true">
+    <Button name="DUIDialogSettingsKeybindingTemplate" registerForClicks="LeftButtonUp, RightButtonUp" virtual="true">
         <Size x="144" y="24"/>
         <HitRectInsets>
             <AbsInset left="0" right="0" top="-4" bottom="-4"/>
@@ -365,16 +365,16 @@
             </Layer>
         </Layers>
         <Scripts>
-            <OnLoad method="OnLoad"/>
-            <OnEnter method="OnEnter"/>
-            <OnLeave method="OnLeave"/>
-            <OnClick method="OnClick"/>
-            <OnMouseDown method="OnMouseDown"/>
-            <OnMouseUp method="OnMouseUp"/>
+            <OnLoad>DUI_ApplyMixin(self, "DUIDialogSettingsKeybindingMixin"); self:OnLoad(...);</OnLoad>
+            <OnEnter>self:OnEnter(...);</OnEnter>
+            <OnLeave>self:OnLeave(...);</OnLeave>
+            <OnClick>self:OnClick(...);</OnClick>
+            <OnMouseDown>self:OnMouseDown(...);</OnMouseDown>
+            <OnMouseUp>self:OnMouseUp(...);</OnMouseUp>
         </Scripts>
     </Button>
 
-    <Frame name="DUIDialogSettings" mixin="DUIDialogSettingsMixin" enableMouse="true" frameStrata="DIALOG" hidden="true" topLevel="true" clampedToScreen="true" movable="true" dontSavePosition="true">
+    <Frame name="DUIDialogSettings" enableMouse="true" frameStrata="DIALOG" hidden="true" toplevel="true" clampedToScreen="true" movable="true" dontSavePosition="true">
         <Size x="400" y="300"/>
         <Anchors>
             <Anchor point="CENTER"/>
@@ -386,23 +386,16 @@
                         <Anchor point="BOTTOMRIGHT" relativeKey="$parent" relativePoint="BOTTOMRIGHT" x="-4" y="4"/>
                     </Anchors>
                 </Texture>
-                <MaskTexture parentKey="DecorMask" file="Interface/AddOns/DialogueUI/Art/Theme_Shared/Mask-SettingsDecor" hWrapMode="CLAMP" vWrapMode="CLAMP">
-                    <MaskedTextures>
-                        <MaskedTexture childKey="BackgroundDecor"/>
-                    </MaskedTextures>
-                </MaskTexture>
+                <Texture parentKey="DecorMask" file="Interface/AddOns/DialogueUI/Art/Theme_Shared/Mask-SettingsDecor" hidden="true">
+                </Texture>
             </Layer>
             <Layer level="BORDER">
                 <Texture parentKey="HeaderDivider">
                     <Size y="9"/>
-                    <TextureSliceMode mode="Tiled"/>
-                    <TextureSliceMargins left="32" right="32" top="8" bottom="4"/>
                 </Texture>
 
                 <Texture parentKey="VerticalDivider">
                     <Size x="9"/>
-                    <TextureSliceMode mode="Tiled"/>
-                    <TextureSliceMargins left="8" right="4" top="32" bottom="32"/>
                 </Texture>
             </Layer>
             <Layer level="OVERLAY">
@@ -415,8 +408,6 @@
                         <Anchor point="TOPLEFT" relativeKey="$parent.Preview" relativePoint="TOPLEFT" x="-1" y="1"/>
                         <Anchor point="BOTTOMRIGHT" relativeKey="$parent.Preview" relativePoint="BOTTOMRIGHT" x="1" y="-1"/>
                     </Anchors>
-                    <TextureSliceMode mode="Tiled"/>
-                    <TextureSliceMargins left="8" right="8" top="8" bottom="8"/>
                 </Texture>
             </Layer>
         </Layers>
@@ -426,8 +417,6 @@
                 <Layers>
                     <Layer level="BACKGROUND" textureSubLevel="5">
                         <Texture parentKey="Selection" hidden="true">
-                            <TextureSliceMode mode="Tiled"/>
-                            <TextureSliceMargins left="16" right="16" top="16" bottom="16"/>
                         </Texture>
                     </Layer>
                 </Layers>
@@ -437,14 +426,10 @@
                         <Layers>
                             <Layer level="BACKGROUND" textureSubLevel="5">
                                 <Texture parentKey="Background">
-                                    <TextureSliceMode mode="Tiled"/>
-                                    <TextureSliceMargins left="16" right="16" top="16" bottom="16"/>
                                 </Texture>
                             </Layer>
                             <Layer level="ARTWORK">
                                 <Texture parentKey="Highlight" hidden="true">
-                                    <TextureSliceMode mode="Tiled"/>
-                                    <TextureSliceMargins left="16" right="16" top="16" bottom="16"/>
                                 </Texture>
                             </Layer>
                             <Layer level="OVERLAY">
@@ -464,8 +449,6 @@
                 <Layers>
                     <Layer level="BACKGROUND" textureSubLevel="1">
                         <Texture parentKey="BackTexture" setAllPoints="true">
-                            <TextureSliceMode mode="Tiled"/>
-                            <TextureSliceMargins left="24" right="24" top="24" bottom="24"/>
                         </Texture>
                     </Layer>
                 </Layers>
@@ -485,14 +468,12 @@
             <KeyValue key="nodeignore" value="true" type="boolean"/>
         </KeyValues>
         <Scripts>
-            <OnLoad method="OnLoad"/>
-            <OnShow method="OnShow_First"/>
-            <OnHide method="OnHide"/>
-            <OnEvent method="OnEvent"/>
-            <OnKeyDown method="OnKeyDown"/>
-            <OnGamePadButtonDown method="OnGamePadButtonDown"/>
-            <OnGamePadButtonUp method="OnGamePadButtonUp"/>
-            <OnMouseWheel method="OnMouseWheel"/>
+            <OnLoad>DUI_ApplyMixin(self, "DUIDialogSettingsMixin"); self:OnLoad(...);</OnLoad>
+            <OnShow>self:OnShow_First(...);</OnShow>
+            <OnHide>self:OnHide(...);</OnHide>
+            <OnEvent>self:OnEvent(...);</OnEvent>
+            <OnKeyDown>self:OnKeyDown(...);</OnKeyDown>
+            <OnMouseWheel>self:OnMouseWheel(...);</OnMouseWheel>
         </Scripts>
     </Frame>
 </Ui>

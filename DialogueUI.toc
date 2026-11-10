@@ -1,4 +1,4 @@
-## Interface: 120107, 120105, 50504, 20506, 11509, 16001
+## Interface: 30300
 ## Version: 1.0.7 b
 
 ## Title: Dialogue UI
@@ -7,16 +7,11 @@
 ## Author: Raenore, Peterodox
 ## SavedVariables: DialogueUI_DB, DialogueUI_Saves
 
-## IconTexture: Interface\AddOns\DialogueUI\Art\Icons\Logo
-## AddonCompartmentFunc: DialogueUI_ShowSettingsFrame
 
-## X-GameType: Camelot [AllowLoadGameType camelot]
-## X-GameType: Standard [AllowLoadGameType standard]
-## X-GameType: Vanilla [AllowLoadGameType vanilla]
-## X-GameType: TBC [AllowLoadGameType tbc]
-## X-GameType: Mists [AllowLoadGameType mists]
+## X-GameType: Wrath
 
 
+Code\Compat\Compat_335.lua
 Initialization.lua
 Locales\Localization.xml
 Fonts.xml

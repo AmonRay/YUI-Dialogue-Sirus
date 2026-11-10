@@ -4,11 +4,6 @@
     <Script file="Code\QuestAreaTrigger.lua"/>
     <Script file="Code\QuestDifficulty.lua"/>
 
-    <Actor name="DUIUtilityActorTemplate" mixin="DUIUtilityActorMixin" virtual="true">
-        <Scripts>
-            <OnModelLoaded method="OnModelLoaded"/>
-        </Scripts>
-    </Actor>
 
-    <Frame name="DUISetPropagateKeyboardInputTemplate" propagateKeyboardInput="true" virtual="true"/>
+    <Frame name="DUISetPropagateKeyboardInputTemplate" virtual="true"/>
 </Ui>
