@@ -1,0 +1,2611 @@
+{
+  "counts": {
+    "scanned_files": 109,
+    "reference_occurrences": 193,
+    "unique_paths": 133,
+    "broken_unique_paths": 0,
+    "broken_occurrences": 0,
+    "source_assets": 273,
+    "build_assets": 273,
+    "sources_missing_in_build": 0,
+    "unmentioned_build_assets": 142,
+    "case_mismatches": 0,
+    "unresolved_expressions": 195,
+    "numeric_expressions": 0,
+    "external_literals": 0,
+    "dynamic_prefixes": 2
+  },
+  "references": [
+    {
+      "path": "Icons/NPCType-",
+      "source": "API.lua",
+      "line": 547,
+      "kind": "literal-art"
+    },
+    {
+      "path": "Icons/IncompleteQuest",
+      "source": "API.lua",
+      "line": 1192,
+      "kind": "constant-concat"
+    },
+    {
+      "path": "Book/TextureKit-Parchment",
+      "source": "Code/Book/BookUI.lua",
+      "line": 556,
+      "kind": "book-texturekit"
+    },
+    {
+      "path": "Book/TextureKit-Metal",
+      "source": "Code/Book/BookUI.lua",
+      "line": 557,
+      "kind": "book-texturekit"
+    },
+    {
+      "path": "Theme_Shared/ScreenVignette",
+      "source": "Code/Book/BookUI.xml",
+      "line": 176,
+      "kind": "shared-helper"
+    },
+    {
+      "path": "Theme_Shared/NameplateDialogShadow",
+      "source": "Code/Book/BookUI_Component.lua",
+      "line": 574,
+      "kind": "literal-art"
+    },
+    {
+      "path": "Theme_Shared/ClipboardBackground",
+      "source": "Code/Compat/Compat_335.lua",
+      "line": 722,
+      "kind": "literal-art"
+    },
+    {
+      "path": "Theme_Shared/LFGEye",
+      "source": "Code/Dialogue/AlertFrame.lua",
+      "line": 294,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Shared/TopAlertBackground",
+      "source": "Code/Dialogue/AlertFrame.lua",
+      "line": 307,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Shared/Banner-H-Brown",
+      "source": "Code/Dialogue/Banner.lua",
+      "line": 14,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Shared/ChatFrameBackground",
+      "source": "Code/Dialogue/ChatFrame.lua",
+      "line": 145,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Shared/ClipboardBackground",
+      "source": "Code/Dialogue/Clipboard.lua",
+      "line": 170,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Shared/CopyTextButton",
+      "source": "Code/Dialogue/Clipboard.lua",
+      "line": 309,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/SubHeaderBackground",
+      "source": "Code/Dialogue/DialogueUI.lua",
+      "line": 431,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/SubHeaderBackground",
+      "source": "Code/Dialogue/DialogueUI.lua",
+      "line": 431,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/Parchment",
+      "source": "Code/Dialogue/DialogueUI.lua",
+      "line": 525,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/Parchment",
+      "source": "Code/Dialogue/DialogueUI.lua",
+      "line": 525,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/RewardChoice-Highlight",
+      "source": "Code/Dialogue/DialogueUI.lua",
+      "line": 556,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/RewardChoice-Highlight",
+      "source": "Code/Dialogue/DialogueUI.lua",
+      "line": 556,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/RewardChoice-Highlight-Back",
+      "source": "Code/Dialogue/DialogueUI.lua",
+      "line": 557,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/RewardChoice-Highlight-Back",
+      "source": "Code/Dialogue/DialogueUI.lua",
+      "line": 557,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/SubHeaderBackground",
+      "source": "Code/Dialogue/DialogueUI.lua",
+      "line": 569,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/SubHeaderBackground",
+      "source": "Code/Dialogue/DialogueUI.lua",
+      "line": 569,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Shared/ScreenVignette",
+      "source": "Code/Dialogue/DialogueUI.lua",
+      "line": 3454,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/FriendshipBar",
+      "source": "Code/Dialogue/FriendshipBar.lua",
+      "line": 99,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/FriendshipBar",
+      "source": "Code/Dialogue/FriendshipBar.lua",
+      "line": 99,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/FriendshipDigits",
+      "source": "Code/Dialogue/FriendshipBar.lua",
+      "line": 100,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/FriendshipDigits",
+      "source": "Code/Dialogue/FriendshipBar.lua",
+      "line": 100,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Shared/QuestWidgetButton",
+      "source": "Code/Dialogue/QuestHeaderWidget.lua",
+      "line": 16,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Icons/Warband",
+      "source": "Code/Dialogue/QuestHeaderWidget.lua",
+      "line": 433,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Shared/StatusBar-Border",
+      "source": "Code/Dialogue/StatusBar.lua",
+      "line": 60,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Shared/StatusBar-Background",
+      "source": "Code/Dialogue/StatusBar.lua",
+      "line": 67,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Shared/StatusBar-FillShort-Purple",
+      "source": "Code/Dialogue/StatusBar.lua",
+      "line": 76,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Shared/StatusBar-ValueBlock-Purple",
+      "source": "Code/Dialogue/StatusBar.lua",
+      "line": 96,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Shared/StatusBar-Notch",
+      "source": "Code/Dialogue/StatusBar.lua",
+      "line": 107,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Shared/TranslationButton",
+      "source": "Code/Dialogue/Translator.lua",
+      "line": 52,
+      "kind": "literal-art"
+    },
+    {
+      "path": "ui_majorfactions_",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 89,
+      "kind": "dynamic-prefix"
+    },
+    {
+      "path": "Icons/Hint",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 410,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/HotkeyBackground",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1046,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/HotkeyBackground",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1046,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/ItemOverlays",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1381,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/ItemOverlays",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1381,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/RewardChoice-Sheen",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1385,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/RewardChoice-Sheen",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1385,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/ItemOverlays",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1389,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/ItemOverlays",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1389,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/RewardChoice-Sheen",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1390,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/RewardChoice-Sheen",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1390,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/ItemButtonBackground",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1967,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/ItemButtonBackground",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1967,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Icons/XP-Purple",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 2059,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/ButtonLockProgress",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 2166,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/ButtonLockProgress",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 2166,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/InputBox-SingleLine",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 2230,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/InputBox-SingleLine",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 2230,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Icons/CurrencyOverflow",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 2418,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Icons/Coin-Gold",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 2425,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Icons/ItemIsUpgrade",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 2433,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/WarbandCompleted",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 2452,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/WarbandCompleted",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 2452,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Shared/ClipboardBackground",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 2594,
+      "kind": "shared-helper"
+    },
+    {
+      "path": "Theme_Shared/LoadingIndicator-Radial",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 2747,
+      "kind": "shared-helper"
+    },
+    {
+      "path": "Theme_Brown/ButtonHighlight-Gossip",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 848,
+      "kind": "theme-table"
+    },
+    {
+      "path": "Theme_Dark/ButtonHighlight-Gossip",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 848,
+      "kind": "theme-table"
+    },
+    {
+      "path": "Theme_Brown/ButtonHighlight-Add",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 849,
+      "kind": "theme-table"
+    },
+    {
+      "path": "Theme_Dark/ButtonHighlight-Add",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 849,
+      "kind": "theme-table"
+    },
+    {
+      "path": "Theme_Brown/ButtonHighlight-Front",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 849,
+      "kind": "theme-table"
+    },
+    {
+      "path": "Theme_Dark/ButtonHighlight-Front",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 849,
+      "kind": "theme-table"
+    },
+    {
+      "path": "Theme_Brown/ButtonHighlight-Add",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 850,
+      "kind": "theme-table"
+    },
+    {
+      "path": "Theme_Dark/ButtonHighlight-Add",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 850,
+      "kind": "theme-table"
+    },
+    {
+      "path": "Theme_Brown/ButtonHighlight-Front",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 850,
+      "kind": "theme-table"
+    },
+    {
+      "path": "Theme_Dark/ButtonHighlight-Front",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 850,
+      "kind": "theme-table"
+    },
+    {
+      "path": "Theme_Brown/ButtonHighlight-Add",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 851,
+      "kind": "theme-table"
+    },
+    {
+      "path": "Theme_Dark/ButtonHighlight-Add",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 851,
+      "kind": "theme-table"
+    },
+    {
+      "path": "Theme_Brown/ButtonHighlight-Front",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 851,
+      "kind": "theme-table"
+    },
+    {
+      "path": "Theme_Dark/ButtonHighlight-Front",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 851,
+      "kind": "theme-table"
+    },
+    {
+      "path": "Theme_Brown/ButtonHighlight-Add",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 852,
+      "kind": "theme-table"
+    },
+    {
+      "path": "Theme_Dark/ButtonHighlight-Add",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 852,
+      "kind": "theme-table"
+    },
+    {
+      "path": "Theme_Brown/ButtonHighlight-Front",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 852,
+      "kind": "theme-table"
+    },
+    {
+      "path": "Theme_Dark/ButtonHighlight-Front",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 852,
+      "kind": "theme-table"
+    },
+    {
+      "path": "GameAssets/ui_majorfactions_candle",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 81,
+      "kind": "redirect-texturekit"
+    },
+    {
+      "path": "GameAssets/ui_majorfactions_flame",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 82,
+      "kind": "redirect-texturekit"
+    },
+    {
+      "path": "GameAssets/ui_majorfactions_storm",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 83,
+      "kind": "redirect-texturekit"
+    },
+    {
+      "path": "GameAssets/ui_majorfactions_web",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 84,
+      "kind": "redirect-texturekit"
+    },
+    {
+      "path": "Icons/Gossip-Red",
+      "source": "Code/GossipData/GossipData_Icon.lua",
+      "line": 10,
+      "kind": "constant-concat"
+    },
+    {
+      "path": "Icons/Gossip-Quest",
+      "source": "Code/GossipData/GossipData_Icon.lua",
+      "line": 11,
+      "kind": "constant-concat"
+    },
+    {
+      "path": "Icons/Gossip-Movie",
+      "source": "Code/GossipData/GossipData_Icon.lua",
+      "line": 12,
+      "kind": "constant-concat"
+    },
+    {
+      "path": "Icons/Gossip",
+      "source": "Code/GossipData/GossipData_Icon.lua",
+      "line": 13,
+      "kind": "constant-concat"
+    },
+    {
+      "path": "Icons/Trainer",
+      "source": "Code/GossipData/GossipData_Icon.lua",
+      "line": 14,
+      "kind": "constant-concat"
+    },
+    {
+      "path": "Icons/Buy",
+      "source": "Code/GossipData/GossipData_Icon.lua",
+      "line": 15,
+      "kind": "constant-concat"
+    },
+    {
+      "path": "Icons/Gossip",
+      "source": "Code/GossipData/GossipData_Icon.lua",
+      "line": 16,
+      "kind": "constant-concat"
+    },
+    {
+      "path": "Icons/Innkeeper",
+      "source": "Code/GossipData/GossipData_Icon.lua",
+      "line": 23,
+      "kind": "constant-concat"
+    },
+    {
+      "path": "Icons/Innkeeper",
+      "source": "Code/GossipData/GossipData_Icon.lua",
+      "line": 24,
+      "kind": "constant-concat"
+    },
+    {
+      "path": "Icons/Mine",
+      "source": "Code/GossipData/GossipData_Icon.lua",
+      "line": 25,
+      "kind": "constant-concat"
+    },
+    {
+      "path": "Icons/Trainer",
+      "source": "Code/GossipData/GossipData_Icon.lua",
+      "line": 26,
+      "kind": "constant-concat"
+    },
+    {
+      "path": "Icons/Stablemaster",
+      "source": "Code/GossipData/GossipData_Icon.lua",
+      "line": 27,
+      "kind": "constant-concat"
+    },
+    {
+      "path": "Icons/TradingPost",
+      "source": "Code/GossipData/GossipData_Icon.lua",
+      "line": 28,
+      "kind": "constant-concat"
+    },
+    {
+      "path": "Icons/BattlePet",
+      "source": "Code/GossipData/GossipData_Icon.lua",
+      "line": 29,
+      "kind": "constant-concat"
+    },
+    {
+      "path": "Icons/LFG",
+      "source": "Code/GossipData/GossipData_Icon.lua",
+      "line": 44,
+      "kind": "constant-concat"
+    },
+    {
+      "path": "Icons/Gossip",
+      "source": "Code/GossipData/GossipData_Icon.lua",
+      "line": 58,
+      "kind": "constant-concat"
+    },
+    {
+      "path": "Icons/Gossip",
+      "source": "Code/GossipData/GossipData_Icon.lua",
+      "line": 59,
+      "kind": "constant-concat"
+    },
+    {
+      "path": "Icons/Gossip",
+      "source": "Code/GossipData/GossipData_Icon.lua",
+      "line": 60,
+      "kind": "constant-concat"
+    },
+    {
+      "path": "Icons/Buy",
+      "source": "Code/GossipData/GossipData_Icon.lua",
+      "line": 62,
+      "kind": "constant-concat"
+    },
+    {
+      "path": "Icons/Racing-Gold",
+      "source": "Code/GossipData/GossipData_Racing.lua",
+      "line": 13,
+      "kind": "literal-art"
+    },
+    {
+      "path": "Icons/Racing-Silver",
+      "source": "Code/GossipData/GossipData_Racing.lua",
+      "line": 14,
+      "kind": "literal-art"
+    },
+    {
+      "path": "Icons/Racing-Bronze",
+      "source": "Code/GossipData/GossipData_Racing.lua",
+      "line": 15,
+      "kind": "literal-art"
+    },
+    {
+      "path": "Icons/Racing-None",
+      "source": "Code/GossipData/GossipData_Racing.lua",
+      "line": 16,
+      "kind": "literal-art"
+    },
+    {
+      "path": "Theme_Shared/NameplateDialogShadow",
+      "source": "Code/NameplateGossip.lua",
+      "line": 165,
+      "kind": "literal-art"
+    },
+    {
+      "path": "Theme_Shared/ScrollBar-Vertical-Buttons",
+      "source": "Code/Scroll/Scroll_Bar.lua",
+      "line": 361,
+      "kind": "constant-concat"
+    },
+    {
+      "path": "Theme_Shared/ScrollBar-Vertical-Buttons",
+      "source": "Code/Scroll/Scroll_Bar.lua",
+      "line": 443,
+      "kind": "constant-concat"
+    },
+    {
+      "path": "Theme_Shared/ScrollBar-Vertical-Rail",
+      "source": "Code/Scroll/Scroll_Bar.lua",
+      "line": 459,
+      "kind": "constant-concat"
+    },
+    {
+      "path": "Theme_Shared/ScrollBar-Vertical-Thumb",
+      "source": "Code/Scroll/Scroll_Bar.lua",
+      "line": 475,
+      "kind": "constant-concat"
+    },
+    {
+      "path": "ParchmentDecor/Dalaran",
+      "source": "Code/Settings/Settings.lua",
+      "line": 238,
+      "kind": "literal-art"
+    },
+    {
+      "path": "Theme_Brown/Settings-Checkbox",
+      "source": "Code/Settings/Settings.lua",
+      "line": 948,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/Settings-Checkbox",
+      "source": "Code/Settings/Settings.lua",
+      "line": 948,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/Settings-ArrowOption",
+      "source": "Code/Settings/Settings.lua",
+      "line": 957,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/Settings-ArrowOption",
+      "source": "Code/Settings/Settings.lua",
+      "line": 957,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/Settings-DropdownButton",
+      "source": "Code/Settings/Settings.lua",
+      "line": 966,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/Settings-DropdownButton",
+      "source": "Code/Settings/Settings.lua",
+      "line": 966,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/Settings-Keybinding",
+      "source": "Code/Settings/Settings.lua",
+      "line": 975,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/Settings-Keybinding",
+      "source": "Code/Settings/Settings.lua",
+      "line": 975,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/LabelBackground",
+      "source": "Code/Settings/Settings.lua",
+      "line": 1612,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/LabelBackground",
+      "source": "Code/Settings/Settings.lua",
+      "line": 1612,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/Settings-SubOptionIcon",
+      "source": "Code/Settings/Settings.lua",
+      "line": 1669,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/Settings-SubOptionIcon",
+      "source": "Code/Settings/Settings.lua",
+      "line": 1669,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/Settings-ArrowOption",
+      "source": "Code/Settings/Settings.lua",
+      "line": 1753,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/Settings-ArrowOption",
+      "source": "Code/Settings/Settings.lua",
+      "line": 1753,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/Settings-ArrowOption",
+      "source": "Code/Settings/Settings.lua",
+      "line": 2567,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/Settings-ArrowOption",
+      "source": "Code/Settings/Settings.lua",
+      "line": 2567,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/Settings-ArrowOption",
+      "source": "Code/Settings/Settings.lua",
+      "line": 2572,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/Settings-ArrowOption",
+      "source": "Code/Settings/Settings.lua",
+      "line": 2572,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/Settings-Divider-H",
+      "source": "Code/Settings/Settings.lua",
+      "line": 204,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "Theme_Dark/Settings-Divider-H",
+      "source": "Code/Settings/Settings.lua",
+      "line": 204,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "Theme_Brown/Settings-Divider-V",
+      "source": "Code/Settings/Settings.lua",
+      "line": 205,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "Theme_Dark/Settings-Divider-V",
+      "source": "Code/Settings/Settings.lua",
+      "line": 205,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "Theme_Brown/Settings-PreviewBorder",
+      "source": "Code/Settings/Settings.lua",
+      "line": 206,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "Theme_Dark/Settings-PreviewBorder",
+      "source": "Code/Settings/Settings.lua",
+      "line": 206,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "Theme_Brown/Settings-TabButton-Selection",
+      "source": "Code/Settings/Settings.lua",
+      "line": 207,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "Theme_Dark/Settings-TabButton-Selection",
+      "source": "Code/Settings/Settings.lua",
+      "line": 207,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "Theme_Brown/Settings-ButtonHighlight",
+      "source": "Code/Settings/Settings.lua",
+      "line": 208,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "Theme_Dark/Settings-ButtonHighlight",
+      "source": "Code/Settings/Settings.lua",
+      "line": 208,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "Theme_Brown/Settings-CloseButton",
+      "source": "Code/Settings/Settings.lua",
+      "line": 210,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "Theme_Dark/Settings-CloseButton",
+      "source": "Code/Settings/Settings.lua",
+      "line": 210,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "Theme_Brown/Settings-Checkbox",
+      "source": "Code/Settings/Settings.lua",
+      "line": 215,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "Theme_Dark/Settings-Checkbox",
+      "source": "Code/Settings/Settings.lua",
+      "line": 215,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "Theme_Brown/Settings-ArrowOption",
+      "source": "Code/Settings/Settings.lua",
+      "line": 220,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "Theme_Dark/Settings-ArrowOption",
+      "source": "Code/Settings/Settings.lua",
+      "line": 220,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "Theme_Brown/Settings-ArrowOption",
+      "source": "Code/Settings/Settings.lua",
+      "line": 221,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "Theme_Dark/Settings-ArrowOption",
+      "source": "Code/Settings/Settings.lua",
+      "line": 221,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "Theme_Brown/Settings-Keybinding",
+      "source": "Code/Settings/Settings.lua",
+      "line": 229,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "Theme_Dark/Settings-Keybinding",
+      "source": "Code/Settings/Settings.lua",
+      "line": 229,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "PreviewPicture/GameMenuImage",
+      "source": "Code/Settings/Settings.lua",
+      "line": 2482,
+      "kind": "constant-concat"
+    },
+    {
+      "path": "PreviewPicture/GameMenuImage-Mask",
+      "source": "Code/Settings/Settings.lua",
+      "line": 2486,
+      "kind": "constant-concat"
+    },
+    {
+      "path": "Theme_Brown/DropdownMenu-Component",
+      "source": "Code/Settings/Settings_DropdownMenu.lua",
+      "line": 147,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "Theme_Dark/DropdownMenu-Component",
+      "source": "Code/Settings/Settings_DropdownMenu.lua",
+      "line": 147,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "Theme_Brown/DropdownMenu-Background",
+      "source": "Code/Settings/Settings_DropdownMenu.lua",
+      "line": 149,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "Theme_Dark/DropdownMenu-Background",
+      "source": "Code/Settings/Settings_DropdownMenu.lua",
+      "line": 149,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "Theme_Brown/Settings-ButtonHighlight",
+      "source": "Code/Settings/Settings_DropdownMenu.lua",
+      "line": 150,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "Theme_Dark/Settings-ButtonHighlight",
+      "source": "Code/Settings/Settings_DropdownMenu.lua",
+      "line": 150,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "Theme_Brown/Settings-ArrowOption",
+      "source": "Code/Settings/Settings_DropdownMenu.lua",
+      "line": 165,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "Theme_Dark/Settings-ArrowOption",
+      "source": "Code/Settings/Settings_DropdownMenu.lua",
+      "line": 165,
+      "kind": "theme-concat"
+    },
+    {
+      "path": "Theme_Brown/GenericFrame-Tiled-Large",
+      "source": "Code/SharedUITemplates/GenericFrame.lua",
+      "line": 10,
+      "kind": "theme-table"
+    },
+    {
+      "path": "Theme_Dark/GenericFrame-Tiled-Large",
+      "source": "Code/SharedUITemplates/GenericFrame.lua",
+      "line": 10,
+      "kind": "theme-table"
+    },
+    {
+      "path": "Theme_Brown/GenericFrame-Tiled-Large",
+      "source": "Code/SharedUITemplates/GenericFrame.lua",
+      "line": 11,
+      "kind": "theme-table"
+    },
+    {
+      "path": "Theme_Dark/GenericFrame-Tiled-Large",
+      "source": "Code/SharedUITemplates/GenericFrame.lua",
+      "line": 11,
+      "kind": "theme-table"
+    },
+    {
+      "path": "Theme_Shared/HelpTip",
+      "source": "Code/SharedUITemplates/GenericFrame.lua",
+      "line": 12,
+      "kind": "theme-table"
+    },
+    {
+      "path": "Theme_Shared/HelpTip",
+      "source": "Code/SharedUITemplates/GenericFrame.lua",
+      "line": 13,
+      "kind": "theme-table"
+    },
+    {
+      "path": "Theme_Brown/TooltipBackground-Temp",
+      "source": "Code/Tooltip/Tooltip_Base.lua",
+      "line": 55,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/TooltipBackground-Temp",
+      "source": "Code/Tooltip/Tooltip_Base.lua",
+      "line": 55,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/TooltipBackground-Temp",
+      "source": "Code/Tooltip/Tooltip_Base.lua",
+      "line": 429,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/TooltipBackground-Temp",
+      "source": "Code/Tooltip/Tooltip_Base.lua",
+      "line": 429,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/Settings-ArrowOption",
+      "source": "Code/Utility/DevTool.lua",
+      "line": 333,
+      "kind": "literal-art"
+    },
+    {
+      "path": "Theme_Shared/TTSButton",
+      "source": "Code/Utility/TTS.lua",
+      "line": 525,
+      "kind": "literal-art"
+    },
+    {
+      "path": "Theme_Shared/HelpTip",
+      "source": "Code/Widget/HelpTip.lua",
+      "line": 33,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "ParchmentDecor/Dalaran",
+      "source": "Code/Widget/SplashScreen_Gamepad.lua",
+      "line": 59,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/D-PAD-LEFT",
+      "source": "Code/Widget/SplashScreen_Gamepad.lua",
+      "line": 101,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/D-PAD-LEFT",
+      "source": "Code/Widget/SplashScreen_Gamepad.lua",
+      "line": 101,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/D-PAD-RIGHT",
+      "source": "Code/Widget/SplashScreen_Gamepad.lua",
+      "line": 102,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/D-PAD-RIGHT",
+      "source": "Code/Widget/SplashScreen_Gamepad.lua",
+      "line": 102,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Shared/QuestFlyoutButton",
+      "source": "Code/Widget/Widget_ItemButton.lua",
+      "line": 743,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/QuestItemDisplay-UI",
+      "source": "Code/Widget/Widget_QuestItemDisplay.lua",
+      "line": 147,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/QuestItemDisplay-UI",
+      "source": "Code/Widget/Widget_QuestItemDisplay.lua",
+      "line": 147,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Brown/QuestItemDisplay-UI",
+      "source": "Code/Widget/Widget_QuestItemDisplay.lua",
+      "line": 240,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Dark/QuestItemDisplay-UI",
+      "source": "Code/Widget/Widget_QuestItemDisplay.lua",
+      "line": 240,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Icons/QuestItem-NotOnQuest",
+      "source": "Code/Widget/Widget_QuestItemDisplay.lua",
+      "line": 610,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "Theme_Shared/QuestPopup",
+      "source": "Code/Widget/Widget_QuestPopup.lua",
+      "line": 37,
+      "kind": "theme-helper"
+    },
+    {
+      "path": "BasicShapes/Mask-RightWhite",
+      "source": "Code/Widget/WidgetManager.lua",
+      "line": 380,
+      "kind": "literal-art"
+    },
+    {
+      "path": "Theme_Shared/WidgetCloseButton",
+      "source": "Code/Widget/WidgetManager.lua",
+      "line": 396,
+      "kind": "literal-art"
+    },
+    {
+      "path": "Theme_Shared/QuestPopup",
+      "source": "Code/Widget/WidgetManager.lua",
+      "line": 597,
+      "kind": "literal-art"
+    },
+    {
+      "path": "Theme_Shared/QuestPopup",
+      "source": "Code/Widget/WidgetManager.lua",
+      "line": 657,
+      "kind": "literal-art"
+    },
+    {
+      "path": "Theme_Shared/QuestPopup-Brush-Mask",
+      "source": "Code/Widget/WidgetManager.xml",
+      "line": 21,
+      "kind": "literal-art"
+    },
+    {
+      "path": "BasicShapes/Mask-Circle",
+      "source": "Code/Widget/WidgetManager.xml",
+      "line": 92,
+      "kind": "literal-art"
+    },
+    {
+      "path": "Theme_Shared/QuestFlyoutButton-Cooldown-Swipe",
+      "source": "Code/Widget/WidgetManager.xml",
+      "line": 143,
+      "kind": "literal-art"
+    }
+  ],
+  "broken_paths": [],
+  "case_mismatches": [],
+  "suffix_or_name_candidates": {},
+  "unmentioned_build_assets": [
+    "BasicShapes/Mask-AllBlack.blp",
+    "Book/ScreenDarken.blp",
+    "Icons/AskDirection.blp",
+    "Icons/AvailableCampaignQuest.blp",
+    "Icons/AvailableImportantQuest.blp",
+    "Icons/AvailableLegendaryQuest.blp",
+    "Icons/AvailableMetaQuest.blp",
+    "Icons/AvailableQuest.blp",
+    "Icons/Coin-Copper.blp",
+    "Icons/Coin-Silver.blp",
+    "Icons/CompleteCampaignQuest.blp",
+    "Icons/CompleteDailyQuest.blp",
+    "Icons/CompleteImportantQuest.blp",
+    "Icons/CompleteLegendaryQuest.blp",
+    "Icons/CompleteQuest.blp",
+    "Icons/DailyQuest.blp",
+    "Icons/Gossip-Blue.blp",
+    "Icons/Incomplete-Brown.blp",
+    "Icons/IncompleteCampaignQuest.blp",
+    "Icons/IncompleteImportantQuest.blp",
+    "Icons/IncompleteLegendaryQuest.blp",
+    "Icons/IncompleteMetaQuest.blp",
+    "Icons/Logo.blp",
+    "Icons/QuestTag-Dungeon.blp",
+    "Icons/QuestTag-Raid.blp",
+    "Icons/RepeatableQuest.blp",
+    "Icons/RepeatableScheduler.blp",
+    "Icons/UpgradeArrow.blp",
+    "Icons/WeeklyQuest.blp",
+    "Icons/XP-Green.blp",
+    "Icons/conquest.blp",
+    "Icons/honor.blp",
+    "Icons/trophy_of_strife.blp",
+    "Keys/CONSOLE-MENU.blp",
+    "Keys/DISABLED.blp",
+    "Keys/ERROR.blp",
+    "Keys/PC-F1.blp",
+    "Keys/PC-INVALID.blp",
+    "Keys/PC-R.blp",
+    "Keys/PC-SPACE.blp",
+    "Keys/PC-TAB.blp",
+    "Keys/PS-LT.blp",
+    "Keys/PS-PAD1.blp",
+    "Keys/PS-PAD2.blp",
+    "Keys/PS-PAD3.blp",
+    "Keys/PS-PAD4.blp",
+    "Keys/SPACE.blp",
+    "Keys/SWITCH-LT.blp",
+    "Keys/SWITCH-PAD1.blp",
+    "Keys/SWITCH-PAD2.blp",
+    "Keys/SWITCH-PAD3.blp",
+    "Keys/SWITCH-PAD4.blp",
+    "Keys/XBOX-LT.blp",
+    "Keys/XBOX-PAD1.blp",
+    "Keys/XBOX-PAD2.blp",
+    "Keys/XBOX-PAD3.blp",
+    "Keys/XBOX-PAD4.blp",
+    "ParchmentDecor/Alliance.blp",
+    "ParchmentDecor/Dragonflight-Bronze.blp",
+    "ParchmentDecor/Dragonflight-Green.blp",
+    "ParchmentDecor/Dragonflight-Red.blp",
+    "ParchmentDecor/Dragonflight.blp",
+    "ParchmentDecor/Horde.blp",
+    "ParchmentDecor/MID-DarkHeart.blp",
+    "ParchmentDecor/TWW-Azeroth.blp",
+    "ParchmentDecor/TWW-Candle.blp",
+    "ParchmentDecor/TWW-Fist.blp",
+    "ParchmentDecor/TWW-Flame.blp",
+    "ParchmentDecor/TWW-Rocket.blp",
+    "ParchmentDecor/TWW-Storm.blp",
+    "ParchmentDecor/TWW-Web.blp",
+    "PreviewPicture/AutoQuestPopup.blp",
+    "PreviewPicture/BookUI.blp",
+    "PreviewPicture/CameraChangeFov.blp",
+    "PreviewPicture/CopyTextButton.blp",
+    "PreviewPicture/HideOutlineSparkles.blp",
+    "PreviewPicture/MarkHighestSellPrice.blp",
+    "PreviewPicture/NameplateDialogEnabled.blp",
+    "PreviewPicture/QuestAutoComplete.blp",
+    "PreviewPicture/QuestDifficultyStyle.blp",
+    "PreviewPicture/QuestItemDisplay.blp",
+    "PreviewPicture/QuestTypeText.blp",
+    "PreviewPicture/QuickSlotQuestReward.blp",
+    "PreviewPicture/SimplifyCurrencyReward.blp",
+    "PreviewPicture/TTSButton.blp",
+    "PreviewPicture/Theme.blp",
+    "Theme_Brown/HotkeyBackground-LB.blp",
+    "Theme_Brown/HotkeyBackground-RB.blp",
+    "Theme_Brown/ItemBorder.blp",
+    "Theme_Brown/OptionBackground-Blue.blp",
+    "Theme_Brown/OptionBackground-Common.blp",
+    "Theme_Brown/OptionBackground-Grey.blp",
+    "Theme_Brown/OptionBackground-Hollow.blp",
+    "Theme_Brown/PS-PAD1.blp",
+    "Theme_Brown/PS-PAD2.blp",
+    "Theme_Brown/PS-PAD3.blp",
+    "Theme_Brown/PS-PAD4.blp",
+    "Theme_Brown/RewardChoice-ItemBorder.blp",
+    "Theme_Brown/RewardChoice-Pending.blp",
+    "Theme_Brown/SWITCH-PAD1.blp",
+    "Theme_Brown/SWITCH-PAD2.blp",
+    "Theme_Brown/SWITCH-PAD3.blp",
+    "Theme_Brown/SWITCH-PAD4.blp",
+    "Theme_Brown/Settings-BackgroundShadow.blp",
+    "Theme_Brown/Settings-Move.blp",
+    "Theme_Brown/Settings-Reset.blp",
+    "Theme_Brown/TooltipBackground.blp",
+    "Theme_Brown/XBOX-PAD1.blp",
+    "Theme_Brown/XBOX-PAD2.blp",
+    "Theme_Brown/XBOX-PAD3.blp",
+    "Theme_Brown/XBOX-PAD4.blp",
+    "Theme_Dark/HotkeyBackground-LB.blp",
+    "Theme_Dark/HotkeyBackground-RB.blp",
+    "Theme_Dark/ItemBorder.blp",
+    "Theme_Dark/OptionBackground-Blue.blp",
+    "Theme_Dark/OptionBackground-Common.blp",
+    "Theme_Dark/OptionBackground-Grey.blp",
+    "Theme_Dark/OptionBackground-Hollow.blp",
+    "Theme_Dark/PS-PAD1.blp",
+    "Theme_Dark/PS-PAD2.blp",
+    "Theme_Dark/PS-PAD3.blp",
+    "Theme_Dark/PS-PAD4.blp",
+    "Theme_Dark/RewardChoice-ItemBorder.blp",
+    "Theme_Dark/RewardChoice-Pending.blp",
+    "Theme_Dark/SWITCH-PAD1.blp",
+    "Theme_Dark/SWITCH-PAD2.blp",
+    "Theme_Dark/SWITCH-PAD3.blp",
+    "Theme_Dark/SWITCH-PAD4.blp",
+    "Theme_Dark/Settings-BackgroundShadow.blp",
+    "Theme_Dark/Settings-Move.blp",
+    "Theme_Dark/Settings-Reset.blp",
+    "Theme_Dark/TooltipBackground.blp",
+    "Theme_Dark/XBOX-PAD1.blp",
+    "Theme_Dark/XBOX-PAD2.blp",
+    "Theme_Dark/XBOX-PAD3.blp",
+    "Theme_Dark/XBOX-PAD4.blp",
+    "Theme_Shared/BrushFrame-Mask-BottomRight.blp",
+    "Theme_Shared/BrushFrame-Mask-TopLeft.blp",
+    "Theme_Shared/Mask-HeartFill.blp",
+    "Theme_Shared/Mask-SettingsDecor.blp",
+    "Theme_Shared/StatusBar-FillShort-Green.blp",
+    "Theme_Shared/StatusBar-ValueBlock-Green.blp"
+  ],
+  "sources_missing_in_build": [],
+  "unresolved": [
+    {
+      "source": "Code/Book/BookUI.lua",
+      "line": 571,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Book/BookUI.lua",
+      "line": 576,
+      "kind": "SetUITexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Book/BookUI.lua",
+      "line": 579,
+      "kind": "SetUITexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Book/BookUI.lua",
+      "line": 580,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Book/BookUI.lua",
+      "line": 583,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Book/BookUI.lua",
+      "line": 586,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Book/BookUI.lua",
+      "line": 619,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Book/BookUI.lua",
+      "line": 1357,
+      "kind": "SetTexture",
+      "expression": "data.image)"
+    },
+    {
+      "source": "Code/Book/BookUI.lua",
+      "line": 2175,
+      "kind": "SetTexture",
+      "expression": "MainFrame.textureFile)"
+    },
+    {
+      "source": "Code/Book/BookUI_Component.lua",
+      "line": 60,
+      "kind": "SetUITexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Book/BookUI_Component.lua",
+      "line": 61,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Book/BookUI_Component.lua",
+      "line": 62,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Book/BookUI_Component.lua",
+      "line": 84,
+      "kind": "SetUITexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Book/BookUI_Component.lua",
+      "line": 85,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Book/BookUI_Component.lua",
+      "line": 86,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Book/BookUI_Component.lua",
+      "line": 278,
+      "kind": "SetUITexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Book/BookUI_Component.lua",
+      "line": 282,
+      "kind": "SetUITexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Book/BookUI_Component.lua",
+      "line": 393,
+      "kind": "SetUITexture",
+      "expression": "headerFrame.textureFile)"
+    },
+    {
+      "source": "Code/Book/BookUI_Component.lua",
+      "line": 507,
+      "kind": "SetTexture",
+      "expression": "icon)"
+    },
+    {
+      "source": "Code/Book/BookUI_Component.lua",
+      "line": 568,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Book/BookUI_Component.lua",
+      "line": 569,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Compat/Compat_335.lua",
+      "line": 446,
+      "kind": "SetTexture",
+      "expression": "r, g, b, a) end)"
+    },
+    {
+      "source": "Code/Compat/Compat_335.lua",
+      "line": 608,
+      "kind": "SetTexture",
+      "expression": "self, file, ...)"
+    },
+    {
+      "source": "Code/Compat/Compat_335.lua",
+      "line": 716,
+      "kind": "SetAtlas",
+      "expression": "function(self, atlas, useAtlasSize)"
+    },
+    {
+      "source": "Code/Compat/Compat_335.lua",
+      "line": 729,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Compat/Compat_335.lua",
+      "line": 737,
+      "kind": "SetTexture",
+      "expression": "info.file or info.filename)"
+    },
+    {
+      "source": "Code/Dialogue/AlertFrame.lua",
+      "line": 294,
+      "kind": "SetTexture",
+      "expression": "addon.ThemeUtil:GetTextureFile(\"LFGEye\"))"
+    },
+    {
+      "source": "Code/Dialogue/AlertFrame.lua",
+      "line": 307,
+      "kind": "SetTexture",
+      "expression": "addon.ThemeUtil:GetTextureFile(\"TopAlertBackground\"))"
+    },
+    {
+      "source": "Code/Dialogue/Banner.lua",
+      "line": 18,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Dialogue/ChatFrame.lua",
+      "line": 145,
+      "kind": "SetTexture",
+      "expression": "addon.ThemeUtil:GetTextureFile(\"ChatFrameBackground\"))"
+    },
+    {
+      "source": "Code/Dialogue/Clipboard.lua",
+      "line": 170,
+      "kind": "SetTexture",
+      "expression": "addon.ThemeUtil:GetTextureFile(\"ClipboardBackground\"))"
+    },
+    {
+      "source": "Code/Dialogue/Clipboard.lua",
+      "line": 309,
+      "kind": "SetTexture",
+      "expression": "addon.ThemeUtil:GetTextureFile(\"CopyTextButton\"))"
+    },
+    {
+      "source": "Code/Dialogue/DialogueUI.lua",
+      "line": 431,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(\"SubHeaderBackground\"))"
+    },
+    {
+      "source": "Code/Dialogue/DialogueUI.lua",
+      "line": 529,
+      "kind": "SetTexture",
+      "expression": "parchmentFile)"
+    },
+    {
+      "source": "Code/Dialogue/DialogueUI.lua",
+      "line": 534,
+      "kind": "SetTexture",
+      "expression": "parchmentFile)"
+    },
+    {
+      "source": "Code/Dialogue/DialogueUI.lua",
+      "line": 537,
+      "kind": "SetTexture",
+      "expression": "parchmentFile)"
+    },
+    {
+      "source": "Code/Dialogue/DialogueUI.lua",
+      "line": 540,
+      "kind": "SetTexture",
+      "expression": "parchmentFile)"
+    },
+    {
+      "source": "Code/Dialogue/DialogueUI.lua",
+      "line": 543,
+      "kind": "SetTexture",
+      "expression": "parchmentFile)"
+    },
+    {
+      "source": "Code/Dialogue/DialogueUI.lua",
+      "line": 546,
+      "kind": "SetTexture",
+      "expression": "parchmentFile)"
+    },
+    {
+      "source": "Code/Dialogue/DialogueUI.lua",
+      "line": 550,
+      "kind": "SetTexture",
+      "expression": "parchmentFile)"
+    },
+    {
+      "source": "Code/Dialogue/DialogueUI.lua",
+      "line": 553,
+      "kind": "SetTexture",
+      "expression": "parchmentFile)"
+    },
+    {
+      "source": "Code/Dialogue/DialogueUI.lua",
+      "line": 556,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(\"RewardChoice-Highlight\"))"
+    },
+    {
+      "source": "Code/Dialogue/DialogueUI.lua",
+      "line": 557,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(\"RewardChoice-Highlight-Back\"))"
+    },
+    {
+      "source": "Code/Dialogue/DialogueUI.lua",
+      "line": 571,
+      "kind": "SetTexture",
+      "expression": "bgFile)"
+    },
+    {
+      "source": "Code/Dialogue/DialogueUI.lua",
+      "line": 869,
+      "kind": "SetTexture",
+      "expression": "decor)"
+    },
+    {
+      "source": "Code/Dialogue/DialogueUI.lua",
+      "line": 1577,
+      "kind": "SetTexture",
+      "expression": "icon)"
+    },
+    {
+      "source": "Code/Dialogue/DialogueUI.lua",
+      "line": 3454,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(\"ScreenVignette\"))"
+    },
+    {
+      "source": "Code/Dialogue/FriendshipBar.lua",
+      "line": 103,
+      "kind": "SetTexture",
+      "expression": "barFile)"
+    },
+    {
+      "source": "Code/Dialogue/FriendshipBar.lua",
+      "line": 107,
+      "kind": "SetTexture",
+      "expression": "numberFile)"
+    },
+    {
+      "source": "Code/Dialogue/FriendshipBar.lua",
+      "line": 108,
+      "kind": "SetTexture",
+      "expression": "numberFile)"
+    },
+    {
+      "source": "Code/Dialogue/LegacyPanel.lua",
+      "line": 31,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Dialogue/LegacyPanel.lua",
+      "line": 32,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Dialogue/QuestHeaderWidget.lua",
+      "line": 39,
+      "kind": "SetTexture",
+      "expression": "BASE_TEXTURE)"
+    },
+    {
+      "source": "Code/Dialogue/QuestHeaderWidget.lua",
+      "line": 305,
+      "kind": "SetTexture",
+      "expression": "icon)"
+    },
+    {
+      "source": "Code/Dialogue/QuestHeaderWidget.lua",
+      "line": 412,
+      "kind": "SetTexture",
+      "expression": "BASE_TEXTURE)"
+    },
+    {
+      "source": "Code/Dialogue/QuestHeaderWidget.lua",
+      "line": 486,
+      "kind": "SetTexture",
+      "expression": "BASE_TEXTURE)"
+    },
+    {
+      "source": "Code/Dialogue/QuestHeaderWidget.lua",
+      "line": 499,
+      "kind": "SetTexture",
+      "expression": "BASE_TEXTURE)"
+    },
+    {
+      "source": "Code/Dialogue/StatusBar.lua",
+      "line": 60,
+      "kind": "SetTexture",
+      "expression": "addon.ThemeUtil:GetTextureFile(\"StatusBar-Border\"))"
+    },
+    {
+      "source": "Code/Dialogue/StatusBar.lua",
+      "line": 67,
+      "kind": "SetTexture",
+      "expression": "addon.ThemeUtil:GetTextureFile(\"StatusBar-Background\"))"
+    },
+    {
+      "source": "Code/Dialogue/StatusBar.lua",
+      "line": 76,
+      "kind": "SetTexture",
+      "expression": "addon.ThemeUtil:GetTextureFile(\"StatusBar-FillShort-Purple\"))"
+    },
+    {
+      "source": "Code/Dialogue/StatusBar.lua",
+      "line": 96,
+      "kind": "SetTexture",
+      "expression": "addon.ThemeUtil:GetTextureFile(\"StatusBar-ValueBlock-Purple\"))"
+    },
+    {
+      "source": "Code/Dialogue/StatusBar.lua",
+      "line": 107,
+      "kind": "SetTexture",
+      "expression": "addon.ThemeUtil:GetTextureFile(\"StatusBar-Notch\"))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 373,
+      "kind": "SetTexture",
+      "expression": "GossipDataProvider:GetGossipIcon(data.icon, \"Gossip Red\"))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 375,
+      "kind": "SetTexture",
+      "expression": "GossipDataProvider:GetGossipIcon(data.icon, \"Gossip Quest\"))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 378,
+      "kind": "SetTexture",
+      "expression": "GossipDataProvider:GetGossipIcon(data.icon, \"Gossip Movie\"))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 381,
+      "kind": "SetTexture",
+      "expression": "data.overrideIconID)"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 384,
+      "kind": "SetTexture",
+      "expression": "icon)"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 410,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(\"Hint\"))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 507,
+      "kind": "SetTexture",
+      "expression": "GetQuestIcon(questInfo))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 866,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(data.backTexture))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 873,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(data.frontTexture))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 897,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(backgrounds[id]))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1046,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(\"HotkeyBackground\"))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1087,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(iconData.file))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1381,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(\"ItemOverlays\"))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1385,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(\"RewardChoice-Sheen\"))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1389,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(\"ItemOverlays\"))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1390,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(\"RewardChoice-Sheen\"))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1422,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(borderFile))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1423,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(bgFile))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1641,
+      "kind": "SetTexture",
+      "expression": "texture)"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1732,
+      "kind": "SetTexture",
+      "expression": "texture)"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1796,
+      "kind": "SetTexture",
+      "expression": "majorFactionIcon)"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1813,
+      "kind": "SetTexture",
+      "expression": "icon)"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1832,
+      "kind": "SetTexture",
+      "expression": "skillIcon)"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1848,
+      "kind": "SetTexture",
+      "expression": "DUI_ICON_NOTE or 134328)"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1861,
+      "kind": "SetTexture",
+      "expression": "API.GetHonorIcon())"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1879,
+      "kind": "SetTexture",
+      "expression": "API.GetHonorIcon())"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1911,
+      "kind": "SetTexture",
+      "expression": "followerInfo.portraitIconID)"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1967,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(\"ItemButtonBackground\"))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1972,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(CUSTOM_ICONS[file]))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1975,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 2019,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(name))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 2059,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(\"XP-Purple\"))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 2081,
+      "kind": "SetTexture",
+      "expression": "majorFactionIcon)"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 2098,
+      "kind": "SetTexture",
+      "expression": "API.GetHonorIcon())"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 2166,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(\"ButtonLockProgress\"))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 2232,
+      "kind": "SetTexture",
+      "expression": "bgFile)"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 2233,
+      "kind": "SetTexture",
+      "expression": "bgFile)"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 2316,
+      "kind": "SetTexture",
+      "expression": "icon)"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 2418,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(\"CurrencyOverflow\"))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 2425,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(\"Coin-Gold\"))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 2433,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(\"ItemIsUpgrade\"))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 2452,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(\"WarbandCompleted\"))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 2594,
+      "kind": "SetTexture",
+      "expression": "addon.Template.GetSharedTextureFile(\"ClipboardBackground\"))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 2751,
+      "kind": "SetTexture",
+      "expression": "texture)"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 2756,
+      "kind": "SetTexture",
+      "expression": "texture)"
+    },
+    {
+      "source": "Code/GossipData/GossipData_Racing.lua",
+      "line": 28,
+      "kind": "SetTexture",
+      "expression": "RankIcons[ranks[i]])"
+    },
+    {
+      "source": "Code/InWorldUI.lua",
+      "line": 18,
+      "kind": "fileID",
+      "expression": "API.GetInteractType(\"softinteract\")"
+    },
+    {
+      "source": "Code/Scroll/Scroll_Bar.lua",
+      "line": 361,
+      "kind": "SetTexture",
+      "expression": "FILE_PATH..\"ScrollBar-Vertical-Buttons\")"
+    },
+    {
+      "source": "Code/Scroll/Scroll_Bar.lua",
+      "line": 443,
+      "kind": "SetTexture",
+      "expression": "FILE_PATH..\"ScrollBar-Vertical-Buttons\")"
+    },
+    {
+      "source": "Code/Scroll/Scroll_Bar.lua",
+      "line": 459,
+      "kind": "SetTexture",
+      "expression": "FILE_PATH..\"ScrollBar-Vertical-Rail\")"
+    },
+    {
+      "source": "Code/Scroll/Scroll_Bar.lua",
+      "line": 475,
+      "kind": "SetTexture",
+      "expression": "FILE_PATH..\"ScrollBar-Vertical-Thumb\")"
+    },
+    {
+      "source": "Code/Settings/Settings.lua",
+      "line": 204,
+      "kind": "SetTexture",
+      "expression": "filePath..\"Settings-Divider-H\")"
+    },
+    {
+      "source": "Code/Settings/Settings.lua",
+      "line": 205,
+      "kind": "SetTexture",
+      "expression": "filePath..\"Settings-Divider-V\")"
+    },
+    {
+      "source": "Code/Settings/Settings.lua",
+      "line": 206,
+      "kind": "SetTexture",
+      "expression": "filePath..\"Settings-PreviewBorder\")"
+    },
+    {
+      "source": "Code/Settings/Settings.lua",
+      "line": 207,
+      "kind": "SetTexture",
+      "expression": "filePath..\"Settings-TabButton-Selection\")"
+    },
+    {
+      "source": "Code/Settings/Settings.lua",
+      "line": 208,
+      "kind": "SetTexture",
+      "expression": "filePath..\"Settings-ButtonHighlight\")"
+    },
+    {
+      "source": "Code/Settings/Settings.lua",
+      "line": 211,
+      "kind": "SetTexture",
+      "expression": "file1)"
+    },
+    {
+      "source": "Code/Settings/Settings.lua",
+      "line": 212,
+      "kind": "SetTexture",
+      "expression": "file1)"
+    },
+    {
+      "source": "Code/Settings/Settings.lua",
+      "line": 213,
+      "kind": "SetTexture",
+      "expression": "file1)"
+    },
+    {
+      "source": "Code/Settings/Settings.lua",
+      "line": 225,
+      "kind": "SetTexture",
+      "expression": "file4)"
+    },
+    {
+      "source": "Code/Settings/Settings.lua",
+      "line": 308,
+      "kind": "SetTexture",
+      "expression": "PREVIEW_PATH..optionData.preview)"
+    },
+    {
+      "source": "Code/Settings/Settings.lua",
+      "line": 982,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Settings/Settings.lua",
+      "line": 983,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Settings/Settings.lua",
+      "line": 1612,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(\"LabelBackground\"))"
+    },
+    {
+      "source": "Code/Settings/Settings.lua",
+      "line": 1669,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(\"Settings-SubOptionIcon\"))"
+    },
+    {
+      "source": "Code/Settings/Settings.lua",
+      "line": 1685,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(optionData.icon))"
+    },
+    {
+      "source": "Code/Settings/Settings.lua",
+      "line": 1753,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(\"Settings-ArrowOption\"))"
+    },
+    {
+      "source": "Code/Settings/Settings.lua",
+      "line": 1965,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Settings/Settings.lua",
+      "line": 1966,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Settings/Settings.lua",
+      "line": 1967,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Settings/Settings.lua",
+      "line": 1968,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Settings/Settings.lua",
+      "line": 2009,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Settings/Settings.lua",
+      "line": 2010,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Settings/Settings.lua",
+      "line": 2099,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Settings/Settings.lua",
+      "line": 2100,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Settings/Settings.lua",
+      "line": 2482,
+      "kind": "SetTexture",
+      "expression": "PREVIEW_PATH..\"GameMenuImage\")"
+    },
+    {
+      "source": "Code/Settings/Settings.lua",
+      "line": 2486,
+      "kind": "SetTexture",
+      "expression": "PREVIEW_PATH..\"GameMenuImage-Mask\")"
+    },
+    {
+      "source": "Code/Settings/Settings.lua",
+      "line": 2575,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Settings/Settings_DropdownMenu.lua",
+      "line": 148,
+      "kind": "SetTexture",
+      "expression": "file1)"
+    },
+    {
+      "source": "Code/Settings/Settings_DropdownMenu.lua",
+      "line": 149,
+      "kind": "SetTexture",
+      "expression": "filePath..\"DropdownMenu-Background\")"
+    },
+    {
+      "source": "Code/Settings/Settings_DropdownMenu.lua",
+      "line": 150,
+      "kind": "SetTexture",
+      "expression": "filePath..\"Settings-ButtonHighlight\")"
+    },
+    {
+      "source": "Code/Settings/Settings_DropdownMenu.lua",
+      "line": 152,
+      "kind": "SetTexture",
+      "expression": "file1)"
+    },
+    {
+      "source": "Code/Settings/Settings_DropdownMenu.lua",
+      "line": 153,
+      "kind": "SetTexture",
+      "expression": "file1)"
+    },
+    {
+      "source": "Code/Settings/Settings_DropdownMenu.lua",
+      "line": 154,
+      "kind": "SetTexture",
+      "expression": "file1)"
+    },
+    {
+      "source": "Code/Settings/Settings_DropdownMenu.lua",
+      "line": 159,
+      "kind": "SetTexture",
+      "expression": "file1)"
+    },
+    {
+      "source": "Code/Settings/Settings_DropdownMenu.lua",
+      "line": 162,
+      "kind": "SetTexture",
+      "expression": "file1)"
+    },
+    {
+      "source": "Code/Settings/Settings_DropdownMenu.lua",
+      "line": 166,
+      "kind": "SetTexture",
+      "expression": "arrowTexture)"
+    },
+    {
+      "source": "Code/Settings/Settings_DropdownMenu.lua",
+      "line": 167,
+      "kind": "SetTexture",
+      "expression": "arrowTexture)"
+    },
+    {
+      "source": "Code/Settings/Settings_DropdownMenu.lua",
+      "line": 168,
+      "kind": "SetTexture",
+      "expression": "arrowTexture)"
+    },
+    {
+      "source": "Code/Settings/Settings_DropdownMenu.lua",
+      "line": 169,
+      "kind": "SetTexture",
+      "expression": "arrowTexture)"
+    },
+    {
+      "source": "Code/Settings/Settings_Keybinding.lua",
+      "line": 106,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/SharedUITemplates/GenericFrame.lua",
+      "line": 58,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/SharedUITemplates/SharedUITemplates.lua",
+      "line": 15,
+      "kind": "SetTexture",
+      "expression": "Template.GetSharedTextureFile(fileName))"
+    },
+    {
+      "source": "Code/Tooltip/Tooltip_Base.lua",
+      "line": 55,
+      "kind": "SetTexture",
+      "expression": "addon.ThemeUtil:GetTextureFile(\"TooltipBackground-Temp\"))"
+    },
+    {
+      "source": "Code/Tooltip/Tooltip_Base.lua",
+      "line": 429,
+      "kind": "SetTexture",
+      "expression": "addon.ThemeUtil:GetTextureFile(\"TooltipBackground-Temp\"))"
+    },
+    {
+      "source": "Code/Tooltip/Tooltip_Base.lua",
+      "line": 577,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Utility/TextureSlice.lua",
+      "line": 59,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Utility/TextureSlice.lua",
+      "line": 60,
+      "kind": "SetAtlas",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Utility/TextureSlice.lua",
+      "line": 63,
+      "kind": "SetAtlas",
+      "expression": "fileName)"
+    },
+    {
+      "source": "Code/Utility/TextureSlice.lua",
+      "line": 66,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Utility/TTS.lua",
+      "line": 530,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Utility/TTS.lua",
+      "line": 537,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Utility/TTS.lua",
+      "line": 542,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Utility/TTS.lua",
+      "line": 547,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Widget/HelpTip.lua",
+      "line": 35,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Widget/HelpTip.lua",
+      "line": 39,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Widget/HelpTip.lua",
+      "line": 40,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Widget/SplashScreen_Gamepad.lua",
+      "line": 59,
+      "kind": "SetTexture",
+      "expression": "addon.ThemeUtil:GetTextureFile(\"Dalaran\"))"
+    },
+    {
+      "source": "Code/Widget/SplashScreen_Gamepad.lua",
+      "line": 101,
+      "kind": "SetTexture",
+      "expression": "addon.ThemeUtil:GetTextureFile(\"D-PAD-LEFT\"))"
+    },
+    {
+      "source": "Code/Widget/SplashScreen_Gamepad.lua",
+      "line": 102,
+      "kind": "SetTexture",
+      "expression": "addon.ThemeUtil:GetTextureFile(\"D-PAD-RIGHT\"))"
+    },
+    {
+      "source": "Code/Widget/Widget_ItemButton.lua",
+      "line": 56,
+      "kind": "SetTexture",
+      "expression": "icon)"
+    },
+    {
+      "source": "Code/Widget/Widget_ItemButton.lua",
+      "line": 756,
+      "kind": "SetTexture",
+      "expression": "texture)"
+    },
+    {
+      "source": "Code/Widget/Widget_ItemButton.lua",
+      "line": 757,
+      "kind": "SetTexture",
+      "expression": "texture)"
+    },
+    {
+      "source": "Code/Widget/Widget_ItemButton.lua",
+      "line": 762,
+      "kind": "SetTexture",
+      "expression": "texture)"
+    },
+    {
+      "source": "Code/Widget/Widget_ItemButton.lua",
+      "line": 765,
+      "kind": "SetTexture",
+      "expression": "texture)"
+    },
+    {
+      "source": "Code/Widget/Widget_QuestItemDisplay.lua",
+      "line": 147,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(\"QuestItemDisplay-UI\"))"
+    },
+    {
+      "source": "Code/Widget/Widget_QuestItemDisplay.lua",
+      "line": 243,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Widget/Widget_QuestItemDisplay.lua",
+      "line": 244,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Widget/Widget_QuestItemDisplay.lua",
+      "line": 245,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Widget/Widget_QuestItemDisplay.lua",
+      "line": 246,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Widget/Widget_QuestItemDisplay.lua",
+      "line": 247,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Widget/Widget_QuestItemDisplay.lua",
+      "line": 260,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Widget/Widget_QuestItemDisplay.lua",
+      "line": 449,
+      "kind": "SetTexture",
+      "expression": "icon)"
+    },
+    {
+      "source": "Code/Widget/Widget_QuestItemDisplay.lua",
+      "line": 611,
+      "kind": "SetTexture",
+      "expression": "icon)"
+    },
+    {
+      "source": "Code/Widget/Widget_QuestItemDisplay.lua",
+      "line": 801,
+      "kind": "SetTexture",
+      "expression": "DUI_ICON_QUESTIONMARK or 134400)"
+    },
+    {
+      "source": "Code/Widget/Widget_QuestPopup.lua",
+      "line": 38,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Widget/Widget_QuestPopup.lua",
+      "line": 39,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Widget/Widget_QuestPopup.lua",
+      "line": 40,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Widget/WidgetManager.lua",
+      "line": 397,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Widget/WidgetManager.lua",
+      "line": 398,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Widget/WidgetManager.lua",
+      "line": 403,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Widget/WidgetManager.lua",
+      "line": 404,
+      "kind": "SetTexture",
+      "expression": "file)"
+    },
+    {
+      "source": "Code/Widget/WidgetManager.lua",
+      "line": 604,
+      "kind": "SetTexture",
+      "expression": "file)"
+    }
+  ],
+  "numeric": [],
+  "external": [],
+  "source_hashes": {
+    "API.lua": "cac94190b6b0ffd79f7e293d356ecb4b489bc600f87fea51bdd3de0d9a329e63",
+    "API.xml": "eb38c3cf033e4ccd8c367caca5df3d6800d08bfb9a1be84d273b55dc238f477a",
+    "Code/Book/BookUI.lua": "cf061210104c2ff27b5dd10badc209d2be5ba118a028f67d5dee36a2b5b113c0",
+    "Code/Book/BookUI.xml": "93deedb92eddc6329663b80662e995c9ed9fb1f951eca2b9db1b6f234c27a7d7",
+    "Code/Book/BookUI_Atlas.lua": "7c1e6dde52f902317581dbadbc504e6f71f52c594c14fb98422bdf7a42e8ab57",
+    "Code/Book/BookUI_Component.lua": "4f2465e3e3fe223bc67ad3ed841c4905b8460a9eece33bd85d34633088b3e834",
+    "Code/CallbackRegistry.lua": "dc21e2126159845dd35a70f92a1e2f1ed61a9df923739b3757e987e039b45e80",
+    "Code/Camera.lua": "a2f771fd79abfeb6495e42d84152cc414aae95fe20785f55894381ad2dfc7e8d",
+    "Code/Compat/Compat_335.lua": "5466f726d2804130d170d6f9373ff1aa7404e7ecc5aa5a8a9b9c3a3d75e0114b",
+    "Code/Compat/TextureSizes_335.lua": "aac233fb58bf00639157f3c4704834c025da3a1a14b6ca23bde8d39fb36d5f01",
+    "Code/Core.lua": "d233341d123d382d5a86909c6cda814840e90f546e30ccb1e79791fbaf4a301e",
+    "Code/Dialogue/ActionButton.lua": "9df5bad8ab507aff9d43cecce776a2cea73ff32e5bce94ce9ba2008f0613b086",
+    "Code/Dialogue/AlertFrame.lua": "14a75a38a896ecb874956ee2ba371f9d5952ca8b7e14e252f4836eaed473b27e",
+    "Code/Dialogue/Banner.lua": "7a9a37d33f6796a7846e76ff006c0e21d7e18a160cfb84932558acff7547909d",
+    "Code/Dialogue/ChatFrame.lua": "81ab473ba54c63d79219f5c2cb28d429e4f7c98811b625aaca60d399e75e04d8",
+    "Code/Dialogue/Clipboard.lua": "3e7c9175dff56bc9eb81e806d918e682f561a227a6a088270ca3e80f7e117ece",
+    "Code/Dialogue/DialogueUI.lua": "a8d1a2d3c10e09cb947ff63ad91905544f7d90a003c00984a6e819173511d958",
+    "Code/Dialogue/DialogueUI.xml": "b50c28aa2a08efcbb671b8111b221933e0d77a3eea3fd9ca5da957a7cf4810bb",
+    "Code/Dialogue/FriendshipBar.lua": "52a81dd521fbeaa1896d35430ec431845b5a9f69957dd0f14419237c579b28c7",
+    "Code/Dialogue/KeyboardControl.lua": "ed5d49d1f32d9fa5d4bc9d97d74c2b17a18714a70de58e532b1cecb1efbf51d9",
+    "Code/Dialogue/LegacyPanel.lua": "a770a8fb198389066bd4d79cb63be58ce4881304deae0c57c61ee60cd7d541ad",
+    "Code/Dialogue/QuestFlyout.lua": "f4876dff7db32bd89798d4e3cb9d825c90a36b7af5fc32be45ebd0558339acd7",
+    "Code/Dialogue/QuestHeaderWidget.lua": "29de0251f7d0f24a2f8acf63c9b77447efec381896e62151a52dd60f3f187a9e",
+    "Code/Dialogue/QuestRewards.lua": "acd61e895730c47b047f35a71608fdcee2439b58925007c7c3d92c40ab9c83b4",
+    "Code/Dialogue/RewardTooltipCode.lua": "01a3fa6becdda7aa1eec13423f7755f8ad8d145a72f7ad0ac42862531fdedf27",
+    "Code/Dialogue/StatusBar.lua": "8651868b9218f9dec405c643e6341a6af63722201ccc8f5ee6a714f6afdb9d4b",
+    "Code/Dialogue/Translator.lua": "2714a65642b1261e5c9cdd0304cc4367928db4fb494a6d31a68da74638e6f596",
+    "Code/Dialogue/Tutorial.lua": "afdba3882930c12a9f61593fffa605baa7951293ddac0c0ba60ba1c3d2429fc9",
+    "Code/Dialogue/UITemplates.lua": "02d1fedc518be774ceafacb77555fdab43db6b316f37cbfab146a4b99a1278f0",
+    "Code/GossipData/GossipData_AutoQuest.lua": "799aa241fd08a3de7530453cbd45deb58dec9c7a63f30ba016ac989404a438c5",
+    "Code/GossipData/GossipData_AutoSelect.lua": "dd6c9abf6532f14f555bb4becffe69414d891f8f482909bfa39f09f64d882761",
+    "Code/GossipData/GossipData_Hint.lua": "a30f594e51cd79c8ec2e4588a9a7be66a8682f688dbd7e0f090e251d94886f2d",
+    "Code/GossipData/GossipData_Icon.lua": "119305dc1b40a55a5db603eb71078f02d4bcb585e7adfa54c5466b24e064ddac",
+    "Code/GossipData/GossipData_LFRQueue.lua": "1cd6c9a02a4b46ae0b632b5438d61c5850b52a5ffc3f1d47c1b8293c39693f74",
+    "Code/GossipData/GossipData_MiscTooltip.lua": "1a00a2dd1ba43d6cb3dceefeb9da2dc9571805d2d1db1104aad4e2f8a19e8f25",
+    "Code/GossipData/GossipData_OverrideOrder.lua": "2333db283a31390336a8edcf0f2c03eaff8fe6c5e94d96c0594711ddea32ad35",
+    "Code/GossipData/GossipData_QuickSlot.lua": "1b3b2e0fb0a12ae6d2554f3afcef96c57bb07c4297d33fa565ba88563052f9bf",
+    "Code/GossipData/GossipData_Racing.lua": "00d6d7496ce4d95bb69f6711f1af9c342ae7c9da6122ad4b1f6d938f083387be",
+    "Code/GossipData/GossipData_ShowUI.lua": "475b7e5175194b8b787d1cc76b3e9c059771c11a69d3b56f1c0a0053a3b23ac8",
+    "Code/GossipData/GossipData_Teleport.lua": "c5930d6dd39999529340736a6a356c2b904c7339706976f5772cf1da1cc86d6d",
+    "Code/GossipData/GossipDataProvider.lua": "1c68df60a11d3e10b82691c1b4f6e39c0bc6dc7ed3572de10d902fa607562e08",
+    "Code/GossipData/GossipDataProvider.xml": "2a7fc2313b338f5ce71a7de28a6a357b1de8fc7b1073b8134290084665bef703",
+    "Code/GossipData/ItemData_Container.lua": "e848c0878b81c80ce7f189b5b89aab02ccab6baabe142f40978d435e767eab9f",
+    "Code/InWorldUI.lua": "9da108447f8cef25e5b375c50c70d13575f12cbff1ee04b7d3ec18ea3d32b5d2",
+    "Code/NameplateGossip.lua": "1f8f1c0f9c1af6ed64623e64e54b6ecfcb05b039a5427150d2990bd01e828137",
+    "Code/QuestAreaTrigger.lua": "575c7d0a11f668e1b61b23ad009eb0ee19499dfdb09c4d5dd591e54ad9c2a447",
+    "Code/QuestDifficulty.lua": "469ab5d1cd5815d34f98fc6e21d77cd66c270b834935d14927ff30a77cd96c91",
+    "Code/Scroll/Scroll.xml": "4865bfe98b131a90a8add95a8ec7503131b0aaa3627f807250e681b2f013f1ab",
+    "Code/Scroll/Scroll_Bar.lua": "1c34eb6d19652bbf34f35d525403812416bfa047f6fe6cc6fb058bd543b52892",
+    "Code/Scroll/Scroll_EasySmooth.lua": "332a0d4b823505fda023910f7862a94ab3d357ef97b2b3875232ef8e13cc7d42",
+    "Code/Scroll/Scroll_Swipe.lua": "7d7da287996c94d4f9498a1e6a65347b8d3d405f012ba73c4aea4509f20a3aa6",
+    "Code/Scroll/Scroll_View.lua": "40df34db9ded37e03371f0659e0335a1342a86d938683c28c13c2188d64653a8",
+    "Code/Settings/Settings.lua": "f9a127a4df30b25b7fef601e5218143ecf46f755a558e30667e530f97131f069",
+    "Code/Settings/Settings.xml": "c0adca7c1fe0ac4e0df387aa904b4d30423a195da7aaab8efde6163e5165f5ac",
+    "Code/Settings/Settings_Definitions.lua": "e543accb92fa2f52349ea1a9ae6cf4ccf10ef992cf11fe5a48bed4f40f7f2d93",
+    "Code/Settings/Settings_DropdownMenu.lua": "6d29bc1c1a343e5aca052f2d673d230caf61b92f35ca85ecfe4656151c58bbb4",
+    "Code/Settings/Settings_Font.lua": "5d73fc71a590966ef6605b718ff509b6ba34cf38eced84ce9b68931eb77e8005",
+    "Code/Settings/Settings_Keybinding.lua": "0cbdd2f6d4c5e439a2d7d3a5f6a188ef92faeec70be5e42ef69e92d6fd0c76a2",
+    "Code/SharedUITemplates/GenericFrame.lua": "849812f585aa84b93e36f974f12c153f5064d8bc37a7db0038ab279ab0c997ca",
+    "Code/SharedUITemplates/SharedUITemplates.lua": "7541284314ef567abda30af5686b3bc0fe948116aa235fa770b7c174dca513e4",
+    "Code/SharedUITemplates/SharedUITemplates.xml": "2afc9108bedc32c0814cc5c82d1d9acc27c3d135baa8b2a251fca5c37306eec6",
+    "Code/Skimmer/Skimmer.xml": "e1c3b4490f9ff5cb1f62aeac8a0a7d5215448443dc0788b58516194afa50ebfc",
+    "Code/Skimmer/Skimmer_Base.lua": "4b248710a82e0de4db0bae0284929fe2b7016e976bf15f5a183ca7eb041bbda2",
+    "Code/Skimmer/Skimmer_Template.lua": "e8bb8bf9c1a98e00ebed7c637f64e60482022392014b0a20046b342bffdad29e",
+    "Code/Skimmer/Skimmer_UI.lua": "bf99708fe5b3386c88367b6f7f2968987ecb7c496107e24baefec3531f906a53",
+    "Code/Sound.lua": "9c13d01f056ba62c0a42435383747a7113af6eb78158d9bfeb0d910bdce2d3f6",
+    "Code/SupportedAddOns/BtWQuests.lua": "ea608f806bd9b0eec8187c6c42c3b679f281a0f2660db80e42222712bf3816b1",
+    "Code/SupportedAddOns/ChattyLittleNpc.lua": "a8177e2dff49c0da0ddd2c17914c261735860063b660d168c3c83bad5e27ef4d",
+    "Code/SupportedAddOns/CzechQuests.lua": "522e83da443ba8f3030c3dcc4fc8e3289863b3095ba80d3134ccb18c299d4a95",
+    "Code/SupportedAddOns/InteractiveWormholes.lua": "889775703f1686754e25bf677f1c603ac34adcaa4882f39b8d0de6704eb4f062",
+    "Code/SupportedAddOns/MultiLanguage.lua": "3b0bbe5c4489267b8ef30779a4f1057ed45de9571566270a7d4a49b60cd00980",
+    "Code/SupportedAddOns/Pawn.lua": "4cdecaf26c514f5deeb6b752c9f5f108c00965ac26cb88abee019c03999e7c93",
+    "Code/SupportedAddOns/Platine1AddOns.lua": "c3482887a95493a3691c24e10e7f6b96c786771f1a32d41c2750642749c79d3c",
+    "Code/SupportedAddOns/Rematch.lua": "32eecf63a272088cbd616b24a00d9cc2c5288900f9237de0aec0c1d412dbdfec",
+    "Code/SupportedAddOns/Roleplay.lua": "5a9f795a54d9d7cabcfc2ca6f25cf1bfd315c8b99c94b50c894e0fc4ef653633",
+    "Code/SupportedAddOns/SupportedAddOns.lua": "134997503bcf97b2194e785a619d2f7b7c807f3f4c2b2202e87be102b63ef580",
+    "Code/SupportedAddOns/SupportedAddOns.xml": "216de1a116cc406e64214a94d5e69b2b608ca5365bd21ca1a31d175d6c1b6b89",
+    "Code/SupportedAddOns/TranslatorPublic.lua": "35e788b6eb011414b34a0731209a0e3dc386f9acb16786769d1ceb21380fd0bd",
+    "Code/SupportedAddOns/VoiceoverPublic.lua": "fb37bad21bbf70c48e7fd8ed1da6d609be92af080f9055202e9e34e36a958d29",
+    "Code/SupportedAddOns/Wholly.lua": "870688bd8ae4a5237b0feae721fab730d5d47ab5b0950f5ca99afb1b3922b4fa",
+    "Code/SupportedAddOns/WorldFrameAddOns.lua": "892d56a64ada5a9a08404add5eb6a6777eb64a4997b5df6e7be18a5ac554d5ec",
+    "Code/SupportedAddOns/WowUkrainizer.lua": "3fd9e120ccc8e7103713121f41907668c195c3e7394bc4139514360624d92977",
+    "Code/Tooltip/Tooltip.xml": "824e226c2d945d297a22617155b8b8ddc1f30e10d3bda798850fb4ad0363cb70",
+    "Code/Tooltip/Tooltip_Base.lua": "e50cb94248220e02059c9a18260792bfa94dfda7553ac8cf887467229261a08c",
+    "Code/Tooltip/Tooltip_Capture.lua": "1ef6a8e4c4c95f435f3968bae0bd2b4015333a683497a84fdcf392aa287ea905",
+    "Code/Tooltip/Tooltip_Private.lua": "837bd8ac6b2395532a2e5481ebb5ba5e3f6fefa1d1484f2bf61b47274246c073",
+    "Code/Tooltip/Tooltip_Public.lua": "8009cc4d57ba8dc4a52d586189d60d1f6ebb9fce1f6d9c5e4d9af3491318229d",
+    "Code/Utility/ActionThrottler.lua": "0c9d2dba05e325780149a1b667fb35bd651bddf213b92775344851883616381d",
+    "Code/Utility/DeviceUtil.lua": "539851455874cb4ff15a263a86aa091c55acce732897297373ff10e0b3317e4b",
+    "Code/Utility/DevTool.lua": "4065730167c6deb062d4e6a80cb117a34d1a49ff83695791a60427b4834e31eb",
+    "Code/Utility/FontUtil.lua": "738a144a9069a974a2228caeb7e4ad6c60788762f3e698b777828faeaa3ac282",
+    "Code/Utility/InteractionManager.lua": "e8381d125e2b62aa23eb60262508d92efdaea3b2c68289293ee2fb93c1b1ae74",
+    "Code/Utility/Keybindings.lua": "a5687d0a5f83e820b08fbb3c42fd2e30d1fa4f9680402b6837d558249ab475b2",
+    "Code/Utility/LocaleFormatter.lua": "61b4b9274148e8114612b3acf2008bfd8d2a8c8b8a2360710c8b74bb45337486",
+    "Code/Utility/QuestMuter.lua": "26e3301517a95e4a6045e5f14c1e1b0d359edf6910ba215b990a8eab8002dbeb",
+    "Code/Utility/TextureSlice.lua": "708f30aac2d936edf79444eb5c4ee1914015eb3e99db16b7ae945c46622f4ffc",
+    "Code/Utility/ThemeUtil.lua": "b8440cdbd4c5540ff2ef109c5e59600f845290c000efc55473a8231ae11e582e",
+    "Code/Utility/TTS.lua": "13b8ed80e8621e98ae086aff6b4a9edd25b22bcd41c15dbff1ac18e766726993",
+    "Code/Utility/Utility.xml": "99496154135dd07d73a89f43f76869aa74530afa35692e384d5d1913c83bd6e3",
+    "Code/Widget/HelpTip.lua": "97574a7a74fa7efc167a0425fd379ff7e7d44f62b41f603cfecf8ee30081db7e",
+    "Code/Widget/SplashScreen_Gamepad.lua": "9d95597166ff95f26bb57fca0ee634ab523f73f58a52e5ba195cfecb0dfbf801",
+    "Code/Widget/Widget_ItemButton.lua": "482c8fda6357c5ea1030a3ac7b809b3e6ced69824c0e71643b5d42c2efc211b8",
+    "Code/Widget/Widget_QuestItemDisplay.lua": "4eccc012a649d189b9fc23e7d0ca6a0585278f63b6decb24634257cd9e16e48f",
+    "Code/Widget/Widget_QuestPopup.lua": "23e68c4deffe76529a32187de897e7f8ebedc07f6bbfe809b5cbba60e4624ad9",
+    "Code/Widget/Widget_QuickSlot.lua": "3345eed7cdd3548bb369530ef96584bdf3aaab9af2770595e1f788f92730f04b",
+    "Code/Widget/WidgetManager.lua": "8460391425e671eb1492de9d62f125fb8c33bc0c4738cb6222fe1829dcb97caa",
+    "Code/Widget/WidgetManager.xml": "a12c048bd9df1f427e89bce1042065506207c68d15cf3bad9f6596b5065888ef",
+    "Fonts.xml": "b8fb08be58f4a8336bb9da6cb2028ef850e47839e6481b28f95131f5d0597acc",
+    "Initialization.lua": "bab2ed712dd7f4208ba8adfd7004affd3da1940bb7a1017de83355f47eb407e5"
+  }
+}

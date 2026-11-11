@@ -1,4 +1,5 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\..\Blizzard_SharedXML\UI.xsd">
+    <Script file="LegacyPanel.lua"/>
     <Script file="Clipboard.lua"/>
     <Script file="ActionButton.lua"/>
     <Script file="KeyboardControl.lua"/>
@@ -344,13 +345,13 @@
                         <Anchor point="CENTER"/>
                     </Anchors>
                 </Texture>
-                <Texture parentKey="Mask1" file="Interface/AddOns/DialogueUI/Art/Theme_Shared/BrushFrame-Mask-TopLeft" hidden="true">
+                <Texture parentKey="Mask1" hidden="true">
                     <Size x="128" y="128"/>
                     <Anchors>
                         <Anchor point="TOPLEFT" relativeKey="$parent" relativePoint="TOPLEFT" x="0" y="0"/>
                     </Anchors>
                 </Texture>
-                <Texture parentKey="Mask2" file="Interface/AddOns/DialogueUI/Art/Theme_Shared/BrushFrame-Mask-BottomRight" hidden="true">
+                <Texture parentKey="Mask2" hidden="true">
                     <Size x="128" y="128"/>
                     <Anchors>
                         <Anchor point="BOTTOMRIGHT" relativeKey="$parent" relativePoint="BOTTOMRIGHT" x="0" y="0"/>

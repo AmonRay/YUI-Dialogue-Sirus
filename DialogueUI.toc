@@ -19,6 +19,7 @@
 # 1.0.8 rebuild 6: "Hide UI" works on 3.3.5a - the game interface is hidden while a dialog is open (UIParent:Hide() + SetUIVisibility(false), like Alt+Z)
 # 1.0.8 rebuild 7: textures are drawn on 3.3.5a - every BLP now carries a full mip chain (as the uncompressed BLPs of ElvUI-for-Sirus); the release workflow runs scripts/convert_textures_335.py and commits the rebuilt textures
 # 1.0.8 rebuild 8: the camera no longer jerks when a dialog closes on 3.3.5a - the game UI comes back first and the camera starts moving back a few frames later (SetView no longer runs in the heavy UIParent:Show() frame); a dialog opened right after another keeps the camera in place
+# 1.0.8 rebuild 9: window textures resolve on 3.3.5a - ThemeUtil searches every asset category for bare names (theme -> shared -> icons/keys/gameassets/book/shapes/decor/preview), Compat_335 replaces atlas/gradient/mask API, 9-slice panels are rebuilt from plain textures with SetTexCoord, NPCType-Direction -> Icons/AskDirection
 
 
 Code\Compat\Compat_335.lua

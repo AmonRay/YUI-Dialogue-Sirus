@@ -169,6 +169,33 @@ def write_sizes(sizes):
         f.write('\n'.join(lines) + '\n')
 
 
+def read_raw_blp2(path):
+    """Level 0 of a legacy raw BLP2 (encoding 3, 8-bit alpha) -> RGBA image, or None.
+
+    Not every Pillow release decodes encoding 3, so it is handled explicitly;
+    None means "not this layout" and the caller falls back to Pillow.
+    """
+    with open(path, 'rb') as f:
+        head = f.read(148)
+    if len(head) < 148 or head[:4] != b'BLP2' or head[8] != 3 or head[9] != 8:
+        return None
+    if struct.unpack('<I', head[4:8])[0] != 1:
+        return None
+    w, h = struct.unpack('<II', head[12:20])
+    if w < 1 or h < 1 or w > MAX_SIZE or h > MAX_SIZE:
+        return None
+    offset, length = struct.unpack_from('<II', head, 20)[0], struct.unpack_from('<II', head, 84)[0]
+    if offset < 148 or length != w * h * 4:
+        return None
+    with open(path, 'rb') as f:
+        f.seek(offset)
+        raw = f.read(length)
+    if len(raw) != length:
+        return None
+    b, g, r, a = Image.frombytes('RGBA', (w, h), raw, 'raw', 'BGRA').split()
+    return Image.merge('RGBA', (r, g, b, a))
+
+
 def convert():
     old_sizes = load_sizes()
     sizes, resized, failed = {}, [], []
@@ -204,8 +231,10 @@ def convert():
                     rebuilt += 1
                     continue
             try:
-                img = Image.open(src)
-                img.load()
+                img = read_raw_blp2(src)
+                if img is None:
+                    img = Image.open(src)
+                    img.load()
             except Exception as e:  # keep the file, report it
                 failed.append('%s: cannot decode (%s)' % (key, e))
                 continue

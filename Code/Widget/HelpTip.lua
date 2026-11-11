@@ -30,7 +30,7 @@ do  --Help UI
         self:SetScript("OnHide", self.OnHide);
         self:SetScript("OnMouseUp", self.OnMouseUp);
 
-        local file = "Interface/AddOns/DialogueUI/Art/Theme_Shared/HelpTip";
+        local file = addon.ThemeUtil:GetTextureFile("HelpTip");
         for i, arrow in ipairs(self.ArrowFrame.Arrows) do
             arrow:SetTexture(file);
         end

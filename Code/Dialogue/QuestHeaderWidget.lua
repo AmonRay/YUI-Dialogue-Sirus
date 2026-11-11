@@ -13,7 +13,7 @@ local ButtonMixin = {};
 local HeaderWidgetManger = CreateFrame("Frame");
 addon.HeaderWidgetManger = HeaderWidgetManger;
 
-local BASE_TEXTURE = "Interface/AddOns/DialogueUI/Art/Theme_Shared/QuestWidgetButton";
+local BASE_TEXTURE = ThemeUtil:GetTextureFile("QuestWidgetButton");
 
 local WIDGET_SPACING = 8;
 local PADDING_TEXT_BUTTON_V = 4;
@@ -430,7 +430,7 @@ do  --ButtonMixin
     function ButtonMixin:SetAccountQuest()
         self.type = "Account";
         self.uiOrder = 4;
-        self:SetIcon("Interface/AddOns/DialogueUI/Art/Icons/Warband");
+        self:SetIcon(ThemeUtil:GetTextureFile("Warband"));
         self:SetText(ACCOUNT_QUEST_LABEL);
         self:SetClickable(false);
     end

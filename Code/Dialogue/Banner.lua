@@ -11,7 +11,7 @@ function Banner:Init()
     -- Banner theme is always brown
     -- 3-Slice Background
     local pieces = {};
-    local file = "Interface/AddOns/DialogueUI/Art/Theme_Shared/Banner-H-Brown";
+    local file = addon.ThemeUtil:GetTextureFile("Banner-H-Brown");
 
     for i = 1, 3 do
         pieces[i] = self:CreateTexture(nil, "BACKGROUND");

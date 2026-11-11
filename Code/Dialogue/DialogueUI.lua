@@ -427,10 +427,7 @@ function DUIDialogBaseMixin:OnLoad()
 
 
     local function CreateTextBackground()
-        local texture = self.ContentFrame:CreateTexture(nil, "BORDER");
-        local corner = 8;
-        texture:SetTextureSliceMargins(corner, corner, corner, corner);
-        texture:SetTextureSliceMode(1);
+        local texture = addon.CreateLegacyPanel(self.ContentFrame, "BORDER", 0, 128, 32, 8);
         texture:SetTexture(ThemeUtil:GetTextureFile("SubHeaderBackground"));
         texture:SetSize(36, 36);
         return texture
@@ -524,8 +521,8 @@ function DUIDialogBaseMixin:OnLoad()
 end
 
 function DUIDialogBaseMixin:LoadTheme()
-    local prefix = ThemeUtil:GetTexturePath();
-    local parchmentFile = prefix.."Parchment";
+    -- Resolve each resource name through the category-aware theme resolver.
+    local parchmentFile = ThemeUtil:GetTextureFile("Parchment");
     local themeID = ThemeUtil:GetThemeID();
 
     for _, piece in ipairs(self.Parchments) do
@@ -556,8 +553,8 @@ function DUIDialogBaseMixin:LoadTheme()
     self.ForeverQuestAlert.Icon:SetTexture(parchmentFile);
     self.ForeverQuestAlert.Icon:SetTexCoord(0.8125, 0.90625, 0.56640625, 0.61328125);
 
-    self.RewardSelection.FrontTexture:SetTexture(prefix.."RewardChoice-Highlight");
-    self.RewardSelection.BackTexture:SetTexture(prefix.."RewardChoice-Highlight-Back");
+    self.RewardSelection.FrontTexture:SetTexture(ThemeUtil:GetTextureFile("RewardChoice-Highlight"));
+    self.RewardSelection.BackTexture:SetTexture(ThemeUtil:GetTextureFile("RewardChoice-Highlight-Back"));
     self.RewardSelection.BackTexture:SetVertexColor(0.65, 0, 0);
 
     if self.CopyTextButton then
@@ -3454,7 +3451,7 @@ do  --Vignette
 
     SharedVignette.Texture = SharedVignette:CreateTexture(nil, "BACKGROUND");
     SharedVignette.Texture:SetAllPoints(true);
-    SharedVignette.Texture:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Shared/ScreenVignette");
+    SharedVignette.Texture:SetTexture(ThemeUtil:GetTextureFile("ScreenVignette"));
 
     SharedVignette.owners = {};
 

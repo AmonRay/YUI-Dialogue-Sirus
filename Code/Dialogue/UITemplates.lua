@@ -86,9 +86,9 @@ local RedirectTextureKit = {
 local function GetMajorFactionIcon(textureKit)
     if not textureKit then return end;
     if RedirectTextureKit[textureKit] then
-        return "Interface/AddOns/DialogueUI/Art/GameAssets/ui_majorfactions_"..textureKit
+        return ThemeUtil:GetTextureFile("ui_majorfactions_"..textureKit)
     else
-        return MAJOR_FACTION_REPUTATION_REWARD_ICON_FORMAT:format(textureKit)
+        return API.GetHonorIcon(); -- Unknown modern faction artwork is absent in 3.3.5.
     end
 end
 
@@ -407,7 +407,7 @@ function DUIDialogOptionButtonMixin:SetGossipHint(data, hotkey)
     self.gossipOptionID = data.gossipOptionID;
 
     local name = L["Show Answer"];
-    self.Icon:SetTexture(ICON_PATH.."Hint");
+    self.Icon:SetTexture(ThemeUtil:GetTextureFile("Hint"));
 
     self.showIcon = true;
     self.id = data.orderIndex or 0;
@@ -886,28 +886,16 @@ function DUIDialogOptionButtonMixin:SetButtonArt(id)
         return
     end
 
-    local prefix = ThemeUtil:GetTexturePath();
-    local bgName
-
-    if id == 0 then         --Gossip
+    local backgrounds = {
+        [1] = "OptionBackground-Common", [2] = "OptionBackground-Blue",
+        [3] = "OptionBackground-Hollow", [4] = "OptionBackground-Grey",
+    };
+    if id == 0 then
         self.Background:SetTexture(nil);
         self.Name:SetFontObject("DUIFont_Quest_Gossip");
-    elseif id == 1 then     --Red
-        bgName = "OptionBackground-Common";
-        self.Background:SetTexture(prefix..bgName);
-        self.Name:SetFontObject("DUIFont_Quest_Quest");
-    elseif id == 2 then     --Daily
-        bgName = "OptionBackground-Blue";
-        self.Background:SetTexture(prefix..bgName);
-        self.Name:SetFontObject("DUIFont_Quest_Quest");
-    elseif id == 3 then     --Goodbye/Declick Button, Unfinished Quest
-        bgName = "OptionBackground-Hollow"; --Grey
-        self.Background:SetTexture(prefix..bgName);
-        self.Name:SetFontObject("DUIFont_Quest_Disabled");
-    elseif id == 4 then     --Exit / Incomplete Quest
-        bgName = "OptionBackground-Grey";
-        self.Background:SetTexture(prefix..bgName);
-        self.Name:SetFontObject("DUIFont_Quest_Quest");
+    elseif backgrounds[id] then
+        self.Background:SetTexture(ThemeUtil:GetTextureFile(backgrounds[id]));
+        self.Name:SetFontObject(id == 3 and "DUIFont_Quest_Disabled" or "DUIFont_Quest_Quest");
     end
 end
 
@@ -1040,8 +1028,8 @@ function DUIDialogHotkeyFrameMixin:OnLoad()
     self.Icon:SetVertexColor(0.72, 0.72, 0.72);
     --API.DisableSharpening(self.Background);
 
-    self.Background:SetTexelSnappingBias(0.81);
-    self.Background:SetSnapToPixelGrid(true);
+    -- Texel snapping is unavailable on 3.3.5.
+    self.Background:SetTexCoord(0, 1, 0, 1);
 
     self:UpdateBaseHeight();
 
@@ -1060,11 +1048,8 @@ function DUIDialogHotkeyFrameMixin:LoadTheme()
 end
 
 function DUIDialogHotkeyFrameMixin:SetTheme(themeID)
-    if themeID == 2 then
-        self.Background:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Dark/HotkeyBackground");
-    else
-        self.Background:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Brown/HotkeyBackground");
-    end
+    -- ThemeUtil owns theme selection; preserve the caller's signature.
+    self:LoadTheme();
 end
 
 function DUIDialogHotkeyFrameMixin:SetBaseHeight(height)
@@ -1099,14 +1084,7 @@ function DUIDialogHotkeyFrameMixin:SetKey(key)
         local width;
         if HotkeyIcons[key] then
             local iconData = HotkeyIcons[key];
-            local filterMode = (iconData.trilinear and "TRILINEAR") or "LINEAR";
-
-            if iconData.themed and not self.useDarkTheme then
-                self.Icon:SetTexture(ThemeUtil:GetTextureFile(iconData.file), nil, nil, filterMode);
-            else
-                local prefix = "Interface/AddOns/DialogueUI/Art/Keys/";
-                self.Icon:SetTexture(prefix..iconData.file, nil, nil, filterMode);
-            end
+            self.Icon:SetTexture(ThemeUtil:GetTextureFile(iconData.file));
 
             self.Icon:Show();
 
@@ -1441,8 +1419,8 @@ function DUIDialogItemButtonMixin:SetBackgroundTexture(id)
         fontObject = "DUIFont_ItemSelect";
     end
 
-    self.ItemBorder:SetTexture(prefix..borderFile);
-    self.Background:SetTexture(prefix..bgFile);
+    self.ItemBorder:SetTexture(ThemeUtil:GetTextureFile(borderFile));
+    self.Background:SetTexture(ThemeUtil:GetTextureFile(bgFile));
     self.Name:SetFontObject(fontObject);
 end
 
@@ -1880,7 +1858,7 @@ function DUIDialogItemButtonMixin:SetWarModeBonus(bonus)
     self.spellID = nil;
     self.itemID = nil;
 
-    self.Icon:SetTexture("Interface/Icons/UI_WARMODE");
+    self.Icon:SetTexture(API.GetHonorIcon()); -- Classic client has no UI_WARMODE file.
     self:SetItemName(L["War Mode Bonus"]);
     self.Count:SetText("+"..bonus.."%");    --PLUS_PERCENT_FORMAT
     self.Count:SetTextColor(0.1, 1, 0.1);
@@ -1991,7 +1969,7 @@ end
 
 function DUIDialogSmallItemButtonMixin:SetIcon(file)
     if CUSTOM_ICONS[file] then
-        self.Icon:SetTexture(ICON_PATH..CUSTOM_ICONS[file]);
+        self.Icon:SetTexture(ThemeUtil:GetTextureFile(CUSTOM_ICONS[file]));
         self:RemoveTextureBorder(false);
     else
         self.Icon:SetTexture(file);
@@ -2037,13 +2015,8 @@ function DUIDialogSmallItemButtonMixin:SetRewardCurrency(index)
 end
 
 local function SetCoinIcon(button, rawCopper)
-    if rawCopper < 100 then
-        button.Icon:SetTexture(ICON_PATH.."Coin-Copper");
-    elseif rawCopper < 10000 then
-        button.Icon:SetTexture(ICON_PATH.."Coin-Silver");
-    else
-        button.Icon:SetTexture(ICON_PATH.."Coin-Gold");
-    end
+    local name = rawCopper < 100 and "Coin-Copper" or (rawCopper < 10000 and "Coin-Silver" or "Coin-Gold");
+    button.Icon:SetTexture(ThemeUtil:GetTextureFile(name));
 end
 
 function DUIDialogSmallItemButtonMixin:SetMoney(rawCopper)
@@ -2083,7 +2056,7 @@ function DUIDialogSmallItemButtonMixin:SetXP(amount)
     self.type = nil;
     self.index = 0;
 
-    self.Icon:SetTexture(ICON_PATH.."XP-Purple");
+    self.Icon:SetTexture(ThemeUtil:GetTextureFile("XP-Purple"));
     self:RemoveTextureBorder(false);
 
     local percentage = API.GetXPPercentage(amount);
@@ -2340,7 +2313,7 @@ do  --Quest Type Text On Quest Button
                 self.Icon = self:CreateTexture(nil, "OVERLAY");
                 self.Icon:SetSize(ICON_SIZE, ICON_SIZE);
             end
-            self.Icon:SetTexture(icon, nil, nil, "LINEAR");
+            self.Icon:SetTexture(icon);
         elseif self.Icon then
             self.Icon:SetTexture(nil);
         end
@@ -2442,14 +2415,14 @@ do  --Icon Frame Overlay
     function DUIDialogIconFrameMixin:SetCurrencyOverflow()
         self:SetSize(14, 14);
         self:AllPoints(true);
-        self.Icon:SetTexture(ICON_PATH.."CurrencyOverflow");
+        self.Icon:SetTexture(ThemeUtil:GetTextureFile("CurrencyOverflow"));
         self.Icon:SetTexCoord(0, 1, 0, 1);
     end
 
     function DUIDialogIconFrameMixin:SetHighestSellPrice()
         self:SetSize(15, 15);
         self:AllPoints(true);
-        self.Icon:SetTexture(ICON_PATH.."Coin-Gold");
+        self.Icon:SetTexture(ThemeUtil:GetTextureFile("Coin-Gold"));
         self.Icon:SetTexCoord(0, 1, 0, 1);
     end
 
@@ -2457,7 +2430,7 @@ do  --Icon Frame Overlay
         self:SetSize(32, 32);
         self:AllPoints(false);
         self.Icon:SetSize(32, 32);
-        self.Icon:SetTexture(ICON_PATH.."ItemIsUpgrade");
+        self.Icon:SetTexture(ThemeUtil:GetTextureFile("ItemIsUpgrade"));
         self.Icon:SetPoint("CENTER", self, "CENTER", 0, 0);
         self.Icon:SetTexCoord(0, 1, 0, 1);
         if playAnimation then
@@ -2602,25 +2575,12 @@ do  --Quest Portrait
 end
 
 do  --Resizable Background Frame
-    --Create a Stroke&Brush-Styled background using two L-shaped masks
+    -- 3.3.5 has no mask textures. Use artwork with its own alpha channel.
     local BackgroundMixin = {};
 
     function BackgroundMixin:SetBackgroundSize(width, height)
-        local bgWidth = width + 2*self.bgExtrude;
-        local bgHeight = height + 2*self.bgExtrude;
-
-        local maxSize = (bgWidth > bgHeight and bgWidth) or bgHeight;
-
-        if maxSize > self.maskSize then
-            local bgScale = maxSize / self.maskSize;
-            self.Mask1:SetSize(maxSize, maxSize);
-            self.Mask2:SetSize(maxSize, maxSize);
-        else
-            self.Mask1:SetSize(self.maskSize, self.maskSize);
-            self.Mask2:SetSize(self.maskSize, self.maskSize);
-        end
-
-        self.Background:SetSize(bgWidth, bgHeight);
+        local extrude = self.bgExtrude or 0;
+        self.Background:SetSize(width + 2*extrude, height + 2*extrude);
         self:SetSize(width, height);
         self.width = width;
         self.height = height;
@@ -2631,21 +2591,17 @@ do  --Resizable Background Frame
     end
 
     function BackgroundMixin:SetBackgroundColor(r, g, b, a)
-        self.Background:SetColorTexture(r, g, b, a);
+        self.Background:SetTexture(addon.Template.GetSharedTextureFile("ClipboardBackground"));
+        self.Background:SetTexCoord(0, 1, 0, 1);
+        self.Background:SetVertexColor(r, g, b, a or 1);
     end
 
     function BackgroundMixin:UpdatePixel()
-        local scale = 1;
-        local px = API.GetPixelForScale(scale, 1);
-        self.maskSize = 512 * px;
+        -- The file's alpha provides the edge; no mask geometry is needed.
     end
 
     function BackgroundMixin:SetBackgroundExtrude(bgExtrude)
-        self.bgExtrude = bgExtrude;
-        self.Mask1:ClearAllPoints();
-        self.Mask1:SetPoint("TOPLEFT", self, "TOPLEFT", -bgExtrude, bgExtrude);
-        self.Mask2:ClearAllPoints();
-        self.Mask2:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", bgExtrude, -bgExtrude);
+        self.bgExtrude = bgExtrude or 0;
     end
 
     function BackgroundMixin:OnUpdate(elapsed)
@@ -2788,7 +2744,7 @@ do  --Loading Indicator
         f:SetFrameStrata("FULLSCREEN_DIALOG");
         f.ShowFrame = f.Show;
 
-        local texture = "Interface/AddOns/DialogueUI/Art/Theme_Shared/LoadingIndicator-Radial";
+        local texture = addon.Template.GetSharedTextureFile("LoadingIndicator-Radial");
 
         f.Background = f:CreateTexture(nil, "BORDER");
         f.Background:SetAllPoints(true);

@@ -33,7 +33,8 @@ local NUMBER_FONT_FILE = { -- Number12Font
 };
 
 local DEFAULT_BOOK_TITLE_FONT_FILE = {
-    roman = "Interface/AddOns/DialogueUI/Fonts/TrajanPro3SemiBold.ttf",
+    -- TrajanPro3SemiBold is not packaged in this backport.
+    roman = DEFAULT_FONT_FILE.roman,
 };
 
 local OVERRIDE_FONT = {};   --[FontObjectName] = file, used as multilanguage support

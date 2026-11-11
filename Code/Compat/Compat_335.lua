@@ -444,6 +444,32 @@ do
     local textureIndex = Index(texture)
     for k, v in pairs(Region) do Add(textureIndex, k, v) end
     Add(textureIndex, "SetColorTexture", function(self, r, g, b, a) self:SetTexture(r, g, b, a) end)
+    -- Retail passes ColorMixin objects; the legacy method takes six numbers.
+    -- Keep numeric calls and native Sirus extensions intact.
+    if textureIndex then
+        local oldGradient = textureIndex.SetGradient
+        local oldGradientAlpha = textureIndex.SetGradientAlpha
+        local function RGBA(color)
+            if color.GetRGBA then return color:GetRGBA() end
+            local r, g, b = ColorRGB(color, 1, 1, 1)
+            return r, g, b, color.a or 1
+        end
+        textureIndex.SetGradient = function(self, orientation, first, last, ...)
+            if type(first) ~= "table" or type(last) ~= "table" then
+                if oldGradient then return oldGradient(self, orientation, first, last, ...) end
+                return
+            end
+            local r1, g1, b1, a1 = RGBA(first)
+            local r2, g2, b2, a2 = RGBA(last)
+            if oldGradientAlpha then
+                return oldGradientAlpha(self, orientation, r1, g1, b1, a1, r2, g2, b2, a2)
+            elseif oldGradient then
+                return oldGradient(self, orientation, r1, g1, b1, r2, g2, b2)
+            end
+            self:SetVertexColor(r1, g1, b1, a1)
+        end
+    end
+    Add(textureIndex, "GetMaskTexture", noop)
     Add(textureIndex, "AddMaskTexture", noop)
     Add(textureIndex, "RemoveMaskTexture", noop)
     Add(textureIndex, "GetNumMaskTextures", function() return 0 end)
@@ -566,14 +592,14 @@ do
             data.file = file
             local key = FileKey(file)
             local size = key and addon.TextureFileSizes and addon.TextureFileSizes[key]
-            if size then
+            if size and not data.rotated then
                 data.fileWidth, data.fileHeight = size[1], size[2]
                 OrigSetTexture(host, nil)
                 Layout(host, data)
             else
                 data.fileWidth, data.fileHeight = nil, nil
                 OrigSetTexture(host, file, ...)
-                OrigSetTexCoord(host, data.texL, data.texR, data.texT, data.texB)
+                OrigSetTexCoord(host, unpack(data.coords))
             end
             UpdateVisibility(host, data)
         end
@@ -595,17 +621,18 @@ do
         function Methods.SetTexCoord(self, ...)
             local data = SliceData[self]
             if select("#", ...) >= 8 then
-                local ULx, ULy, _, _, _, _, LRx, LRy = ...
+                local ULx, ULy, LLx, LLy, URx, URy, LRx, LRy = ...
                 data.texL, data.texR, data.texT, data.texB = ULx, LRx, ULy, LRy
+                data.coords = {ULx, ULy, LLx, LLy, URx, URy, LRx, LRy}
+                -- Preserve rotated/skewed coordinates intact rather than flattening them.
+                data.rotated = ULx ~= LLx or URx ~= LRx or ULy ~= URy or LLy ~= LRy
             else
                 local l, r, t, b = ...
                 data.texL, data.texR, data.texT, data.texB = l or 0, r or 1, t or 0, b or 1
+                data.coords = {data.texL, data.texR, data.texT, data.texB}
+                data.rotated = false
             end
-            if data.fileWidth then
-                Layout(self, data)
-            else
-                OrigSetTexCoord(self, ...)
-            end
+            SetFile(self, data, data.file)
         end
         function Methods.SetVertexColor(self, r, g, b, a)
             local data = SliceData[self]
@@ -649,8 +676,10 @@ do
             local data = SliceData[self]
             if not data then
                 data = {}
-                local ULx, ULy, _, _, _, _, LRx, LRy = self:GetTexCoord()
+                local ULx, ULy, LLx, LLy, URx, URy, LRx, LRy = self:GetTexCoord()
                 data.texL, data.texR, data.texT, data.texB = ULx or 0, LRx or 1, ULy or 0, LRy or 1
+                data.coords = {ULx or 0, ULy or 0, LLx or 0, LLy or 1, URx or 1, URy or 0, LRx or 1, LRy or 1}
+                data.rotated = ULx ~= LLx or URx ~= LRx or ULy ~= URy or LLy ~= LRy
                 data.r, data.g, data.b, data.a = self:GetVertexColor()
                 data.alpha = self:GetAlpha()
                 data.blendMode = self.GetBlendMode and self:GetBlendMode() or nil
@@ -676,7 +705,7 @@ do
             local pieces = SlicePieces[self]
             for i = 1, 9 do OrigHide(pieces[i]) end
             OrigSetTexture(self, data.file)
-            OrigSetTexCoord(self, data.texL, data.texR, data.texT, data.texB)
+            OrigSetTexCoord(self, unpack(data.coords))
         end
     end
     Add(textureIndex, "SetRotation", noop)
@@ -685,6 +714,23 @@ do
     Add(textureIndex, "SetVertTile", noop)
     if textureIndex and not textureIndex.SetAtlas then
         textureIndex.SetAtlas = function(self, atlas, useAtlasSize)
+            -- Only addon-owned file names can be resolved without a retail atlas database.
+            local theme = addon.ThemeUtil
+            local file = theme and theme:GetTextureFile(atlas)
+            if not file and type(atlas) == "string" then
+                -- Early callers run before ThemeUtil; use the same visible fallback.
+                file = "Interface\\AddOns\\DialogueUI\\Art\\Theme_Shared\\ClipboardBackground"
+                print("DUI-TEX: atlas before ThemeUtil: "..atlas)
+            end
+            local key = file and string.lower(string.gsub(file, "\\", "/"))
+            key = key and string.gsub(key, "^interface/addons/dialogueui/art/", "")
+            local size = key and addon.TextureFileSizes and addon.TextureFileSizes[key]
+            if size then
+                self:SetTexture(file)
+                self:SetTexCoord(0, 1, 0, 1)
+                if useAtlasSize then self:SetSize(size[1], size[2]) end
+                return
+            end
             if GetAtlasInfo then
                 local info = GetAtlasInfo(atlas)
                 if info then

@@ -34,7 +34,7 @@ do
     function QuestPopupFrameMixin:OnLoad()
         self:UpdateScale();
 
-        local file = "Interface/AddOns/DialogueUI/Art/Theme_Shared/QuestPopup";
+        local file = ThemeUtil:GetTextureFile("QuestPopup");
         self.Background:SetTexture(file);
         self.QuestIcon:SetTexture(file);
         self.Highlight:SetTexture(file);

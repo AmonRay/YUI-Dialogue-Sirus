@@ -56,7 +56,7 @@ local function CreateSplashScreen()
     BlackScreen:SetFrameStrata("FULLSCREEN");
 
     local BackgroundDecor = f:CreateTexture(nil, "ARTWORK");
-    BackgroundDecor:SetTexture("Interface/AddOns/DialogueUI/Art/ParchmentDecor/Dalaran");
+    BackgroundDecor:SetTexture(addon.ThemeUtil:GetTextureFile("Dalaran"));
     BackgroundDecor:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", 0, 0);
     BackgroundDecor:SetSize(0.85 * frameHeight, 0.85 * frameHeight);
 

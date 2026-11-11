@@ -8,8 +8,9 @@ addon.ThemeUtil = ThemeUtil;
 local gsub = string.gsub;
 local unpack = unpack;
 
-local TEXTURE_PATH;
-local THEME_ID;
+local ART_PATH = "Interface\\AddOns\\DialogueUI\\Art\\";
+local TEXTURE_PATH = ART_PATH.."Theme_Brown\\";
+local THEME_ID = 1;
 
 
 local ColorAdjustment = {
@@ -102,7 +103,10 @@ local FONT_OBJECT_COLOR = {
 
 local function SetFontColor(fontObject, key)
     local color = COLORS[key];
-    fontObject:SetTextColor(color[1], color[2], color[3]);
+    -- Theme selection can run before all XML font objects exist.
+    if fontObject and color then
+        fontObject:SetTextColor(color[1], color[2], color[3]);
+    end
 end
 
 function ThemeUtil:SetFontColor(fontObject, key)
@@ -114,12 +118,12 @@ function ThemeUtil:SetThemeByID(themeID)
 
     if themeID == 2 then    --Dark
         colorIndex = 2;
-        TEXTURE_PATH = "Interface/AddOns/DialogueUI/Art/Theme_Dark/";
+        TEXTURE_PATH = ART_PATH.."Theme_Dark\\";
         ActiveColorLookup = ColorAdjustment.Blue;
     else
         themeID = 1;
         colorIndex = 1;
-        TEXTURE_PATH = "Interface/AddOns/DialogueUI/Art/Theme_Brown/";
+        TEXTURE_PATH = ART_PATH.."Theme_Brown\\";
         ActiveColorLookup = ColorAdjustment.Red;
     end
 
@@ -156,10 +160,51 @@ function ThemeUtil:GetTexturePath()
     return TEXTURE_PATH
 end
 
-function ThemeUtil:GetTextureFile(fileName)
-    if fileName then
-        return TEXTURE_PATH..fileName;
+-- Bare names (including concatenated TextureKit-* and gamepad names) prefer
+-- the current theme, then shared assets, then the non-themed categories.
+-- Explicit categories disambiguate e.g. Keys/PS-PAD1 and PreviewPicture/TTSButton.
+local ASSET_DIRECTORIES = {"Theme_Shared", "Icons", "Keys", "GameAssets", "Book",
+    "BasicShapes", "ParchmentDecor", "PreviewPicture", "Shared"};
+local MissingTextures = {};
+local function MissingTexture(name)
+    if not MissingTextures[name] then
+        MissingTextures[name] = true;
+        print("DUI-TEX: missing "..name);
     end
+    return ART_PATH.."Theme_Shared\\ClipboardBackground";
+end
+
+-- Preserve explicit directories; only bare names select the active theme.
+function ThemeUtil:GetTextureFile(fileName)
+    if type(fileName) ~= "string" or fileName == "" then return end;
+    fileName = gsub(fileName, "/", "\\");
+    fileName = gsub(fileName, "%.[bB][lL][pP]$", "");
+    fileName = gsub(fileName, "%.[tT][gG][aA]$", "");
+    fileName = gsub(fileName, "%.[pP][nN][gG]$", "");
+    fileName = gsub(fileName, "%.[jJ][pP][eE]?[gG]$", "");
+    local key = string.lower(gsub(fileName, "\\", "/"));
+    if string.find(key, "^interface/") then return fileName end;
+    if string.find(key, "^art/") then
+        fileName = string.sub(fileName, 5);
+        key = string.sub(key, 5);
+    end
+    local sizes = addon.TextureFileSizes;
+    if string.find(key, "/", 1, true) then
+        if string.find(key, "^shared/") and sizes and not sizes[key] then
+            fileName = "Theme_Shared\\"..string.sub(fileName, 8);
+            key = "theme_shared/"..string.sub(key, 8);
+        end
+        if not sizes or sizes[key] then return ART_PATH..fileName end;
+        return MissingTexture(fileName);
+    end
+    local theme = THEME_ID == 2 and "theme_dark/" or "theme_brown/";
+    if not sizes or sizes[theme..key] then return TEXTURE_PATH..fileName end;
+    for _, directory in ipairs(ASSET_DIRECTORIES) do
+        if sizes[string.lower(directory).."/"..key] then
+            return ART_PATH..directory.."\\"..fileName;
+        end
+    end
+    return MissingTexture(fileName);
 end
 
 function ThemeUtil:GetThemeID()

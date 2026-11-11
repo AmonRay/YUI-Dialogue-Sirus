@@ -21,7 +21,7 @@ if ($AddOnsDir -eq "") {
 }
 $target = Join-Path $AddOnsDir $addonName
 
-$exclude = @(".git", ".github", ".idea", ".vscode", "_Dev", "_Build", ".gitattributes", ".gitignore")
+$exclude = @(".git", ".github", ".idea", ".vscode", "_Dev", "_Build", ".gitattributes", ".gitignore", ".sharrowkin", "research", "scripts", "dist")
 
 if (Test-Path $target) {
     Remove-Item $target -Recurse -Force

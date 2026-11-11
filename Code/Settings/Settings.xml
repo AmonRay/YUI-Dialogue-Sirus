@@ -1,4 +1,4 @@
-<Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\FrameXML\UI.xsd">
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
     <Script file="Settings_Definitions.lua"/>
     <Script file="Settings_Font.lua"/>
     <Script file="Settings_Keybinding.lua"/>
@@ -386,7 +386,7 @@
                         <Anchor point="BOTTOMRIGHT" relativeKey="$parent" relativePoint="BOTTOMRIGHT" x="-4" y="4"/>
                     </Anchors>
                 </Texture>
-                <Texture parentKey="DecorMask" file="Interface/AddOns/DialogueUI/Art/Theme_Shared/Mask-SettingsDecor" hidden="true">
+                <Texture parentKey="DecorMask" hidden="true">
                 </Texture>
             </Layer>
             <Layer level="BORDER">

@@ -59,11 +59,8 @@ function QuestItemDisplay:Init()
     self:SetSize(8, 8);
     self.queue = {};
 
-    local bg = self:CreateTexture(nil, "BACKGROUND");
+    local bg = addon.CreateLegacyPanel(self, "BACKGROUND", 0, 512, 512, 24);
     self.Background = bg;
-    local margin = 24;
-    bg:SetTextureSliceMargins(margin, margin, margin, margin);
-    bg:SetTextureSliceMode(1);
     bg:SetAllPoints(true);
     bg:SetTexCoord(0.25, 0.5, 0.25, 0.5);
 
@@ -79,12 +76,9 @@ function QuestItemDisplay:Init()
         UpdateFrameLevel();
     end
     bgShadowContainer:SetAllPoints(true);
-    local bgShadow = bgShadowContainer:CreateTexture(nil, "BACKGROUND", nil, -1);
+    local bgShadow = addon.CreateLegacyPanel(bgShadowContainer, "BACKGROUND", -1, 512, 512, 24);
     self.BackgroundShadow = bgShadowContainer;
     self.BackgroundShadow.Texture = bgShadow;
-    local margin = 24;
-    bgShadow:SetTextureSliceMargins(margin, margin, margin, margin);
-    bgShadow:SetTextureSliceMode(0);
     bgShadow:SetAllPoints(true);
     bgShadow:SetTexCoord(0.515625, 0.765625, 0.25, 0.5);
 
@@ -118,20 +112,14 @@ function QuestItemDisplay:Init()
     ttBG:SetBlendMode("ADD");
     ttBG:SetAlpha(0.15);
 
-    local ib = self:CreateTexture(nil, "OVERLAY");
+    local ib = addon.CreateLegacyPanel(self, "OVERLAY", 0, 512, 512, 18);
     self.IconBorder = ib;
-    local margin = 18;
-    ib:SetTextureSliceMargins(margin, margin, margin, margin);
-    ib:SetTextureSliceMode(0);
     ib:SetTexCoord(0, 0.15625, 0, 0.15625);
 
 
     --Pseudo Text Button <Click to Read>
-    local tbBG = self:CreateTexture(nil, "ARTWORK");
+    local tbBG = addon.CreateLegacyPanel(self, "ARTWORK", 0, 512, 512, 8);
     self.TextButtonBackground = tbBG;
-    local margin = 8;
-    tbBG:SetTextureSliceMargins(margin, margin, margin, margin);
-    tbBG:SetTextureSliceMode(0);
     tbBG:Hide();
     tbBG:ClearAllPoints();
     tbBG:SetPoint("TOPLEFT", desc, "BOTTOMLEFT", 0, -GAP_TITLE_DESC);
@@ -210,8 +198,8 @@ function QuestItemDisplay:UpdatePixel(scale)
     self.BackgroundShadow:SetPoint("TOPLEFT", self, "TOPLEFT", -offset, offset);
     self.BackgroundShadow:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", offset, -offset);
 
-    API.UpdateTextureSliceScale(self.Background);
-    API.UpdateTextureSliceScale(self.BackgroundShadow.Texture);
+    self.Background:UpdateSlices();
+    self.BackgroundShadow.Texture:UpdateSlices();
 end
 
 
@@ -619,7 +607,7 @@ function QuestItemDisplay:SetStartQuestItem(itemID, startQuestID, isOnQuest)
     self.itemType = "questOffer";
     self.startQuestID = startQuestID;
 
-    local icon = "Interface/AddOns/DialogueUI/Art/Icons/QuestItem-NotOnQuest";
+    local icon = ThemeUtil:GetTextureFile("QuestItem-NotOnQuest");
     self.ButtonIcon:SetTexture(icon);
     self.ButtonIcon:Show();
     local questName = API.GetQuestName(startQuestID);

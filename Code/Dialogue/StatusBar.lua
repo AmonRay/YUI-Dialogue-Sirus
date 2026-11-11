@@ -54,37 +54,26 @@ end
 local StatusBarMixin = {};
 
 function StatusBarMixin:OnLoad()
-    local FILE_PATH = "Interface/AddOns/DialogueUI/Art/Theme_Shared/";
-
     if not self.Border then
-        self.Border = self:CreateTexture(nil, "OVERLAY", nil, 2);
-        self.Border:SetTextureSliceMode(1);
-        local margin = 6;
-        self.Border:SetTextureSliceMargins(margin, margin, margin, margin);
+        self.Border = addon.CreateLegacyPanel(self, "OVERLAY", 2, 256, 16, 6);
         self.Border:SetAllPoints(true);
-        self.Border:SetTexture(FILE_PATH.."StatusBar-Border");
+        self.Border:SetTexture(addon.ThemeUtil:GetTextureFile("StatusBar-Border"));
         self:SetBorderColor(0.25, 0.25, 0.25);
     end
 
     if not self.Background then
-        self.Background = self:CreateTexture(nil, "BACKGROUND");
-        self.Background:SetTextureSliceMode(1);
-        local margin = 6;
-        self.Background:SetTextureSliceMargins(margin, margin, margin, margin);
+        self.Background = addon.CreateLegacyPanel(self, "BACKGROUND", 0, 256, 16, 6);
         self.Background:SetAllPoints(true);
-        self.Background:SetTexture(FILE_PATH.."StatusBar-Background");
+        self.Background:SetTexture(addon.ThemeUtil:GetTextureFile("StatusBar-Background"));
         self.Background:SetAlpha(0.5);
     end
 
     if not self.Fill then
-        self.Fill = self:CreateTexture(nil, "ARTWORK");
-        self.Fill:SetTextureSliceMode(1);
-        local margin = 6;
-        self.Fill:SetTextureSliceMargins(margin, margin, margin, margin);
+        self.Fill = addon.CreateLegacyPanel(self, "ARTWORK", 0, 32, 16, 6);
         self.Fill:SetWidth(0.1);
         self.Fill:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 0);
         self.Fill:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 0);
-        self.Fill:SetTexture(FILE_PATH.."StatusBar-FillShort-Purple");
+        self.Fill:SetTexture(addon.ThemeUtil:GetTextureFile("StatusBar-FillShort-Purple"));
     end
 
     if not self.Surface then
@@ -102,12 +91,9 @@ function StatusBarMixin:OnLoad()
         self.ValueBlock = f;
         f:SetHeight(32);
 
-        local bg = f:CreateTexture(nil, "OVERLAY", nil, 4);
-        bg:SetTextureSliceMode(0);
-        local margin = 8;
-        bg:SetTextureSliceMargins(margin, margin, margin, margin);
+        local bg = addon.CreateLegacyPanel(f, "OVERLAY", 4, 128, 64, 8);
         bg:SetAllPoints(true);
-        bg:SetTexture(FILE_PATH.."StatusBar-ValueBlock-Purple");
+        bg:SetTexture(addon.ThemeUtil:GetTextureFile("StatusBar-ValueBlock-Purple"));
 
         f.Text = f:CreateFontString(nil, "OVERLAY", "DUIFont_AlertFont", 7);
         f.Text:SetJustifyH("CENTER");
@@ -118,7 +104,7 @@ function StatusBarMixin:OnLoad()
     if not self.notchPool then
         local function CreateNotch()
             local texture = self:CreateTexture(nil, "OVERLAY");
-            texture:SetTexture(FILE_PATH.."StatusBar-Notch");
+            texture:SetTexture(addon.ThemeUtil:GetTextureFile("StatusBar-Notch"));
             texture:SetVertexColor(0.25, 0.25, 0.25);
             return texture
         end

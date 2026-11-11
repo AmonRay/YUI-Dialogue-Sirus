@@ -547,7 +547,7 @@ do  -- NPC Interaction
     local TexturePrefix = "Interface/AddOns/DialogueUI/Art/Icons/NPCType-";
 
     local CustomTypeTexture = {
-        direction = "Direction",
+        direction = "AskDirection", -- NPCType-Direction is absent in the 3.3.5 asset set.
     };
 
     local function GetInteractType(unit)

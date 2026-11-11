@@ -1,7 +1,7 @@
 setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
 local _, addon = ...
 local GetDBBool = addon.GetDBBool;
-local UpdateTextureSliceScale = addon.API.UpdateTextureSliceScale;
+-- Backgrounds are ordinary nine-piece panels on the legacy client.
 local canaccessvalue = addon.API.canaccessvalue;
 
 local tinsert = table.insert;
@@ -139,14 +139,10 @@ HiddenFrame:Hide();
 HiddenFrame:SetAlpha(0);
 
 do  --Frame Background
-    local bg = HiddenFrame:CreateTexture(nil, "BACKGROUND");
-    bg:ClearAllPoints();
+    local bg = addon.CreateLegacyPanel(HiddenFrame, "BACKGROUND", 0, 128, 128, 16);
     bg:SetPoint("TOPLEFT", ChatFrame, "TOPLEFT", 0, 0);
     bg:SetPoint("BOTTOMRIGHT", ChatFrame, "BOTTOMRIGHT", 0, 0);
-    local corner = 16;
-    bg:SetTextureSliceMargins(corner, corner, corner, corner);
-    bg:SetTextureSliceMode(1);
-    bg:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Shared/ChatFrameBackground");
+    bg:SetTexture(addon.ThemeUtil:GetTextureFile("ChatFrameBackground"));
     ChatFrame.Background = bg;
 end
 
@@ -584,7 +580,7 @@ function ChatFrame:OnShow()
         end
     end
 
-    UpdateTextureSliceScale(self.Background);
+    self.Background:UpdateSlices();
 end
 
 function ChatFrame:OnHide()

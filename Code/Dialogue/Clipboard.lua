@@ -165,13 +165,9 @@ function Clipboard:Init()
     self:SetPoint("CENTER", UIParent, "CENTER", 0, 0);
     self:SetFrameStrata("DIALOG");
 
-    local bg = self:CreateTexture(nil, "BACKGROUND");
+    local bg = addon.CreateLegacyPanel(self, "BACKGROUND", 0, 128, 128, 16);
     bg:SetAllPoints(true);
-    local corner = 16;
-    bg:SetTextureSliceMargins(corner, corner, corner, corner);
-    bg:SetTextureSliceMode(1);
-    bg:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Shared/ClipboardBackground");
-    API.UpdateTextureSliceScale(bg);
+    bg:SetTexture(addon.ThemeUtil:GetTextureFile("ClipboardBackground"));
 
     local ScrollBar = addon.CreateScrollBar(self);
     self.ScrollBar = ScrollBar;
@@ -310,7 +306,7 @@ do  --Copy Text Button
         b.Icon = b:CreateTexture(nil, "OVERLAY");
         b.Icon:SetSize(ICON_SIZE, ICON_SIZE);
         b.Icon:SetPoint("CENTER", b, "CENTER", 0, 0);
-        b.Icon:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Shared/CopyTextButton");
+        b.Icon:SetTexture(addon.ThemeUtil:GetTextureFile("CopyTextButton"));
         b.Icon:SetAlpha(ALPHA_UNFOCUSED);
 
         API.Mixin(b, CopyTextButtonMixin);

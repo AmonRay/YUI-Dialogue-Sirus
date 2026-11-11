@@ -56,21 +56,25 @@ do  -- Texture Slicing (Temp Fix for https://github.com/Stanzilla/WoWUIBugs/issu
         self:SetBoundaryOffset(0);
     end
 
-    function PseudoSliceTextureMixin:SetTexture()
-
+    function PseudoSliceTextureMixin:SetTexture(file)
+        self:SetAtlas(file);
     end
 
     function PseudoSliceTextureMixin:SetAtlas(fileName)
-        local file = ThemeUtil:GetTextureFile(fileName);
-
+        local file = type(fileName) == "string" and ThemeUtil:GetTextureFile(fileName) or fileName;
         for _, slice in ipairs(self.Slices) do
             slice:SetTexture(file);
+            slice:SetTexCoord(0, 1, 0, 1);
         end
-
-        local p = TEXTURE_INFO[fileName];
+        local name = type(fileName) == "string" and string.match(fileName, "([^/\\]+)$");
+        name = name and string.gsub(name, "%.[^%.]+$", "");
+        local p = TEXTURE_INFO[name];
         self.textureInfo = p;
 
         if p then
+            self.Slice5:ClearAllPoints();
+            self.Slice5:SetPoint("TOPLEFT", self.Slice1, "BOTTOMRIGHT", 0, 0);
+            self.Slice5:SetPoint("BOTTOMRIGHT", self.Slice9, "TOPLEFT", 0, 0);
             local x1 = p[3]/p[1];
             local y1 = p[4]/p[2];
             local x2 = 1 - p[5]/p[1];
@@ -85,8 +89,14 @@ do  -- Texture Slicing (Temp Fix for https://github.com/Stanzilla/WoWUIBugs/issu
             self.Slice7:SetTexCoord(0, x1, y2, 1);
             self.Slice8:SetTexCoord(x1, x2, y2, 1);
             self.Slice9:SetTexCoord(x2, 1, y2, 1);
-
             self:UpdateSliceSize();
+            for _, slice in ipairs(self.Slices) do slice:Show(); end
+        else
+            -- Unknown dimensions: draw a single ordinary texture, never nine overlaps.
+            for _, slice in ipairs(self.Slices) do slice:Hide(); end
+            self.Slice5:ClearAllPoints();
+            self.Slice5:SetAllPoints(self);
+            self.Slice5:Show();
         end
     end
 
@@ -119,9 +129,16 @@ do
 
     if USE_PSEUDO_TEXTURE then
         function CreateSliceTexture(parent)
-            local f = CreateFrame("Frame", nil, parent, "DUIPseudoSliceTextureTemplate");
+            -- Avoid the XML OnLoad firing before the mixin is assigned (3.3.5).
+            local f = CreateFrame("Frame", nil, parent);
+            f.drawLayer, f.textureSubLevel = "BACKGROUND", 0;
+            f.Slices = {};
+            for i = 1, 9 do
+                local slice = f:CreateTexture(nil, f.drawLayer);
+                f["Slice"..i] = slice;
+                f.Slices[i] = slice;
+            end
             API.Mixin(f, PseudoSliceTextureMixin);
-
             f:OnLoad();
 
             return f
