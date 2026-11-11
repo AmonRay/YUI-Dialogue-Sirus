@@ -1,5 +1,5 @@
 setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
-local VERSION_TEXT = "v1.0.7-b";
+local VERSION_TEXT = "v1.0.8";
 local VERSION_DATE = 1793870000;
 
 
