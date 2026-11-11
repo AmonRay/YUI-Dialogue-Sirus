@@ -11,7 +11,7 @@
 
 
 ## X-GameType: Wrath
-# 1.0.8 rebuild: self-contained DUI_C_Timer (C_Timer2 is hidden by SecureCapsule), PLAYER_ENTERING_WORLD instead of LOADING_SCREEN_DISABLED
+# 1.0.8 rebuild: self-contained DUI_C_Timer (C_Timer2 is hidden by SecureCapsule), PLAYER_ENTERING_WORLD instead of LOADING_SCREEN_DISABLED; all textures PNG -> uncompressed TGA (3.3.5a cannot load PNG)
 
 
 Code\Compat\Compat_335.lua
