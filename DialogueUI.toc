@@ -16,6 +16,7 @@
 # 1.0.8 rebuild 3: safety net - the initial-loading guard can no longer swallow NPC interactions after login
 # 1.0.8 rebuild 4: OnGamePad* scripts set via DUI_SetScriptSafe (not in 3.3.5a); MuteSoundFile/UnmuteSoundFile stubs
 # 1.0.8 rebuild 5: textures -> BLP (uncompressed BGRA, like ElvUI-for-Sirus), 9-slice panel emulation, smooth camera (SaveView/SetView + absolute zoom), IsUnitModelReadyForUI and other missing API, 3.3.5a gossip icons
+# 1.0.8 rebuild 6: "Hide UI" works on 3.3.5a - the game interface is hidden while a dialog is open (UIParent:Hide() + SetUIVisibility(false), like Alt+Z)
 
 
 Code\Compat\Compat_335.lua

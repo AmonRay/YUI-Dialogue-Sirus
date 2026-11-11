@@ -49,6 +49,23 @@ UIParent:UnregisterEvent("EXPERIMENTAL_CVAR_CONFIRMATION_NEEDED");  --Disable EX
 local FadeHelper = CreateFrame("Frame");
 addon.UIParentFadeHelper = FadeHelper;
 
+if addon.IS_335 then
+    --3.3.5a (Sirus): SetUIVisibility only toggles the UI drawn in the world (names, health bars), it does not hide UIParent.
+    --The game's own Alt+Z (FrameXML Bindings.xml, TOGGLEUI) hides UIParent first, so do the same here. Before this the
+    --fade-out ended with UIParent:SetAlpha(1) while UIParent stayed shown, so the whole interface popped back.
+    local SetUIVisibility = SetUIVisibility;
+    SetGameUIShown = function(state)
+        if state then
+            UIParent:Show();
+        else
+            UIParent:Hide();
+        end
+        if SetUIVisibility then
+            SetUIVisibility(state and true or false);
+        end
+    end
+end
+
 CameraUtil.isMidnight = addon.IS_MODERN;
 
 local IsDynamicFlying; -- Avoid changing FOV when mounted to prevent FOV stuck at over normal max due to Skyriding Speed Effects
