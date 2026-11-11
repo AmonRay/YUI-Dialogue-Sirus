@@ -2381,8 +2381,16 @@ local DialogHandlers = {
 
 function DUIDialogBaseMixin:ShowUI(event, ...)
     if self.isGameLoading then
-        self.deferredEvent = event;
-        return
+        --3.3.5a safety net: never let the initial-loading guard swallow NPC interactions forever
+        --(PLAYER_ENTERING_WORLD missed, or the 4s timer never fired)
+        local loadedAt = self.worldEnteredTime;
+        if IsLoggedIn() and ((not loadedAt) or (GetTime() - loadedAt > 6)) then
+            self.isGameLoading = nil;
+            self.deferredEvent = nil;
+        else
+            self.deferredEvent = event;
+            return
+        end
     end
 
     if IsPlayingCutscene() then
@@ -2681,6 +2689,7 @@ function DUIDialogBaseMixin:OnEvent(event, ...)
     elseif event == "LOADING_SCREEN_DISABLED" or event == "PLAYER_ENTERING_WORLD" then  --not reliable on the intial login
         self:UnregisterEvent("LOADING_SCREEN_DISABLED");
         self:UnregisterEvent("PLAYER_ENTERING_WORLD");
+        self.worldEnteredTime = GetTime();
         After(4, function()
             self.isGameLoading = nil;
             self:HandleInitialLoadingComplete();
