@@ -3,14 +3,19 @@ name: Sirus release
 # Every change of "## Version:" in DialogueUI.toc pushed to main =
 # a new GitHub Release v<version> with DialogueUI-<version>-sirus.zip.
 # The archive holds a single DialogueUI/ folder for Interface/AddOns.
-# Self-contained: no secrets, no third-party actions
-# (only actions/checkout, the preinstalled zip and the gh CLI).
+# Before packaging, scripts/convert_textures_335.py brings every texture in
+# Art/ to the 3.3.5a layout (BLP, power-of-two size, full mip chain). Files
+# it rebuilds are committed back to main, so the repository and the archive
+# always hold the same textures.
+# Self-contained: no secrets, no third-party actions (only actions/checkout,
+# actions/setup-python, Pillow from PyPI, the preinstalled zip and the gh CLI).
 
 on:
   push:
     branches: [main]
     paths:
       - DialogueUI.toc
+      - scripts/convert_textures_335.py
       - .github/workflows/sirus-release.yml
   workflow_dispatch:
 
@@ -26,6 +31,37 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Textures for 3.3.5a
+        id: tex
+        run: |
+          set -euo pipefail
+          python -m pip install --quiet --disable-pip-version-check pillow
+          python scripts/convert_textures_335.py
+          if [ -n "$(git status --porcelain -- Art Code/Compat/TextureSizes_335.lua)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+            git add -A -- Art Code/Compat/TextureSizes_335.lua
+            git commit -q -m "335: textures rebuilt by scripts/convert_textures_335.py (BLP with mip levels)"
+            pushed=false
+            for attempt in 1 2 3; do
+              if git push origin HEAD:main; then pushed=true; break; fi
+              git fetch origin main
+              git rebase origin/main
+            done
+            if [ "$pushed" != true ]; then
+              echo "::error::Could not push the rebuilt textures to main"
+              exit 1
+            fi
+            echo "::notice::Rebuilt textures committed to main as $(git rev-parse --short HEAD)"
+          fi
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Read version from TOC
         id: ver
@@ -89,7 +125,7 @@ jobs:
             echo "Unpack into \`World of Warcraft/Interface/AddOns\` - the archive contains a single \`DialogueUI\` folder."
           } >> release-notes.md
           gh release create "$TAG" "${{ steps.pkg.outputs.zip_path }}" \
-            --target "${{ github.sha }}" \
+            --target "${{ steps.tex.outputs.sha }}" \
             --title "DialogueUI ${TAG} (Sirus)" \
             --notes-file release-notes.md \
             --latest
