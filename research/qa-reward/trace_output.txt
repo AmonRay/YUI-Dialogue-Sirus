@@ -1,0 +1,256 @@
+
+== 1. Событие/колбэк показа окна  (шаблон: QUEST_PROGRESS|PlayerInteraction\.ShowUI|HandleQuestProgress)
+   Code/Dialogue/DialogueUI.lua:1245 -> CallbackRegistry:Trigger("PlayerInteraction.ShowUI", true);
+   Code/Dialogue/DialogueUI.lua:1707 -> function DUIDialogBaseMixin:HandleQuestProgress(playFadeIn)
+   Code/Dialogue/DialogueUI.lua:2374 -> ["QUEST_PROGRESS"] = "HandleQuestProgress",     --Show status of a taken quest. "Continue" button
+   Code/Dialogue/DialogueUI.lua:2670 -> --CallbackRegistry:Trigger("PlayerInteraction.ShowUI", true);
+   Code/Dialogue/DialogueUI.lua:2675 -> --CallbackRegistry:Trigger("PlayerInteraction.ShowUI", true);
+   Code/Dialogue/DialogueUI.lua:2679 -> --CallbackRegistry:Trigger("PlayerInteraction.ShowUI", true);
+   Code/Dialogue/DialogueUI.lua:2685 -> CallbackRegistry:Trigger("PlayerInteraction.ShowUI", true);
+   Code/Dialogue/DialogueUI.lua:2932 -> elseif self.handler == "HandleQuestProgress" then
+   Code/Dialogue/DialogueUI.lua:3005 -> elseif self.handler == "HandleQuestProgress" then
+
+== 2. GossipData: автозавершение/источники данных  (шаблон: OnInteractWithNPC|AddDataSource|ShouldAutoCompleteQuest)
+   Code/GossipData/GossipDataProvider.lua:15 -> function DataProvider:AddDataSource(dataSource)
+   Code/GossipData/GossipDataProvider.lua:19 -> function DataProvider:OnInteractWithNPC()
+   Code/GossipData/GossipDataProvider.lua:25 -> source:OnInteractWithNPC(creatureName, creatureID);
+   Code/GossipData/GossipDataProvider.lua:72 -> function DataSource:OnInteractWithNPC(creatureName, creatureID)
+
+== 3. InteractionManager (помечен как Unused в исходнике)  (шаблон: DUI_GetInteractionType|IsInteractingWithNpcOfType)
+   Code/Utility/InteractionManager.lua:6 -> local IsInteractingWithNpcOfType = C_PlayerInteractionManager.IsInteractingWithNpcOfType;
+   Code/Utility/InteractionManager.lua:8 -> function DUI_GetInteractionType()
+   Code/Utility/InteractionManager.lua:10 -> if IsInteractingWithNpcOfType(v) then
+
+== 4. DialogueUI: подготовка перед Show (HandleQuestProgress)  (шаблон: GetNumQuestItems|IsQuestItemHidden|SetRequiredItem|AcquireAndSetSubHeader|L\[\"Requirements\"\]|FormatRewards)
+   Code/Dialogue/DialogueUI.lua:62 -> local GetNumQuestItems = GetNumQuestItems;
+   Code/Dialogue/DialogueUI.lua:66 -> local IsQuestItemHidden = IsQuestItemHidden;
+   Code/Dialogue/DialogueUI.lua:716 -> function DUIDialogBaseMixin:AcquireAndSetSubHeader(text)
+   Code/Dialogue/DialogueUI.lua:1594 -> local subheader = self:AcquireAndSetSubHeader(L["Quest Objectives"]);
+   Code/Dialogue/DialogueUI.lua:1643 -> local subheader = self:AcquireAndSetSubHeader( (#rewardList == 1 and L["Reward"]) or L["Rewards"] );
+   Code/Dialogue/DialogueUI.lua:1647 -> offsetY = self:FormatRewards(offsetY, rewardList);
+   Code/Dialogue/DialogueUI.lua:1731 -> local numRequiredItems = GetNumQuestItems();
+   Code/Dialogue/DialogueUI.lua:1743 -> local subheader = self:AcquireAndSetSubHeader(L["Costs"]);
+   Code/Dialogue/DialogueUI.lua:1751 -> offsetY = self:FormatRewards(offsetY, itemList);
+   Code/Dialogue/DialogueUI.lua:1758 -> local hidden = IsQuestItemHidden(index);
+   Code/Dialogue/DialogueUI.lua:1760 -> table.insert(itemList, {"SetRequiredItem", index});
+   Code/Dialogue/DialogueUI.lua:1770 -> local subheader = self:AcquireAndSetSubHeader(L["Requirements"]);
+   Code/Dialogue/DialogueUI.lua:1779 -> offsetY = self:FormatRewards(offsetY, itemList);
+   Code/Dialogue/DialogueUI.lua:1786 -> local subheader = self:AcquireAndSetSubHeader(L["Quest Objectives"]);
+   Code/Dialogue/DialogueUI.lua:1895 -> local subheader = self:AcquireAndSetSubHeader( (#rewardList == 1 and L["Reward"]) or L["Rewards"] );
+   Code/Dialogue/DialogueUI.lua:1899 -> offsetY = self:FormatRewards(offsetY, rewardList);
+   Code/Dialogue/DialogueUI.lua:2091 -> local subheader = self:AcquireAndSetSubHeader(L["Costs"]);
+   Code/Dialogue/DialogueUI.lua:2099 -> offsetY = self:FormatRewards(offsetY, itemList);
+   Code/Dialogue/DialogueUI.lua:2829 -> local hidden = IsQuestItemHidden(index);
+   Code/Dialogue/DialogueUI.lua:3009 -> local numRequiredItems = GetNumQuestItems();
+   Code/Dialogue/DialogueUI.lua:3014 -> str = JoinText(str, "", L["Requirements"]);
+   Code/Dialogue/DialogueUI.lua:3101 -> function DUIDialogBaseMixin:FormatRewards(offsetY, rewardList)
+
+== 5. DialogueUI: пул кнопок и раскладка сетки  (шаблон: itemButtonPool:Acquire|SetBaseGridSize|SetWidthByGridTaken|SetButtonWidth|SetPoint.*grid|GetActualGridTaken)
+   Code/Dialogue/DialogueUI.lua:224 -> AcceptButton:SetButtonWidth(self.halfFrameWidth);
+   Code/Dialogue/DialogueUI.lua:228 -> GoodbyeButton:SetButtonWidth(self.halfFrameWidth);
+   Code/Dialogue/DialogueUI.lua:263 -> button:SetButtonWidth(buttonWidth);
+   Code/Dialogue/DialogueUI.lua:271 -> button:SetButtonWidth(buttonWidth);
+   Code/Dialogue/DialogueUI.lua:279 -> button:SetButtonWidth(buttonWidth);
+   Code/Dialogue/DialogueUI.lua:407 -> button:SetButtonWidth(self.frameWidth - 2*PADDING_H*FRAME_SIZE_MULTIPLIER);
+   Code/Dialogue/DialogueUI.lua:446 -> button:SetButtonWidth(self.halfFrameWidth);
+   Code/Dialogue/DialogueUI.lua:464 -> button:SetButtonWidth(self.quarterFrameWidth);
+   Code/Dialogue/DialogueUI.lua:641 -> self.AcceptButton:SetButtonWidth(self.halfFrameWidth);
+   Code/Dialogue/DialogueUI.lua:664 -> self.ExitButton:SetButtonWidth(self.halfFrameWidth);
+   Code/Dialogue/DialogueUI.lua:3144 -> object = self.itemButtonPool:Acquire();
+   Code/Dialogue/DialogueUI.lua:3145 -> object:SetBaseGridSize(sizeX, gridWidth, ITEM_BUTTON_SPACING);
+   Code/Dialogue/DialogueUI.lua:3200 -> object = self.itemButtonPool:Acquire();
+   Code/Dialogue/DialogueUI.lua:3203 -> object:SetBaseGridSize(sizeX, gridWidth, ITEM_BUTTON_SPACING);
+   Code/Dialogue/DialogueUI.lua:3205 -> actualSizeX = object:GetActualGridTaken() or sizeX;
+
+== 6. Виджет: SetItem / данные игры  (шаблон: function DUIDialogItemButtonMixin:SetItem\b|GetQuestItemInfo\(|GetQuestItemLink\(|Icon:SetTexture|SetItemName|SetItemCount)
+   Code/Dialogue/UITemplates.lua:372 -> self.Icon:SetTexture(GossipDataProvider:GetGossipIcon(data.icon, "Gossip Red"));
+   Code/Dialogue/UITemplates.lua:374 -> self.Icon:SetTexture(GossipDataProvider:GetGossipIcon(data.icon, "Gossip Quest"));
+   Code/Dialogue/UITemplates.lua:377 -> self.Icon:SetTexture(GossipDataProvider:GetGossipIcon(data.icon, "Gossip Movie"));
+   Code/Dialogue/UITemplates.lua:380 -> self.Icon:SetTexture(data.overrideIconID);
+   Code/Dialogue/UITemplates.lua:383 -> self.Icon:SetTexture(icon);
+   Code/Dialogue/UITemplates.lua:409 -> self.Icon:SetTexture(ThemeUtil:GetTextureFile("Hint"));
+   Code/Dialogue/UITemplates.lua:506 -> self.Icon:SetTexture(GetQuestIcon(questInfo));  --We fill in the QuestInfo through this API
+   Code/Dialogue/UITemplates.lua:611 -> self.Icon:SetTexture(nil);
+   Code/Dialogue/UITemplates.lua:623 -> self.Icon:SetTexture(nil);
+   Code/Dialogue/UITemplates.lua:640 -> self.Icon:SetTexture(nil);
+   Code/Dialogue/UITemplates.lua:656 -> self.Icon:SetTexture(nil);
+   Code/Dialogue/UITemplates.lua:665 -> self.Icon:SetTexture(nil);
+   Code/Dialogue/UITemplates.lua:672 -> self.Icon:SetTexture(nil);
+   Code/Dialogue/UITemplates.lua:683 -> self.Icon:SetTexture(nil);
+   Code/Dialogue/UITemplates.lua:715 -> self.Icon:SetTexture(nil);
+   Code/Dialogue/UITemplates.lua:722 -> self.Icon:SetTexture(nil);
+   Code/Dialogue/UITemplates.lua:1086 -> self.Icon:SetTexture(ThemeUtil:GetTextureFile(iconData.file));
+   Code/Dialogue/UITemplates.lua:1475 -> local link = GetQuestItemLink(self.type, self.index);
+   Code/Dialogue/UITemplates.lua:1534 -> function DUIDialogItemButtonMixin:SetItemName(name, quality)
+   Code/Dialogue/UITemplates.lua:1562 -> function DUIDialogItemButtonMixin:SetItemCount(amount, alignToCenter)
+   Code/Dialogue/UITemplates.lua:1621 -> function DUIDialogItemButtonMixin:SetItem(questInfoType, index)
+   Code/Dialogue/UITemplates.lua:1628 -> local name, texture, count, quality, isUsable, itemID, questRewardContextFlags = GetQuestItemInfo(questInfoType, index);    --no itemID in Classic;...
+   Code/Dialogue/UITemplates.lua:1631 -> local link = GetQuestItemLink(questInfoType, index);    --For Classic
+   Code/Dialogue/UITemplates.lua:1639 -> self.Icon:SetTexture(texture);
+   Code/Dialogue/UITemplates.lua:1640 -> self:SetItemName(name, quality);
+   Code/Dialogue/UITemplates.lua:1641 -> self:SetItemCount(count);
+   Code/Dialogue/UITemplates.lua:1729 -> self:SetItemName(name, quality);
+   Code/Dialogue/UITemplates.lua:1730 -> self.Icon:SetTexture(texture);
+   Code/Dialogue/UITemplates.lua:1794 -> self.Icon:SetTexture(majorFactionIcon);
+   Code/Dialogue/UITemplates.lua:1796 -> self:SetItemCount(nil);
+   Code/Dialogue/UITemplates.lua:1811 -> self.Icon:SetTexture(icon);
+   Code/Dialogue/UITemplates.lua:1817 -> self:SetItemName(name);
+   Code/Dialogue/UITemplates.lua:1818 -> self:SetItemCount(nil);
+   Code/Dialogue/UITemplates.lua:1830 -> self.Icon:SetTexture(skillIcon);
+   Code/Dialogue/UITemplates.lua:1832 -> self:SetItemName(skillName);
+   Code/Dialogue/UITemplates.lua:1846 -> self.Icon:SetTexture(DUI_ICON_NOTE or 134328);   --interface/icons/inv_misc_note_02.blp
+   Code/Dialogue/UITemplates.lua:1847 -> self:SetItemName(L["Format Reward Title"]:format(titleName));
+   Code/Dialogue/UITemplates.lua:1848 -> self:SetItemCount(nil);
+   Code/Dialogue/UITemplates.lua:1859 -> self.Icon:SetTexture(API.GetHonorIcon()); -- Classic client has no UI_WARMODE file.
+   Code/Dialogue/UITemplates.lua:1860 -> self:SetItemName(L["War Mode Bonus"]);
+   Code/Dialogue/UITemplates.lua:1877 -> self.Icon:SetTexture(API.GetHonorIcon());
+   Code/Dialogue/UITemplates.lua:1878 -> self:SetItemName(L["Honor Points"]);
+   Code/Dialogue/UITemplates.lua:1879 -> self:SetItemCount(honor);
+   Code/Dialogue/UITemplates.lua:1909 -> self.Icon:SetTexture(followerInfo.portraitIconID);
+   Code/Dialogue/UITemplates.lua:1910 -> self:SetItemName(name);
+   Code/Dialogue/UITemplates.lua:1911 -> self:SetItemCount(nil);
+   Code/Dialogue/UITemplates.lua:1919 -> local link = self.objectType == "item" and GetQuestItemLink(self.type, self.index);
+   Code/Dialogue/UITemplates.lua:1970 -> self.Icon:SetTexture(ThemeUtil:GetTextureFile(CUSTOM_ICONS[file]));
+   Code/Dialogue/UITemplates.lua:1973 -> self.Icon:SetTexture(file);
+   Code/Dialogue/UITemplates.lua:1978 -> function DUIDialogSmallItemButtonMixin:SetItemName(name)
+   Code/Dialogue/UITemplates.lua:2001 -> self:SetItemName(amount);
+   Code/Dialogue/UITemplates.lua:2017 -> button.Icon:SetTexture(ThemeUtil:GetTextureFile(name));
+   Code/Dialogue/UITemplates.lua:2030 -> self:SetItemName(moneyText);
+   Code/Dialogue/UITemplates.lua:2044 -> self:SetItemName(moneyText);
+   Code/Dialogue/UITemplates.lua:2057 -> self.Icon:SetTexture(ThemeUtil:GetTextureFile("XP-Purple"));
+   Code/Dialogue/UITemplates.lua:2065 -> self:SetItemName(amount);
+   Code/Dialogue/UITemplates.lua:2079 -> self.Icon:SetTexture(majorFactionIcon);
+   Code/Dialogue/UITemplates.lua:2081 -> self:SetItemName(rewardAmount);
+   Code/Dialogue/UITemplates.lua:2096 -> self.Icon:SetTexture(API.GetHonorIcon());
+   Code/Dialogue/UITemplates.lua:2098 -> self:SetItemName(honor);
+   Code/Dialogue/UITemplates.lua:2286 -> self.Icon:SetTexture(nil);
+   Code/Dialogue/UITemplates.lua:2314 -> self.Icon:SetTexture(icon);
+   Code/Dialogue/UITemplates.lua:2316 -> self.Icon:SetTexture(nil);
+   Code/Dialogue/UITemplates.lua:2396 -> self.Icon:SetTexture(nil);
+   Code/Dialogue/UITemplates.lua:2416 -> self.Icon:SetTexture(ThemeUtil:GetTextureFile("CurrencyOverflow"));
+   Code/Dialogue/UITemplates.lua:2423 -> self.Icon:SetTexture(ThemeUtil:GetTextureFile("Coin-Gold"));
+   Code/Dialogue/UITemplates.lua:2431 -> self.Icon:SetTexture(ThemeUtil:GetTextureFile("ItemIsUpgrade"));
+   Code/Dialogue/UITemplates.lua:2450 -> self.Icon:SetTexture(ThemeUtil:GetTextureFile("WarbandCompleted"));
+
+== 7. Виджет: счётчик 99/2048  (шаблон: FORMAT_COUNT_OWNED_REQUIRED|GetItemCount\(|Count:SetText|Count:SetPoint|Count:SetJustifyH)
+   Code/Dialogue/UITemplates.lua:69 -> local FORMAT_COUNT_OWNED_REQUIRED = "|cffaaaaaa%s/|r%s";
+   Code/Dialogue/UITemplates.lua:259 -> local numInBags = GetItemCount(itemID);
+   Code/Dialogue/UITemplates.lua:1565 -> local numInBags = GetItemCount(self.itemID);
+   Code/Dialogue/UITemplates.lua:1569 -> self.Count:SetText(FORMAT_COUNT_OWNED_REQUIRED:format(numInBags, amount));
+   Code/Dialogue/UITemplates.lua:1571 -> self.Count:SetText(amount);
+   Code/Dialogue/UITemplates.lua:1573 -> self.Count:SetText(nil);
+   Code/Dialogue/UITemplates.lua:1576 -> self.Count:SetText(nil);
+   Code/Dialogue/UITemplates.lua:1579 -> self.Count:SetTextColor(1, 1, 1);
+   Code/Dialogue/UITemplates.lua:1583 -> self.Count:SetPoint("BOTTOM", self.Icon, "BOTTOM", 0, 1);
+   Code/Dialogue/UITemplates.lua:1584 -> self.Count:SetJustifyH("CENTER");
+   Code/Dialogue/UITemplates.lua:1586 -> self.Count:SetPoint("BOTTOMRIGHT", self.Icon, "BOTTOMRIGHT", -1, 1);
+   Code/Dialogue/UITemplates.lua:1587 -> self.Count:SetJustifyH("RIGHT");
+   Code/Dialogue/UITemplates.lua:1733 -> self.Count:SetTextColor(1.000, 0.125, 0.125);   --RED_FONT_COLOR
+   Code/Dialogue/UITemplates.lua:1736 -> self.Count:SetTextColor(1, 1, 1);
+   Code/Dialogue/UITemplates.lua:1743 -> amountText = FORMAT_COUNT_OWNED_REQUIRED:format(AbbreviateNumbers(ownedAmount), amountText);
+   Code/Dialogue/UITemplates.lua:1748 -> self.Count:SetText(amountText);
+   Code/Dialogue/UITemplates.lua:1751 -> self.Count:SetText(nil);
+   Code/Dialogue/UITemplates.lua:1834 -> self.Count:SetText("+"..skillPoints);
+   Code/Dialogue/UITemplates.lua:1835 -> self.Count:SetTextColor(1, 0.82, 0);
+   Code/Dialogue/UITemplates.lua:1861 -> self.Count:SetText("+"..bonus.."%");    --PLUS_PERCENT_FORMAT
+   Code/Dialogue/UITemplates.lua:1862 -> self.Count:SetTextColor(0.1, 1, 0.1);
+
+== 8. Виджет: геометрия иконки (UpdatePixel / шаблон)  (шаблон: UpdatePixel|AreaDefinitionItemBorder|Icon:SetPoint|Icon:ClearAllPoints|GetPixelForScale|AddPixelPerfectObject)
+   Code/Dialogue/UITemplates.lua:490 -> rightIcon:SetPoint("RIGHT", self, "RIGHT", -48, 0);
+   Code/Dialogue/UITemplates.lua:843 -> self.Icon:SetPoint("TOPLEFT", self.Content, "TOPLEFT", iconOffset, -padding + 1);
+   Code/Dialogue/UITemplates.lua:1381 -> self:UpdatePixel();
+   Code/Dialogue/UITemplates.lua:1382 -> PixelUtil:AddPixelPerfectObject(self);
+   Code/Dialogue/UITemplates.lua:1425 -> function DUIDialogItemButtonMixin:UpdatePixel(scale)
+   Code/Dialogue/UITemplates.lua:1431 -> local offset = API.GetPixelForScale(scale, iconShrink);
+   Code/Dialogue/UITemplates.lua:1432 -> self.Icon:ClearAllPoints();
+   Code/Dialogue/UITemplates.lua:1433 -> self.Icon:SetPoint("TOPLEFT", self.AreaDefinitionItemBorder, "TOPLEFT", offset, -offset);
+   Code/Dialogue/UITemplates.lua:1434 -> self.Icon:SetPoint("BOTTOMRIGHT", self.AreaDefinitionItemBorder, "BOTTOMRIGHT", -offset, offset);
+   Code/Dialogue/UITemplates.lua:2329 -> self.Icon:ClearAllPoints();
+   Code/Dialogue/UITemplates.lua:2330 -> self.Icon:SetPoint("RIGHT", self.Name, "LEFT", -ICON_TEXT_GAP, 0);
+   Code/Dialogue/UITemplates.lua:2335 -> self.Icon:ClearAllPoints();
+   Code/Dialogue/UITemplates.lua:2336 -> self.Icon:SetPoint("LEFT", self, "LEFT", 0, 0);
+   Code/Dialogue/UITemplates.lua:2378 -> self.Icon:SetPoint("CENTER", self, "CENTER", 0, self.toY);
+   Code/Dialogue/UITemplates.lua:2386 -> self.Icon:SetPoint("CENTER", self, "CENTER", 0, self.offsetY);
+   Code/Dialogue/UITemplates.lua:2407 -> self.Icon:ClearAllPoints();
+   Code/Dialogue/UITemplates.lua:2432 -> self.Icon:SetPoint("CENTER", self, "CENTER", 0, 0);
+   Code/Dialogue/UITemplates.lua:2597 -> function BackgroundMixin:UpdatePixel()
+   Code/Dialogue/UITemplates.lua:2766 -> local a = 68;   --API.GetPixelForScale(1, 128);
+   Code/Dialogue/DialogueUI.xml:206 -> <Frame parentKey="AreaDefinitionItemBorder">
+   Code/Dialogue/DialogueUI.xml:221 -> <Anchor point="TOPLEFT" relativeKey="$parent.AreaDefinitionItemBorder" relativePoint="TOPLEFT"/>
+   Code/Dialogue/DialogueUI.xml:222 -> <Anchor point="BOTTOMRIGHT" relativeKey="$parent.AreaDefinitionItemBorder" relativePoint="BOTTOMRIGHT"/>
+   Code/Dialogue/DialogueUI.xml:230 -> <Anchor point="CENTER" relativeKey="$parent.AreaDefinitionItemBorder"/>
+   Code/Dialogue/DialogueUI.xml:249 -> <Anchor point="CENTER" relativeKey="$parent.AreaDefinitionItemBorder"/>
+
+== 9. Виджет: фон/рамка кнопки (ThemeUtil-резолв)  (шаблон: SetBackgroundTexture|ItemButtonBackground|ItemBorder|Background:SetTexture|ItemBorder:SetTexture|ThemeUtil:GetTextureFile)
+   Code/Dialogue/UITemplates.lua:88 -> return ThemeUtil:GetTextureFile("ui_majorfactions_"..textureKit)
+   Code/Dialogue/UITemplates.lua:409 -> self.Icon:SetTexture(ThemeUtil:GetTextureFile("Hint"));
+   Code/Dialogue/UITemplates.lua:865 -> parentHighlightFrame.BackTexture:SetTexture(ThemeUtil:GetTextureFile(data.backTexture));
+   Code/Dialogue/UITemplates.lua:872 -> parentHighlightFrame.FrontTexture:SetTexture(ThemeUtil:GetTextureFile(data.frontTexture));
+   Code/Dialogue/UITemplates.lua:893 -> self.Background:SetTexture(nil);
+   Code/Dialogue/UITemplates.lua:896 -> self.Background:SetTexture(ThemeUtil:GetTextureFile(backgrounds[id]));
+   Code/Dialogue/UITemplates.lua:1045 -> self.Background:SetTexture(ThemeUtil:GetTextureFile("HotkeyBackground"));
+   Code/Dialogue/UITemplates.lua:1086 -> self.Icon:SetTexture(ThemeUtil:GetTextureFile(iconData.file));
+   Code/Dialogue/UITemplates.lua:1379 -> self:SetBackgroundTexture(1);
+   Code/Dialogue/UITemplates.lua:1380 -> self.ItemOverlay:SetTexture(ThemeUtil:GetTextureFile("ItemOverlays"));
+   Code/Dialogue/UITemplates.lua:1384 -> self.Sheen:SetTexture(ThemeUtil:GetTextureFile("RewardChoice-Sheen"));
+   Code/Dialogue/UITemplates.lua:1388 -> self.ItemOverlay:SetTexture(ThemeUtil:GetTextureFile("ItemOverlays"));
+   Code/Dialogue/UITemplates.lua:1389 -> self.Sheen:SetTexture(ThemeUtil:GetTextureFile("RewardChoice-Sheen"));
+   Code/Dialogue/UITemplates.lua:1394 -> self:SetBackgroundTexture(backgroundID);
+   Code/Dialogue/UITemplates.lua:1397 -> function DUIDialogItemButtonMixin:SetBackgroundTexture(id)
+   Code/Dialogue/UITemplates.lua:1407 -> borderFile = "ItemBorder";
+   Code/Dialogue/UITemplates.lua:1408 -> bgFile = "ItemButtonBackground";
+   Code/Dialogue/UITemplates.lua:1411 -> borderFile = "RewardChoice-ItemBorder";
+   Code/Dialogue/UITemplates.lua:1415 -> borderFile = "RewardChoice-ItemBorder";
+   Code/Dialogue/UITemplates.lua:1420 -> self.ItemBorder:SetTexture(ThemeUtil:GetTextureFile(borderFile));
+   Code/Dialogue/UITemplates.lua:1421 -> self.Background:SetTexture(ThemeUtil:GetTextureFile(bgFile));
+   Code/Dialogue/UITemplates.lua:1433 -> self.Icon:SetPoint("TOPLEFT", self.AreaDefinitionItemBorder, "TOPLEFT", offset, -offset);
+   Code/Dialogue/UITemplates.lua:1434 -> self.Icon:SetPoint("BOTTOMRIGHT", self.AreaDefinitionItemBorder, "BOTTOMRIGHT", -offset, offset);
+   Code/Dialogue/UITemplates.lua:1436 -> API.UpdateTextureSliceScale(self.ItemBorder);
+   Code/Dialogue/UITemplates.lua:1961 -> self:SetBackgroundTexture();
+   Code/Dialogue/UITemplates.lua:1964 -> function DUIDialogSmallItemButtonMixin:SetBackgroundTexture()
+   Code/Dialogue/UITemplates.lua:1965 -> self.Background:SetTexture(ThemeUtil:GetTextureFile("ItemButtonBackground"));
+   Code/Dialogue/UITemplates.lua:1970 -> self.Icon:SetTexture(ThemeUtil:GetTextureFile(CUSTOM_ICONS[file]));
+   Code/Dialogue/UITemplates.lua:2017 -> button.Icon:SetTexture(ThemeUtil:GetTextureFile(name));
+   Code/Dialogue/UITemplates.lua:2057 -> self.Icon:SetTexture(ThemeUtil:GetTextureFile("XP-Purple"));
+   Code/Dialogue/UITemplates.lua:2164 -> self.ProgressTexture:SetTexture(ThemeUtil:GetTextureFile("ButtonLockProgress"));
+   Code/Dialogue/UITemplates.lua:2199 -> self:SetBackgroundTexture();
+   Code/Dialogue/UITemplates.lua:2227 -> function DUIDialogInputBoxMixin:SetBackgroundTexture()
+   Code/Dialogue/UITemplates.lua:2228 -> local bgFile = ThemeUtil:GetTextureFile("InputBox-SingleLine");
+   Code/Dialogue/UITemplates.lua:2230 -> self.EditBox.Background:SetTexture(bgFile);
+   Code/Dialogue/UITemplates.lua:2416 -> self.Icon:SetTexture(ThemeUtil:GetTextureFile("CurrencyOverflow"));
+   Code/Dialogue/UITemplates.lua:2423 -> self.Icon:SetTexture(ThemeUtil:GetTextureFile("Coin-Gold"));
+   Code/Dialogue/UITemplates.lua:2431 -> self.Icon:SetTexture(ThemeUtil:GetTextureFile("ItemIsUpgrade"));
+   Code/Dialogue/UITemplates.lua:2450 -> self.Icon:SetTexture(ThemeUtil:GetTextureFile("WarbandCompleted"));
+   Code/Dialogue/UITemplates.lua:2592 -> self.Background:SetTexture(addon.Template.GetSharedTextureFile("ClipboardBackground"));
+   Code/Dialogue/UITemplates.lua:2749 -> f.Background:SetTexture(texture);
+
+== 10. Резолвер тем/размеры  (шаблон: function ThemeUtil:FindTextureFile|function ThemeUtil:GetTextureFile|MissingTexture)
+   Code/Utility/ThemeUtil.lua:167 -> local MissingTextures = {};
+   Code/Utility/ThemeUtil.lua:168 -> local function MissingTexture(name)
+   Code/Utility/ThemeUtil.lua:169 -> if not MissingTextures[name] then
+   Code/Utility/ThemeUtil.lua:170 -> MissingTextures[name] = true;
+   Code/Utility/ThemeUtil.lua:200 -> function ThemeUtil:FindTextureFile(fileName)
+   Code/Utility/ThemeUtil.lua:232 -> function ThemeUtil:GetTextureFile(fileName)
+   Code/Utility/ThemeUtil.lua:236 -> return file or MissingTexture(name);
+
+== 11. Compat 3.3.5a: данные квеста и иконки  (шаблон: GetQuestItemInfo|GetNumQuestItems|IsQuestItemHidden|DUI_ICON|SetTexture\(number\))
+   Code/Compat/Compat_335.lua:157 -> if not IsQuestItemHidden then function P.IsQuestItemHidden() return 0 end end       --callers test "hidden == 0"
+   Code/Compat/Compat_335.lua:213 -> -- Retail file IDs used as default icons -> real 3.3.5a paths (SetTexture(number) shows nothing here)
+   Code/Compat/Compat_335.lua:214 -> P.DUI_ICON_QUESTIONMARK = "Interface\\Icons\\INV_Misc_QuestionMark"
+   Code/Compat/Compat_335.lua:215 -> P.DUI_ICON_NOTE = "Interface\\Icons\\INV_Misc_Note_02"
+   Code/Compat/Compat_335.lua:216 -> P.DUI_ICON_GOSSIP = "Interface\\GossipFrame\\GossipGossipIcon"
+   Code/Compat/Compat_335.lua:978 -> return {name = "", quality = 1, level = 1, portraitIconID = DUI_ICON_QUESTIONMARK, isTroop = false}
+   Code/Compat/Compat_335.lua:981 -> return {name = "", description = "", icon = DUI_ICON_QUESTIONMARK}
+
+== 12. Тултип награды (RewardTooltipCode)  (шаблон: CustomTooltip_OnEnter|SetQuestItem|IsQuestRequiredItem|GetItemCount\(|self\.Icon)
+   Code/Dialogue/RewardTooltipCode.lua:8 -> local IsQuestRequiredItem = API.IsQuestRequiredItem;
+   Code/Dialogue/RewardTooltipCode.lua:127 -> local function CustomTooltip_OnEnter(self)
+   Code/Dialogue/RewardTooltipCode.lua:130 -> tooltip:SetPoint("BOTTOMLEFT", self.Icon, "TOPRIGHT", 0, 2);
+   Code/Dialogue/RewardTooltipCode.lua:135 -> tooltip:SetQuestItem(self.type, self.index, showCollectionText);
+   Code/Dialogue/RewardTooltipCode.lua:137 -> if self.type == "required" and self.itemID and (not IsQuestRequiredItem(self.itemID)) then
+   Code/Dialogue/RewardTooltipCode.lua:138 -> local numInBags = GetItemCount(self.itemID);
+   Code/Dialogue/RewardTooltipCode.lua:139 -> local numTotal = GetItemCount(self.itemID, true);
+   Code/Dialogue/RewardTooltipCode.lua:214 -> tooltip:SetPoint("BOTTOMLEFT", self.Icon, "TOPRIGHT", 0, 2);
+   Code/Dialogue/RewardTooltipCode.lua:218 -> tooltip:SetQuestItem(self.type, self.index, showCollectionText);
+   Code/Dialogue/RewardTooltipCode.lua:259 -> GarrisonFollowerTooltip:SetPoint("BOTTOMLEFT", self.Icon, "TOPRIGHT", 0, 2);
+   Code/Dialogue/RewardTooltipCode.lua:285 -> CustomTooltip_OnEnter(itemButton);

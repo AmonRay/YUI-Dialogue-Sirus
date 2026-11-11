@@ -1242,7 +1242,13 @@ if addon.IS_335 then
                     self:Stop();
                 else
                     self:ForceSmoothBlend();
-                    SetView(VIEW_INDEX);
+                    if addon.HasNativeCameraZoom and GetUnitSpeed and GetUnitSpeed("player") > 0 and self.restoreZoom then
+                        -- Do not restore saved yaw/pitch against the moving follow camera.
+                        local delta = self.restoreZoom - GetCameraZoom();
+                        if delta > 0 then CameraZoomOut(delta) else CameraZoomIn(-delta) end;
+                    else
+                        SetView(VIEW_INDEX);
+                    end
                 end
             end
         elseif self.t >= VIEW_BLEND_TIME then
@@ -1250,7 +1256,8 @@ if addon.IS_335 then
         end
     end
 
-    function ViewRestorer:Start()
+    function ViewRestorer:Start(zoom)
+        self.restoreZoom = zoom;
         self.pending = true;
         self.t = 0;
         self.frames = 0;
@@ -1277,6 +1284,7 @@ if addon.IS_335 then
             return
         end
 
+        self.view335Zoom = GetCameraZoom();
         SaveView(VIEW_INDEX);
     end
 
@@ -1341,7 +1349,7 @@ if addon.IS_335 then
 
         if self.view335Saved then
             self.view335Saved = nil;
-            ViewRestorer:Start();      --SetView a few frames later, after the UI is shown below (see the top of this block)
+            ViewRestorer:Start(self.view335Zoom); -- Restore after the UI has settled.
         end
 
         if not cvarRestored then return end;

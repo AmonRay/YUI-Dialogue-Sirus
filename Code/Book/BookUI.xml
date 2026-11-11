@@ -16,7 +16,7 @@
         </Layers>
         <Scripts>
             <OnLoad>
-                self.BG:SetColorTexture(self.r, self.g, self.b, 0.2);
+                self.BG:SetTexture(self.r, self.g, self.b, 0.2);
             </OnLoad>
         </Scripts>
     </Frame>

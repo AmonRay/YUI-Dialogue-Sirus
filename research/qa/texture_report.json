@@ -283,7 +283,7 @@
     {
       "path": "Theme_Shared/ClipboardBackground",
       "source": "Code/Compat/Compat_335.lua",
-      "line": 798,
+      "line": 807,
       "kind": "literal-art"
     },
     {
@@ -337,55 +337,55 @@
     {
       "path": "Theme_Brown/Parchment",
       "source": "Code/Dialogue/DialogueUI.lua",
-      "line": 525,
+      "line": 526,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Dark/Parchment",
       "source": "Code/Dialogue/DialogueUI.lua",
-      "line": 525,
+      "line": 526,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Brown/RewardChoice-Highlight",
       "source": "Code/Dialogue/DialogueUI.lua",
-      "line": 556,
+      "line": 557,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Dark/RewardChoice-Highlight",
       "source": "Code/Dialogue/DialogueUI.lua",
-      "line": 556,
+      "line": 557,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Brown/RewardChoice-Highlight-Back",
       "source": "Code/Dialogue/DialogueUI.lua",
-      "line": 557,
+      "line": 558,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Dark/RewardChoice-Highlight-Back",
       "source": "Code/Dialogue/DialogueUI.lua",
-      "line": 557,
+      "line": 558,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Brown/SubHeaderBackground",
       "source": "Code/Dialogue/DialogueUI.lua",
-      "line": 569,
+      "line": 570,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Dark/SubHeaderBackground",
       "source": "Code/Dialogue/DialogueUI.lua",
-      "line": 569,
+      "line": 570,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Shared/ScreenVignette",
       "source": "Code/Dialogue/DialogueUI.lua",
-      "line": 3454,
+      "line": 3457,
       "kind": "theme-helper"
     },
     {
@@ -529,85 +529,85 @@
     {
       "path": "Theme_Brown/ItemButtonBackground",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1965,
+      "line": 1982,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Dark/ItemButtonBackground",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1965,
+      "line": 1982,
       "kind": "theme-helper"
     },
     {
       "path": "Icons/XP-Purple",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2057,
+      "line": 2074,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Brown/ButtonLockProgress",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2164,
+      "line": 2181,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Dark/ButtonLockProgress",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2164,
+      "line": 2181,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Brown/InputBox-SingleLine",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2228,
+      "line": 2245,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Dark/InputBox-SingleLine",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2228,
+      "line": 2245,
       "kind": "theme-helper"
     },
     {
       "path": "Icons/CurrencyOverflow",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2416,
+      "line": 2433,
       "kind": "theme-helper"
     },
     {
       "path": "Icons/Coin-Gold",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2423,
+      "line": 2440,
       "kind": "theme-helper"
     },
     {
       "path": "Icons/ItemIsUpgrade",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2431,
+      "line": 2448,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Brown/WarbandCompleted",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2450,
+      "line": 2467,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Dark/WarbandCompleted",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2450,
+      "line": 2467,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Shared/ClipboardBackground",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2592,
+      "line": 2609,
       "kind": "shared-helper"
     },
     {
       "path": "Theme_Shared/LoadingIndicator-Radial",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2745,
+      "line": 2762,
       "kind": "shared-helper"
     },
     {
@@ -3183,37 +3183,37 @@
     },
     {
       "source": "Code/Compat/Compat_335.lua",
-      "line": 446,
+      "line": 455,
       "kind": "SetTexture",
       "expression": "r, g, b, a) end)"
     },
     {
       "source": "Code/Compat/Compat_335.lua",
-      "line": 639,
+      "line": 648,
       "kind": "SetTexture",
       "expression": "self, file, ...)"
     },
     {
       "source": "Code/Compat/Compat_335.lua",
-      "line": 747,
+      "line": 756,
       "kind": "SetAtlas",
       "expression": "function(self, atlas, useAtlasSize)"
     },
     {
       "source": "Code/Compat/Compat_335.lua",
-      "line": 783,
+      "line": 792,
       "kind": "SetTexture",
       "expression": "file)"
     },
     {
       "source": "Code/Compat/Compat_335.lua",
-      "line": 792,
+      "line": 801,
       "kind": "SetTexture",
       "expression": "info.file or info.filename)"
     },
     {
       "source": "Code/Compat/Compat_335.lua",
-      "line": 797,
+      "line": 806,
       "kind": "SetTexture",
       "expression": "theme and theme:GetTextureFile(atlas) or"
     },
@@ -3261,85 +3261,85 @@
     },
     {
       "source": "Code/Dialogue/DialogueUI.lua",
-      "line": 529,
+      "line": 530,
       "kind": "SetTexture",
       "expression": "parchmentFile)"
     },
     {
       "source": "Code/Dialogue/DialogueUI.lua",
-      "line": 534,
+      "line": 535,
       "kind": "SetTexture",
       "expression": "parchmentFile)"
     },
     {
       "source": "Code/Dialogue/DialogueUI.lua",
-      "line": 537,
+      "line": 538,
       "kind": "SetTexture",
       "expression": "parchmentFile)"
     },
     {
       "source": "Code/Dialogue/DialogueUI.lua",
-      "line": 540,
+      "line": 541,
       "kind": "SetTexture",
       "expression": "parchmentFile)"
     },
     {
       "source": "Code/Dialogue/DialogueUI.lua",
-      "line": 543,
+      "line": 544,
       "kind": "SetTexture",
       "expression": "parchmentFile)"
     },
     {
       "source": "Code/Dialogue/DialogueUI.lua",
-      "line": 546,
+      "line": 547,
       "kind": "SetTexture",
       "expression": "parchmentFile)"
     },
     {
       "source": "Code/Dialogue/DialogueUI.lua",
-      "line": 550,
+      "line": 551,
       "kind": "SetTexture",
       "expression": "parchmentFile)"
     },
     {
       "source": "Code/Dialogue/DialogueUI.lua",
-      "line": 553,
+      "line": 554,
       "kind": "SetTexture",
       "expression": "parchmentFile)"
-    },
-    {
-      "source": "Code/Dialogue/DialogueUI.lua",
-      "line": 556,
-      "kind": "SetTexture",
-      "expression": "ThemeUtil:GetTextureFile(\"RewardChoice-Highlight\"))"
     },
     {
       "source": "Code/Dialogue/DialogueUI.lua",
       "line": 557,
       "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(\"RewardChoice-Highlight\"))"
+    },
+    {
+      "source": "Code/Dialogue/DialogueUI.lua",
+      "line": 558,
+      "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(\"RewardChoice-Highlight-Back\"))"
     },
     {
       "source": "Code/Dialogue/DialogueUI.lua",
-      "line": 571,
+      "line": 572,
       "kind": "SetTexture",
       "expression": "bgFile)"
     },
     {
       "source": "Code/Dialogue/DialogueUI.lua",
-      "line": 869,
+      "line": 870,
       "kind": "SetTexture",
       "expression": "decor)"
     },
     {
       "source": "Code/Dialogue/DialogueUI.lua",
-      "line": 1577,
+      "line": 1578,
       "kind": "SetTexture",
       "expression": "icon)"
     },
     {
       "source": "Code/Dialogue/DialogueUI.lua",
-      "line": 3454,
+      "line": 3457,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(\"ScreenVignette\"))"
     },
@@ -3549,163 +3549,163 @@
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1639,
+      "line": 1656,
       "kind": "SetTexture",
       "expression": "texture)"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1730,
+      "line": 1747,
       "kind": "SetTexture",
       "expression": "texture)"
-    },
-    {
-      "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1794,
-      "kind": "SetTexture",
-      "expression": "majorFactionIcon)"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
       "line": 1811,
       "kind": "SetTexture",
+      "expression": "majorFactionIcon)"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1828,
+      "kind": "SetTexture",
       "expression": "icon)"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1830,
+      "line": 1847,
       "kind": "SetTexture",
       "expression": "skillIcon)"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1846,
+      "line": 1863,
       "kind": "SetTexture",
       "expression": "DUI_ICON_NOTE or 134328)"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1859,
+      "line": 1876,
       "kind": "SetTexture",
       "expression": "API.GetHonorIcon())"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1877,
+      "line": 1894,
       "kind": "SetTexture",
       "expression": "API.GetHonorIcon())"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1909,
+      "line": 1926,
       "kind": "SetTexture",
       "expression": "followerInfo.portraitIconID)"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1965,
+      "line": 1982,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(\"ItemButtonBackground\"))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1970,
+      "line": 1987,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(CUSTOM_ICONS[file]))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1973,
+      "line": 1990,
       "kind": "SetTexture",
       "expression": "file)"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2017,
+      "line": 2034,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(name))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2057,
+      "line": 2074,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(\"XP-Purple\"))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2079,
+      "line": 2096,
       "kind": "SetTexture",
       "expression": "majorFactionIcon)"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2096,
+      "line": 2113,
       "kind": "SetTexture",
       "expression": "API.GetHonorIcon())"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2164,
+      "line": 2181,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(\"ButtonLockProgress\"))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2230,
+      "line": 2247,
       "kind": "SetTexture",
       "expression": "bgFile)"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2231,
+      "line": 2248,
       "kind": "SetTexture",
       "expression": "bgFile)"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2314,
+      "line": 2331,
       "kind": "SetTexture",
       "expression": "icon)"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2416,
+      "line": 2433,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(\"CurrencyOverflow\"))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2423,
+      "line": 2440,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(\"Coin-Gold\"))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2431,
+      "line": 2448,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(\"ItemIsUpgrade\"))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2450,
+      "line": 2467,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(\"WarbandCompleted\"))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2592,
+      "line": 2609,
       "kind": "SetTexture",
       "expression": "addon.Template.GetSharedTextureFile(\"ClipboardBackground\"))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2749,
+      "line": 2766,
       "kind": "SetTexture",
       "expression": "texture)"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2754,
+      "line": 2771,
       "kind": "SetTexture",
       "expression": "texture)"
     },
@@ -4248,8 +4248,8 @@
     "Code/Book/BookUI_Atlas.lua": "7c1e6dde52f902317581dbadbc504e6f71f52c594c14fb98422bdf7a42e8ab57",
     "Code/Book/BookUI_Component.lua": "4f2465e3e3fe223bc67ad3ed841c4905b8460a9eece33bd85d34633088b3e834",
     "Code/CallbackRegistry.lua": "dc21e2126159845dd35a70f92a1e2f1ed61a9df923739b3757e987e039b45e80",
-    "Code/Camera.lua": "a2f771fd79abfeb6495e42d84152cc414aae95fe20785f55894381ad2dfc7e8d",
-    "Code/Compat/Compat_335.lua": "912aa48173616fc02180c1b7043be5ae3d7239df7302243b6a0289f2d634b750",
+    "Code/Camera.lua": "948fdb80475f73bc942b35d44dce09292f369c4fba783923537d040eeac32429",
+    "Code/Compat/Compat_335.lua": "dddbf673ddad9d7bec64cdec594b0b042de86e59caaeab143e7474f8337bc030",
     "Code/Compat/TextureSizes_335.lua": "aac233fb58bf00639157f3c4704834c025da3a1a14b6ca23bde8d39fb36d5f01",
     "Code/Core.lua": "d233341d123d382d5a86909c6cda814840e90f546e30ccb1e79791fbaf4a301e",
     "Code/Dialogue/ActionButton.lua": "9df5bad8ab507aff9d43cecce776a2cea73ff32e5bce94ce9ba2008f0613b086",
@@ -4257,7 +4257,7 @@
     "Code/Dialogue/Banner.lua": "71a154c0acfcb4136d01e74a5f77acad30c442905582563298fe9f8f20d9ba31",
     "Code/Dialogue/ChatFrame.lua": "13a4e8d3b6956c4a2617705769a25385433be8b7c7686189b1243d39623be75c",
     "Code/Dialogue/Clipboard.lua": "5d92800b176c9efdc356c83322f42acba4398d5b4b8fd269d00391be7110e0f2",
-    "Code/Dialogue/DialogueUI.lua": "a8d1a2d3c10e09cb947ff63ad91905544f7d90a003c00984a6e819173511d958",
+    "Code/Dialogue/DialogueUI.lua": "3d711f9ce9c48f825fdc509a3072fa35e9b8a1a5b94785ca2c1b86615c01b72b",
     "Code/Dialogue/DialogueUI.xml": "b50c28aa2a08efcbb671b8111b221933e0d77a3eea3fd9ca5da957a7cf4810bb",
     "Code/Dialogue/FriendshipBar.lua": "52a81dd521fbeaa1896d35430ec431845b5a9f69957dd0f14419237c579b28c7",
     "Code/Dialogue/KeyboardControl.lua": "ed5d49d1f32d9fa5d4bc9d97d74c2b17a18714a70de58e532b1cecb1efbf51d9",
@@ -4269,7 +4269,7 @@
     "Code/Dialogue/StatusBar.lua": "8651868b9218f9dec405c643e6341a6af63722201ccc8f5ee6a714f6afdb9d4b",
     "Code/Dialogue/Translator.lua": "803554d0a82ea0004a4d401050bc390ebeb4b88d91d9059fa4e1e15ad7e139db",
     "Code/Dialogue/Tutorial.lua": "afdba3882930c12a9f61593fffa605baa7951293ddac0c0ba60ba1c3d2429fc9",
-    "Code/Dialogue/UITemplates.lua": "69f32328ef2c9742ebcad4638e46e42447a914dc0948f8593fa1f1d3b3f5828a",
+    "Code/Dialogue/UITemplates.lua": "0d4ff995163a4cad086728abbba785469cc83fb2f57ecd1267221b2ea029224f",
     "Code/GossipData/GossipData_AutoQuest.lua": "799aa241fd08a3de7530453cbd45deb58dec9c7a63f30ba016ac989404a438c5",
     "Code/GossipData/GossipData_AutoSelect.lua": "dd6c9abf6532f14f555bb4becffe69414d891f8f482909bfa39f09f64d882761",
     "Code/GossipData/GossipData_Hint.lua": "a30f594e51cd79c8ec2e4588a9a7be66a8682f688dbd7e0f090e251d94886f2d",

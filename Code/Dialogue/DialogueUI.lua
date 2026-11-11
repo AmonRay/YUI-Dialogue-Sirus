@@ -452,6 +452,7 @@ function DUIDialogBaseMixin:OnLoad()
     end
 
     local function OnAcquireItemButton(itemButton)
+        itemButton:ResetCountLayout();
         itemButton:SetAlpha(1);
         itemButton:SetBackgroundTexture(1);
     end
@@ -2510,6 +2511,8 @@ function DUIDialogBaseMixin:CloseDialogInteraction()
         return
     end
 
+    -- Range/event closure has already ended the interaction.
+    if not API.IsInteractingWithDialogNPC() then return end;
     CloseQuest();
     CloseGossipInteraction();
 

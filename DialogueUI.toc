@@ -21,7 +21,7 @@
 # 1.0.8 rebuild 8: the camera no longer jerks when a dialog closes on 3.3.5a - the game UI comes back first and the camera starts moving back a few frames later (SetView no longer runs in the heavy UIParent:Show() frame); a dialog opened right after another keeps the camera in place
 # 1.0.8 rebuild 9: window textures resolve on 3.3.5a - ThemeUtil searches every asset category for bare names (theme -> shared -> icons/keys/gameassets/book/shapes/decor/preview), Compat_335 replaces atlas/gradient/mask API, 9-slice panels are rebuilt from plain textures with SetTexCoord, NPCType-Direction -> Icons/AskDirection
 # 1.0.8 rebuild 10: template/layout cleanup - shared paths resolve through ThemeUtil, scroll bars follow the current theme with ThemeChanged, portrait and quest header textures resolve at use time; cursor texture prefix fixed to Icons/AskDirection (0 broken paths in the static scan)
-
+# 1.0.8 rebuild 11: required-item count column; moving camera restores distance without saved heading; widget compatibility methods are private to DialogueUI objects (in-client acceptance pending)
 
 Code\Compat\Compat_335.lua
 Code\Compat\TextureSizes_335.lua

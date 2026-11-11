@@ -1532,6 +1532,7 @@ function DUIDialogItemButtonMixin:OnInfoReceived()
 end
 
 function DUIDialogItemButtonMixin:SetItemName(name, quality)
+    self:ResetCountLayout();
     if name and name ~= "" then
         self:OnInfoReceived();
     else
@@ -1559,14 +1560,25 @@ function DUIDialogItemButtonMixin:UpdateNameColor(quality)
     end
 end
 
+function DUIDialogItemButtonMixin:ResetCountLayout()
+    self.textShrink = ITEMBUTTON_TEXT_WDITH_SHRINK;
+    self.Name:ClearAllPoints();
+    self.Name:SetPoint("TOPLEFT", self, "TOPLEFT", 40, 0);
+    self.Name:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -8, 0);
+    self.Count:ClearAllPoints();
+    self.Count:SetPoint("BOTTOMRIGHT", self.Icon, "BOTTOMRIGHT", -1, 1);
+    self.Count:SetJustifyH("RIGHT");
+end
+
 function DUIDialogItemButtonMixin:SetItemCount(amount, alignToCenter)
+    self:ResetCountLayout();
+    local separateCount;
     if amount then
         if self.type == "required" and self.itemID and (not IsQuestRequiredItem(self.itemID)) then
             local numInBags = GetItemCount(self.itemID);
-            if numInBags > 999 then
-                numInBags = "*";
-            end
+            if numInBags > 999 then numInBags = "*"; end
             self.Count:SetText(FORMAT_COUNT_OWNED_REQUIRED:format(numInBags, amount));
+            separateCount = true;
         elseif amount > 1 then
             self.Count:SetText(amount);
         else
@@ -1575,17 +1587,22 @@ function DUIDialogItemButtonMixin:SetItemCount(amount, alignToCenter)
     else
         self.Count:SetText(nil);
     end
-
     self.Count:SetTextColor(1, 1, 1);
-    self.Count:ClearAllPoints();
-
-    if alignToCenter then
+    if separateCount then
+        local reserve = self.Count:GetStringWidth() + 8;
+        self.Count:ClearAllPoints();
+        self.Count:SetPoint("RIGHT", self, "RIGHT", -8, 0);
+        self.Name:ClearAllPoints();
+        self.Name:SetPoint("TOPLEFT", self, "TOPLEFT", 40, 0);
+        self.Name:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -8 - reserve, 0);
+        self.textShrink = ITEMBUTTON_TEXT_WDITH_SHRINK + reserve;
+    elseif alignToCenter then
+        self.Count:ClearAllPoints();
         self.Count:SetPoint("BOTTOM", self.Icon, "BOTTOM", 0, 1);
         self.Count:SetJustifyH("CENTER");
-    else
-        self.Count:SetPoint("BOTTOMRIGHT", self.Icon, "BOTTOMRIGHT", -1, 1);
-        self.Count:SetJustifyH("RIGHT");
     end
+    self:ResetToDefaultSize();
+    self:FitToName();
 end
 
 local ITEM_OVERLAYS = {

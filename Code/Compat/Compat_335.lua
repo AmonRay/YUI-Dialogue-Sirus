@@ -70,6 +70,7 @@ local MissingMixins = {}
 
 -- Replacement for XML mixin="..." (called from converted OnLoad scripts)
 function DUI_ApplyMixin(object, mixinName)
+    if addon.PrepareWidget then addon.PrepareWidget(object) end
     local mixin = _G[mixinName]
     if mixin then
         if not (object.__duiMixins and object.__duiMixins[mixinName]) then
@@ -276,6 +277,9 @@ end
 -- ---------------------------------------------------------------------------
 -- Widget methods missing in 3.3.5
 -- ---------------------------------------------------------------------------
+local WidgetPatches = {}
+local PrepareWidget
+
 do
     local frame = CreateFrame("Frame")
     local texture = frame:CreateTexture()
@@ -287,7 +291,12 @@ do
 
     local function Index(object)
         local mt = getmetatable(object)
-        return mt and type(mt.__index) == "table" and mt.__index
+        local native = mt and type(mt.__index) == "table" and mt.__index
+        if not native then return end
+        if not WidgetPatches[native] then
+            WidgetPatches[native] = setmetatable({}, {__index = native})
+        end
+        return WidgetPatches[native]
     end
 
     local function Add(index, name, func)
@@ -396,7 +405,7 @@ do
     --Retail Model:SetLight(enabled, lightTable); 3.3.5 only accepts positional numbers:
     --SetLight(enabled, omni, dirX, dirY, dirZ, ambIntensity, ambR, ambG, ambB, dirIntensity, dirR, dirG, dirB)
     local function WrapSetLight(index)
-        local orig = index and rawget(index, "SetLight")
+        local orig = index and index.SetLight
         if type(orig) ~= "function" or rawget(index, "__duiSetLight") then return end
         rawset(index, "__duiSetLight", true)
         rawset(index, "SetLight", function(self, enabled, light, ...)
@@ -822,8 +831,8 @@ do
     Add(fsIndex, "SetFormattedText", function(self, fmt, ...) self:SetText(string.format(fmt, ...)) end)
 
     --GameTooltip: retail currency setters (3.3.5 has no currency tooltips by ID)
-    if GameTooltip then
-        local ttIndex = Index(GameTooltip)
+    do
+        local ttIndex = Index(CreateFrame("GameTooltip"))
         Add(ttIndex, "SetCurrencyByID", noop)
         Add(ttIndex, "SetQuestCurrency", noop)
         Add(ttIndex, "SetQuestLogCurrency", noop)
@@ -857,6 +866,35 @@ do
         Add(idx, "SetTarget", noop)
         Add(idx, "SetChildKey", noop)
     end
+
+    local prepared = setmetatable({}, {__mode = "k"})
+    PrepareWidget = function(object)
+        if not object or prepared[object] then return object end
+        prepared[object] = true
+        local mt = getmetatable(object)
+        local patches = mt and WidgetPatches[mt.__index]
+        if patches then
+            for name, method in pairs(patches) do object[name] = method end
+        end
+        -- Only called for DialogueUI-owned roots, never UIParent or native frames.
+        for _, name in ipairs({"CreateTexture", "CreateFontString", "CreateAnimationGroup", "CreateAnimation"}) do
+            local original = object[name]
+            if original then
+                object[name] = function(self, ...)
+                    return PrepareWidget(original(self, ...))
+                end
+            end
+        end
+        local function PrepareList(...)
+            for i = 1, select("#", ...) do PrepareWidget(select(i, ...)) end
+        end
+        if object.GetRegions then PrepareList(object:GetRegions()) end
+        if object.GetChildren then PrepareList(object:GetChildren()) end
+        if object.GetAnimationGroups then PrepareList(object:GetAnimationGroups()) end
+        if object.GetAnimations then PrepareList(object:GetAnimations()) end
+        return object
+    end
+    addon.PrepareWidget = PrepareWidget
 end
 
 
@@ -886,8 +924,9 @@ do
 
     function addon.CreateFrame(frameType, name, parent, templates, id)
         frameType = WidgetFallback[frameType] or frameType
-        return OrigCreateFrame(frameType, name, parent, FilterTemplates(templates), id)
+        return PrepareWidget(OrigCreateFrame(frameType, name, parent, FilterTemplates(templates), id))
     end
+    P.CreateFrame = addon.CreateFrame
 end
 
 
@@ -1201,6 +1240,7 @@ do
     end
     if rawget(C_CVar, "GetCVarBool") == nil then C_CVar.GetCVarBool = function(k) return SafeGetCVar(k) == "1" end end
 
+    addon.HasNativeCameraZoom = type(GetCameraZoom) == "function"
     if not GetCameraZoom then
         --No zoom query on 3.3.5: report the max follow distance so zoom math stays valid
         function P.GetCameraZoom()
