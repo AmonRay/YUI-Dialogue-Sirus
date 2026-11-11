@@ -146,7 +146,7 @@ do  --Frame Background
     local corner = 16;
     bg:SetTextureSliceMargins(corner, corner, corner, corner);
     bg:SetTextureSliceMode(1);
-    bg:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Shared/ChatFrameBackground.png");
+    bg:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Shared/ChatFrameBackground.tga");
     ChatFrame.Background = bg;
 end
 

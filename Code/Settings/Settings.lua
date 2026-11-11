@@ -201,24 +201,24 @@ function DUIDialogSettingsMixin:LoadTheme()
 
     local filePath = ThemeUtil:GetTexturePath();
 
-    self.HeaderDivider:SetTexture(filePath.."Settings-Divider-H.png");
-    self.VerticalDivider:SetTexture(filePath.."Settings-Divider-V.png");
-    self.PreviewBorder:SetTexture(filePath.."Settings-PreviewBorder.png");
-    self.Header.Selection:SetTexture(filePath.."Settings-TabButton-Selection.png");
-    self.ButtonHighlight.BackTexture:SetTexture(filePath.."Settings-ButtonHighlight.png");
+    self.HeaderDivider:SetTexture(filePath.."Settings-Divider-H.tga");
+    self.VerticalDivider:SetTexture(filePath.."Settings-Divider-V.tga");
+    self.PreviewBorder:SetTexture(filePath.."Settings-PreviewBorder.tga");
+    self.Header.Selection:SetTexture(filePath.."Settings-TabButton-Selection.tga");
+    self.ButtonHighlight.BackTexture:SetTexture(filePath.."Settings-ButtonHighlight.tga");
 
-    local file1 = filePath.."Settings-CloseButton.png";
+    local file1 = filePath.."Settings-CloseButton.tga";
     self.Header.CloseButton.Background:SetTexture(file1);
     self.Header.CloseButton.Highlight:SetTexture(file1);
     self.Header.CloseButton.Icon:SetTexture(file1);
 
-    local file2 = filePath.."Settings-Checkbox.png";
+    local file2 = filePath.."Settings-Checkbox.tga";
     self.checkboxPool:ProcessAllObjects(function(widget)
         widget:LoadTexture(file2);
     end);
 
-    local file3 = filePath.."Settings-ArrowOption.png";
-    local file4 = filePath.."Settings-ArrowOption.png";
+    local file3 = filePath.."Settings-ArrowOption.tga";
+    local file4 = filePath.."Settings-ArrowOption.tga";
     self.arrowOptionPool:ProcessAllObjects(function(widget)
         widget:LoadTexture(file3);
         widget.barPool:ProcessAllObjects(function(bar)
@@ -226,7 +226,7 @@ function DUIDialogSettingsMixin:LoadTheme()
         end);
     end);
 
-    local file5 = filePath.."Settings-Keybinding.png";
+    local file5 = filePath.."Settings-Keybinding.tga";
     self.keybindingPool:ProcessAllObjects(function(widget)
         widget:LoadTexture(file5);
     end);
@@ -235,7 +235,7 @@ function DUIDialogSettingsMixin:LoadTheme()
         self.hotkeyFramePool:CallAllObjects("LoadTheme");
     end
 
-    self.BackgroundDecor:SetTexture("Interface/AddOns/DialogueUI/Art/ParchmentDecor/Dalaran.png");
+    self.BackgroundDecor:SetTexture("Interface/AddOns/DialogueUI/Art/ParchmentDecor/Dalaran.tga");
 
     local themeID;
 
@@ -786,19 +786,19 @@ local Schematic = { --Scheme
         tabName = L["Gameplay"],  --Cate4
         options = {
             {type = "Checkbox", name = L["Auto Quest Popup"], description = L["Auto Quest Popup Desc"], dbKey = "AutoQuestPopup", preview = "AutoQuestPopup", ratio = 2},
-            {type = "Custom", name = L["Move Position"], icon = "Settings-Move.png", onClickFunc = WidgetManager_Move_OnClick, requiredParentValueAnd = {AutoQuestPopup = true}},
-            {type = "Custom", name = L["Reset Position"], icon = "Settings-Reset.png", description = L["Quest Item Display Reset Position Desc"], validationFunc = WidgetManagerPosition_Validation, onClickFunc = WidgetManager_Reset_OnClick, requireSameParentValue = true},
+            {type = "Custom", name = L["Move Position"], icon = "Settings-Move.tga", onClickFunc = WidgetManager_Move_OnClick, requiredParentValueAnd = {AutoQuestPopup = true}},
+            {type = "Custom", name = L["Reset Position"], icon = "Settings-Reset.tga", description = L["Quest Item Display Reset Position Desc"], validationFunc = WidgetManagerPosition_Validation, onClickFunc = WidgetManager_Reset_OnClick, requireSameParentValue = true},
 
             {type = "Checkbox", name = L["Quest Item Display"], description = L["Quest Item Display Desc"], dbKey = "QuestItemDisplay", preview = "QuestItemDisplay", ratio = 2},
             {type = "Checkbox", name = L["Quest Item Display Hide Seen"], description = L["Quest Item Display Hide Seen Desc"], dbKey = "QuestItemDisplayHideSeen", requiredParentValueAnd = {QuestItemDisplay = true}},
             {type = "Checkbox", name = L["Quest Item Display Await World Map"], description = L["Quest Item Display Await World Map Desc"], dbKey = "QuestItemDisplayDynamicFrameStrata", requireSameParentValue = true},
-            {type = "Custom", name = L["Move Position"], icon = "Settings-Move.png", onClickFunc = QuestItemDisplay_Move_OnClick, requireSameParentValue = true},
-            {type = "Custom", name = L["Reset Position"], icon = "Settings-Reset.png", description = L["Quest Item Display Reset Position Desc"], validationFunc = QuestItemDisplayPosition_Validation, onClickFunc = QuestItemDisplay_Reset_OnClick, requireSameParentValue = true},
+            {type = "Custom", name = L["Move Position"], icon = "Settings-Move.tga", onClickFunc = QuestItemDisplay_Move_OnClick, requireSameParentValue = true},
+            {type = "Custom", name = L["Reset Position"], icon = "Settings-Reset.tga", description = L["Quest Item Display Reset Position Desc"], validationFunc = QuestItemDisplayPosition_Validation, onClickFunc = QuestItemDisplay_Reset_OnClick, requireSameParentValue = true},
 
             {type = "Subheader", name = L["Quest"]},
             {type = "Checkbox", name = L["Valuable Reward Popup"], description = L["Valuable Reward Popup Desc"], dbKey = "QuickSlotQuestReward", preview = "QuickSlotQuestReward", ratio = 2},
-            {type = "Custom", name = L["Move Position"], icon = "Settings-Move.png", onClickFunc = QuickSlot_Move_OnClick, requiredParentValueAnd = {QuickSlotQuestReward = true}},
-            {type = "Custom", name = L["Reset Position"], icon = "Settings-Reset.png", description = L["Quest Item Display Reset Position Desc"], validationFunc = QuickSlot_Validation, onClickFunc = QuickSlot_Reset_OnClick, requireSameParentValue = true},
+            {type = "Custom", name = L["Move Position"], icon = "Settings-Move.tga", onClickFunc = QuickSlot_Move_OnClick, requiredParentValueAnd = {QuickSlotQuestReward = true}},
+            {type = "Custom", name = L["Reset Position"], icon = "Settings-Reset.tga", description = L["Quest Item Display Reset Position Desc"], validationFunc = QuickSlot_Validation, onClickFunc = QuickSlot_Reset_OnClick, requireSameParentValue = true},
             {type = "Checkbox", name = L["Auto Complete Quest"], description = L["Auto Complete Quest Desc"], dbKey = "AutoCompleteQuest", preview = "QuestAutoComplete", ratio = 2},
             {type = "Checkbox", name = L["Press Key To Use Item"], tooltip = UseItemHotkey_Tooltip, dbKey = "QuickSlotUseHotkey", requiredParentValueOr = {QuickSlotQuestReward = true, AutoCompleteQuest = true}, branchLevel = 0},
 
@@ -945,7 +945,7 @@ local function CreateCheckbox()
 end
 
 local function OnAcquireCheckbox(checkbox)
-    checkbox:LoadTexture(ThemeUtil:GetTextureFile("Settings-Checkbox.png"));
+    checkbox:LoadTexture(ThemeUtil:GetTextureFile("Settings-Checkbox.tga"));
 end
 
 local function CreateArrowOption()
@@ -954,7 +954,7 @@ local function CreateArrowOption()
 end
 
 local function OnAcquireArrowOption(widget)
-    widget:LoadTexture(ThemeUtil:GetTextureFile("Settings-ArrowOption.png"));
+    widget:LoadTexture(ThemeUtil:GetTextureFile("Settings-ArrowOption.tga"));
 end
 
 local function CreateDropdownButton()
@@ -963,7 +963,7 @@ local function CreateDropdownButton()
 end
 
 local function OnAcquireDropdownButton(widget)
-    widget:LoadTexture(ThemeUtil:GetTextureFile("Settings-DropdownButton.png"));
+    widget:LoadTexture(ThemeUtil:GetTextureFile("Settings-DropdownButton.tga"));
 end
 
 local function CreateKeybinding()
@@ -972,7 +972,7 @@ local function CreateKeybinding()
 end
 
 local function OnAcquireKeybinding(widget)
-    widget:LoadTexture(ThemeUtil:GetTextureFile("Settings-Keybinding.png"));
+    widget:LoadTexture(ThemeUtil:GetTextureFile("Settings-Keybinding.tga"));
     widget:ResetState();
 end
 
@@ -1609,7 +1609,7 @@ function DUIDialogSettingsOptionMixin:SetSubheader()
     local frameHeight = 3*FONT_HEIGHT_NORMAL;
     local frameWidth = math.max(textWidth + 2.2*FONT_HEIGHT_NORMAL, frameHeight);   --204/54*frameHeight
     icon:SetSize(frameWidth, frameHeight);
-    icon:SetTexture(ThemeUtil:GetTextureFile("LabelBackground.png"));
+    icon:SetTexture(ThemeUtil:GetTextureFile("LabelBackground.tga"));
     icon:SetTexCoord(0, 204/255, 0, 54/64);
     icon:SetTextureSliceMode(0);
     icon:SetTextureSliceMargins(24, 24, 24, 16);
@@ -1666,7 +1666,7 @@ function DUIDialogSettingsOptionMixin:SetData(optionData)
         local branchWidth = OPTIONBUTTON_HEIGHT*0.5;
         nameOffset = OPTIONBUTTON_LABEL_OFFSET + branchLevel * (branchWidth*0.5 + 10)
         branch:SetSize(branchWidth, OPTIONBUTTON_HEIGHT*0.5);
-        branch:SetTexture(ThemeUtil:GetTextureFile("Settings-SubOptionIcon.png"));
+        branch:SetTexture(ThemeUtil:GetTextureFile("Settings-SubOptionIcon.tga"));
         branch:SetVertexColor(1, 1, 1, 0.5);
         branch:SetPoint("BOTTOMRIGHT", self, "LEFT", nameOffset - 8, 0);
         branch:SetParent(self);
@@ -1750,7 +1750,7 @@ do  --ArrowOption
     end
 
     local function OnAcquireBar(bar)
-        bar:SetTexture(ThemeUtil:GetTextureFile("Settings-ArrowOption.png"));
+        bar:SetTexture(ThemeUtil:GetTextureFile("Settings-ArrowOption.tga"));
     end
 
     function DUIDialogSettingsArrowOptionMixin:OnLoad()
@@ -2564,12 +2564,12 @@ do -- Share size info with other modules
 
     function SettingsUtil.CreateInputDeviceSelector(parent)
         local widget = CreateFrame("Frame", nil, parent, "DUIDialogSettingsArrowOptionTemplate");
-        widget:LoadTexture(ThemeUtil:GetTextureFile("Settings-ArrowOption.png"));
+        widget:LoadTexture(ThemeUtil:GetTextureFile("Settings-ArrowOption.tga"));
         widget:SetWidgetHeight(OPTION_WIDGET_SIZE);
         widget:SetData(InputDeviceOption);
 
         function widget:OnThemeChanged()
-            local file = ThemeUtil:GetTextureFile("Settings-ArrowOption.png");
+            local file = ThemeUtil:GetTextureFile("Settings-ArrowOption.tga");
             widget:LoadTexture(file);
             widget.barPool:ProcessAllObjects(function(bar)
                 bar:SetTexture(file);

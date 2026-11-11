@@ -393,7 +393,7 @@ do  --Auto Close Button
         highlight:SetSize(CLOSE_BUTTON_SIZE, CLOSE_BUTTON_SIZE);
         highlight:SetPoint("CENTER", f, "CENTER", 0, 0);
 
-        local file = "Interface/AddOns/DialogueUI/Art/Theme_Shared/WidgetCloseButton.png";
+        local file = "Interface/AddOns/DialogueUI/Art/Theme_Shared/WidgetCloseButton.tga";
         bt:SetTexture(file);
         highlight:SetTexture(file);
         highlight:SetTexCoord(0.5, 0.75, 0, 0.25);
@@ -594,7 +594,7 @@ do  --Change Main Anchor Position
         local E_SCALE = 0.5;
         local FRAME_WIDTH, FRAME_HEIGHT = 536, 88;
         local BG_WIDTH, BG_HEIGHT = 576, 128;
-        local file = "Interface/AddOns/DialogueUI/Art/Theme_Shared/QuestPopup.png";
+        local file = "Interface/AddOns/DialogueUI/Art/Theme_Shared/QuestPopup.tga";
 
         self:SetSize(FRAME_WIDTH * E_SCALE, FRAME_HEIGHT * E_SCALE);
 
@@ -654,7 +654,7 @@ do  --Change Main Anchor Position
                     local f = CreateFrame("Frame", nil, self);
                     local Icon = f:CreateTexture(nil, "OVERLAY", nil, -1);
                     f.Icon = Icon;
-                    Icon:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Shared/QuestPopup.png");
+                    Icon:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Shared/QuestPopup.tga");
                     Icon:SetTexCoord(832/1024, 896/1024, 0, 64/1024);
                     Icon:SetPoint("CENTER", f, "CENTER", 0, 0);
                     OnAcquire(f);

@@ -62,7 +62,7 @@ function StatusBarMixin:OnLoad()
         local margin = 6;
         self.Border:SetTextureSliceMargins(margin, margin, margin, margin);
         self.Border:SetAllPoints(true);
-        self.Border:SetTexture(FILE_PATH.."StatusBar-Border.png");
+        self.Border:SetTexture(FILE_PATH.."StatusBar-Border.tga");
         self:SetBorderColor(0.25, 0.25, 0.25);
     end
 
@@ -72,7 +72,7 @@ function StatusBarMixin:OnLoad()
         local margin = 6;
         self.Background:SetTextureSliceMargins(margin, margin, margin, margin);
         self.Background:SetAllPoints(true);
-        self.Background:SetTexture(FILE_PATH.."StatusBar-Background.png");
+        self.Background:SetTexture(FILE_PATH.."StatusBar-Background.tga");
         self.Background:SetAlpha(0.5);
     end
 
@@ -84,7 +84,7 @@ function StatusBarMixin:OnLoad()
         self.Fill:SetWidth(0.1);
         self.Fill:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 0);
         self.Fill:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 0);
-        self.Fill:SetTexture(FILE_PATH.."StatusBar-FillShort-Purple.png");
+        self.Fill:SetTexture(FILE_PATH.."StatusBar-FillShort-Purple.tga");
     end
 
     if not self.Surface then
@@ -107,7 +107,7 @@ function StatusBarMixin:OnLoad()
         local margin = 8;
         bg:SetTextureSliceMargins(margin, margin, margin, margin);
         bg:SetAllPoints(true);
-        bg:SetTexture(FILE_PATH.."StatusBar-ValueBlock-Purple.png");
+        bg:SetTexture(FILE_PATH.."StatusBar-ValueBlock-Purple.tga");
 
         f.Text = f:CreateFontString(nil, "OVERLAY", "DUIFont_AlertFont", 7);
         f.Text:SetJustifyH("CENTER");
@@ -118,7 +118,7 @@ function StatusBarMixin:OnLoad()
     if not self.notchPool then
         local function CreateNotch()
             local texture = self:CreateTexture(nil, "OVERLAY");
-            texture:SetTexture(FILE_PATH.."StatusBar-Notch.png");
+            texture:SetTexture(FILE_PATH.."StatusBar-Notch.tga");
             texture:SetVertexColor(0.25, 0.25, 0.25);
             return texture
         end

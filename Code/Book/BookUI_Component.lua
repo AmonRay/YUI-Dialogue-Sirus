@@ -571,7 +571,7 @@ do  --ItemButton (Show item's description lore "")
 
     function BookComponent:CreateSourceItemButton(parent)
         local f = CreateFrame("Frame", nil, parent, "DUIBookItemButtonTemplate");
-        f.TextBackground:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Shared/NameplateDialogShadow.png");
+        f.TextBackground:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Shared/NameplateDialogShadow.tga");
         f.ItemIcon:SetTexCoord(0.0625, 0.9275, 0.0625, 0.9275);
         f.ItemBorder:SetTexCoord(768/1024, 864/1024, 1616/2048, 1712/2048);
         f.fontSize = 14;

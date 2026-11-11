@@ -1189,7 +1189,7 @@ do  -- Quest
         --QuestMapLogTitleButton_OnEnter
 
         if not questInfo then
-            return ICON_PATH.."IncompleteQuest.png";
+            return ICON_PATH.."IncompleteQuest.tga";
         end
 
         local file;
@@ -1197,48 +1197,48 @@ do  -- Quest
         if questInfo.isOnQuest then
             if questInfo.isComplete then
                 if questInfo.isCampaign then
-                    file = "CompleteCampaignQuest.png";
+                    file = "CompleteCampaignQuest.tga";
                 elseif questInfo.isLegendary then
-                    file = "CompleteLegendaryQuest.png";
+                    file = "CompleteLegendaryQuest.tga";
                 elseif questInfo.isImportant then
-                    file = "CompleteImportantQuest.png";
+                    file = "CompleteImportantQuest.tga";
                 else
-                    file = "CompleteQuest.png";
+                    file = "CompleteQuest.tga";
                 end
             else
                 if questInfo.isCampaign then
-                    file = "IncompleteCampaignQuest.png";
+                    file = "IncompleteCampaignQuest.tga";
                 elseif questInfo.isLegendary then
-                    file = "IncompleteLegendaryQuest.png";
+                    file = "IncompleteLegendaryQuest.tga";
                 elseif questInfo.isImportant then
-                    file = "IncompleteImportantQuest.png";
+                    file = "IncompleteImportantQuest.tga";
                 elseif questInfo.isMeta then
-                    file = "IncompleteMetaQuest.png";
+                    file = "IncompleteMetaQuest.tga";
                 else
-                    file = "IncompleteQuest.png";
+                    file = "IncompleteQuest.tga";
                 end
             end
 
         else
             if questInfo.frequency == 1 then    --Enum.QuestFrequency.Daily
-                file = "DailyQuest.png";
+                file = "DailyQuest.tga";
             elseif questInfo.frequency == 2 then    --Enum.QuestFrequency.Weekly
-                file = "WeeklyQuest.png";
+                file = "WeeklyQuest.tga";
             elseif questInfo.frequency == 3 and not questInfo.isMeta then   ----Enum.QuestFrequency.ResetByScheduler
-                file = "RepeatableScheduler.png";    --TWW
+                file = "RepeatableScheduler.tga";    --TWW
             elseif  questInfo.repeatable then
-                file = "RepeatableQuest.png";
+                file = "RepeatableQuest.tga";
             else
                 if questInfo.isCampaign then
-                    file = "AvailableCampaignQuest.png";
+                    file = "AvailableCampaignQuest.tga";
                 elseif questInfo.isLegendary then
-                    file = "AvailableLegendaryQuest.png";
+                    file = "AvailableLegendaryQuest.tga";
                 elseif questInfo.isImportant then
-                    file = "AvailableImportantQuest.png";
+                    file = "AvailableImportantQuest.tga";
                 elseif questInfo.isMeta then
-                    file = "AvailableMetaQuest.png";
+                    file = "AvailableMetaQuest.tga";
                 else
-                    file = "AvailableQuest.png";
+                    file = "AvailableQuest.tga";
                 end
             end
         end
@@ -1298,27 +1298,27 @@ do  -- Quest
     local GetQuestDetailsTheme = C_QuestLog.GetQuestDetailsTheme or AlwaysFalse;
     local DECOR_PATH = "Interface/AddOns/DialogueUI/Art/ParchmentDecor/";
     local BackgroundDecors = {
-        ["QuestBG-Dragonflight"] = "Dragonflight.png",
-        ["QuestBG-Azurespan"] = "Dragonflight.png",
-        ["QuestBG-EmeraldDream"] = "Dragonflight-Green.png",
-        ["QuestBG-Ohnplains"] = "Dragonflight-Green.png",
-        ["QuestBG-Thaldraszus"] = "Dragonflight-Bronze.png",
-        ["QuestBG-Walkingshore"] = "Dragonflight-Red.png",
-        ["QuestBG-ZaralekCavern"] = "Dragonflight.png",
-        ["QuestBG-ExilesReach"] = "Dragonflight.png",
+        ["QuestBG-Dragonflight"] = "Dragonflight.tga",
+        ["QuestBG-Azurespan"] = "Dragonflight.tga",
+        ["QuestBG-EmeraldDream"] = "Dragonflight-Green.tga",
+        ["QuestBG-Ohnplains"] = "Dragonflight-Green.tga",
+        ["QuestBG-Thaldraszus"] = "Dragonflight-Bronze.tga",
+        ["QuestBG-Walkingshore"] = "Dragonflight-Red.tga",
+        ["QuestBG-ZaralekCavern"] = "Dragonflight.tga",
+        ["QuestBG-ExilesReach"] = "Dragonflight.tga",
 
-        ["QuestBG-Alliance"] = "Alliance.png",
-        ["QuestBG-Horde"] = "Horde.png",
+        ["QuestBG-Alliance"] = "Alliance.tga",
+        ["QuestBG-Horde"] = "Horde.tga",
 
-        ["QuestBG-Flame"] = "TWW-Flame.png",
-        ["QuestBG-Candle"] = "TWW-Candle.png",
-        ["QuestBG-Storm"] = "TWW-Storm.png",
-        ["QuestBG-Web"] = "TWW-Web.png",
-        ["QuestBG-1027"] = "TWW-Azeroth.png",
-        ["QuestBG-Rocket"] = "TWW-Rocket.png",
-        ["QuestBG-Fist"] = "TWW-Fist.png",
+        ["QuestBG-Flame"] = "TWW-Flame.tga",
+        ["QuestBG-Candle"] = "TWW-Candle.tga",
+        ["QuestBG-Storm"] = "TWW-Storm.tga",
+        ["QuestBG-Web"] = "TWW-Web.tga",
+        ["QuestBG-1027"] = "TWW-Azeroth.tga",
+        ["QuestBG-Rocket"] = "TWW-Rocket.tga",
+        ["QuestBG-Fist"] = "TWW-Fist.tga",
 
-        ["QuestBG-Sky"] = "MID-DarkHeart.png",
+        ["QuestBG-Sky"] = "MID-DarkHeart.tga",
     };
 
     local function GetQuestBackgroundDecor(questID)
@@ -1464,10 +1464,10 @@ do  -- Quest
     local GetQuestTagInfo = C_QuestLog.GetQuestTagInfo or AlwaysFalse;
     local QUEST_TAG_NAME = {
         --Also: Enum.QuestTagType
-        [Enum.QuestTag.Dungeon] = {L["Quest Type Dungeon"], "QuestTag-Dungeon.png"},
-        [Enum.QuestTag.Raid] = {L["Quest Type Raid"], "QuestTag-Raid.png"},
-        [Enum.QuestTag.Raid10] = {L["Quest Type Raid"], "QuestTag-Raid.png"},
-        [Enum.QuestTag.Raid25] = {L["Quest Type Raid"], "QuestTag-Raid.png"},
+        [Enum.QuestTag.Dungeon] = {L["Quest Type Dungeon"], "QuestTag-Dungeon.tga"},
+        [Enum.QuestTag.Raid] = {L["Quest Type Raid"], "QuestTag-Raid.tga"},
+        [Enum.QuestTag.Raid10] = {L["Quest Type Raid"], "QuestTag-Raid.tga"},
+        [Enum.QuestTag.Raid25] = {L["Quest Type Raid"], "QuestTag-Raid.tga"},
 
         [271] = {L["Quest Type Covenant Calling"]},
     };
@@ -1763,7 +1763,7 @@ do  -- Currency
     local function GetColorizedAmountForCurrency(currencyID, rewardQuantity, useIcon)
         if WillCurrencyRewardOverflow(currencyID, rewardQuantity) then
             if useIcon then --For Small Button
-                return "|TInterface/AddOns/DialogueUI/Art/Icons/CurrencyOverflow.png:0:0|t"..rewardQuantity.."|r"
+                return "|TInterface/AddOns/DialogueUI/Art/Icons/CurrencyOverflow.tga:0:0|t"..rewardQuantity.."|r"
             else
                 return "|cffff2020"..rewardQuantity.."|r"
             end

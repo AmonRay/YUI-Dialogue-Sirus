@@ -11,7 +11,7 @@ local gsub = string.gsub;
 
 local HOTKEY_PATH = "Interface/AddOns/DialogueUI/Art/Keys/";
 local BUTTON_FORMAT = {
-    TAB = "|TInterface/AddOns/DialogueUI/Art/Keys/PC-TAB.png:16:29:0:-4:64:32:0:58:0:32:|t";
+    TAB = "|TInterface/AddOns/DialogueUI/Art/Keys/PC-TAB.tga:16:29:0:-4:64:32:0:58:0:32:|t";
 }
 
 local ProcessedString = {
@@ -40,7 +40,7 @@ do
 
             texture = BUTTON_FORMAT[button];
             if not texture then
-                texture = ("|T%s%s-%s.png:%s:%s:0:%s|t"):format(HOTKEY_PATH, device, button, iconSize, iconSize, offsetY);
+                texture = ("|T%s%s-%s.tga:%s:%s:0:%s|t"):format(HOTKEY_PATH, device, button, iconSize, iconSize, offsetY);
             end
 
             text = gsub(text, "%[[%w:]+%]", texture, 1);

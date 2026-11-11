@@ -52,7 +52,7 @@ function TooltipBaseMixin:InitFrame()
         self.Background = texture;
         texture:SetTextureSliceMargins(corner, corner, corner, corner);
         texture:SetTextureSliceMode(1);
-        texture:SetTexture(addon.ThemeUtil:GetTextureFile("TooltipBackground-Temp.png"));
+        texture:SetTexture(addon.ThemeUtil:GetTextureFile("TooltipBackground-Temp.tga"));
 
         PixelUtil:AddPixelPerfectObject(self);
     end
@@ -426,7 +426,7 @@ end
 
 function TooltipBaseMixin:LoadTheme()
     if self.Background then
-        self.Background:SetTexture(addon.ThemeUtil:GetTextureFile("TooltipBackground-Temp.png"));
+        self.Background:SetTexture(addon.ThemeUtil:GetTextureFile("TooltipBackground-Temp.tga"));
     end
 
     if self.HotkeyFrame then

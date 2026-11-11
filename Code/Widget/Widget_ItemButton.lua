@@ -740,7 +740,7 @@ end
 
 local function CreateItemActionButton(parent, additionalMixin)
     local f = CreateFrame("Frame", nil, parent, "DUIItemActionButtonTemplate");
-    local texture = "Interface/AddOns/DialogueUI/Art/Theme_Shared/QuestFlyoutButton.png";
+    local texture = "Interface/AddOns/DialogueUI/Art/Theme_Shared/QuestFlyoutButton.tga";
 
     local borderSize = 52;
     local iconSize = 64/96 * borderSize;

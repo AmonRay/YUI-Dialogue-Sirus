@@ -144,10 +144,10 @@ end
 function DropdownMenuMixin:LoadTheme()
     local filePath = ThemeUtil:GetTexturePath();
 
-    local file1 = filePath.."DropdownMenu-Component.png";
+    local file1 = filePath.."DropdownMenu-Component.tga";
     self.Border:SetTexture(file1);
     self.Background:SetTexture(filePath.."DropdownMenu-Background.jpg");
-    self.ButtonHighlight.BackTexture:SetTexture(filePath.."Settings-ButtonHighlight.png");
+    self.ButtonHighlight.BackTexture:SetTexture(filePath.."Settings-ButtonHighlight.tga");
 
     self.BottomShadow.Left:SetTexture(file1);
     self.BottomShadow.Center:SetTexture(file1);
@@ -162,7 +162,7 @@ function DropdownMenuMixin:LoadTheme()
     self.PageNav.Background:SetTexture(file1);
     self.PageNav.Background:SetTexCoord(0, 192/1024, 336/512, 384/512);
 
-    local arrowTexture = filePath.."Settings-ArrowOption.png";
+    local arrowTexture = filePath.."Settings-ArrowOption.tga";
     self.PageNav.LeftArrow.Texture:SetTexture(arrowTexture);
     self.PageNav.LeftArrow.Highlight:SetTexture(arrowTexture);
     self.PageNav.RightArrow.Texture:SetTexture(arrowTexture);

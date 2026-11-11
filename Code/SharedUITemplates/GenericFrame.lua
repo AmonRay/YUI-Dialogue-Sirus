@@ -20,26 +20,26 @@ do  --DUIGenericTitledFrameMixin
 
     local TEXTURE_LOOKUP = {
         [1] = { --Settings Background: Brown    (Minimal Size: 480*480 px)
-            file = "Interface/AddOns/DialogueUI/Art/Theme_Brown/GenericFrame-Tiled-Large.png",
+            file = "Interface/AddOns/DialogueUI/Art/Theme_Brown/GenericFrame-Tiled-Large.tga",
             offset = 16,
             margins = {80, 80, 80, 80},
         },
 
         [2] = { --Settings Background: Dark     (Minimal Size: 480*480 px)
-            file = "Interface/AddOns/DialogueUI/Art/Theme_Dark/GenericFrame-Tiled-Large.png",
+            file = "Interface/AddOns/DialogueUI/Art/Theme_Dark/GenericFrame-Tiled-Large.tga",
             offset = 16,
             margins = {80, 80, 80, 80},
         },
 
         HelpTip1 = { --Help Tip
-            file = "Interface/AddOns/DialogueUI/Art/Theme_Shared/HelpTip.png",
+            file = "Interface/AddOns/DialogueUI/Art/Theme_Shared/HelpTip.tga",
             offset = 8,
             margins = {40, 24, 40, 24},
             texCoords = {0, 256/512, 0, 104/512},
         },
 
         HelpTip2 = { --Help Tip
-            file = "Interface/AddOns/DialogueUI/Art/Theme_Shared/HelpTip.png",
+            file = "Interface/AddOns/DialogueUI/Art/Theme_Shared/HelpTip.tga",
             offset = 8,
             margins = {40, 24, 40, 24},
             texCoords = {0, 256/512, 104/512, 208/512},

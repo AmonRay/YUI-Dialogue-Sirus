@@ -431,7 +431,7 @@ function DUIDialogBaseMixin:OnLoad()
         local corner = 8;
         texture:SetTextureSliceMargins(corner, corner, corner, corner);
         texture:SetTextureSliceMode(1);
-        texture:SetTexture(ThemeUtil:GetTextureFile("SubHeaderBackground.png"));
+        texture:SetTexture(ThemeUtil:GetTextureFile("SubHeaderBackground.tga"));
         texture:SetSize(36, 36);
         return texture
     end
@@ -525,7 +525,7 @@ end
 
 function DUIDialogBaseMixin:LoadTheme()
     local prefix = ThemeUtil:GetTexturePath();
-    local parchmentFile = prefix.."Parchment.png";
+    local parchmentFile = prefix.."Parchment.tga";
     local themeID = ThemeUtil:GetThemeID();
 
     for _, piece in ipairs(self.Parchments) do
@@ -556,8 +556,8 @@ function DUIDialogBaseMixin:LoadTheme()
     self.ForeverQuestAlert.Icon:SetTexture(parchmentFile);
     self.ForeverQuestAlert.Icon:SetTexCoord(0.8125, 0.90625, 0.56640625, 0.61328125);
 
-    self.RewardSelection.FrontTexture:SetTexture(prefix.."RewardChoice-Highlight.png");
-    self.RewardSelection.BackTexture:SetTexture(prefix.."RewardChoice-Highlight-Back.png");
+    self.RewardSelection.FrontTexture:SetTexture(prefix.."RewardChoice-Highlight.tga");
+    self.RewardSelection.BackTexture:SetTexture(prefix.."RewardChoice-Highlight-Back.tga");
     self.RewardSelection.BackTexture:SetVertexColor(0.65, 0, 0);
 
     if self.CopyTextButton then
@@ -569,7 +569,7 @@ function DUIDialogBaseMixin:LoadTheme()
     end
 
     if self.textBackgroundPool then
-        local bgFile = ThemeUtil:GetTextureFile("SubHeaderBackground.png");
+        local bgFile = ThemeUtil:GetTextureFile("SubHeaderBackground.tga");
         local function SetBackGround(texture)
             texture:SetTexture(bgFile);
         end
@@ -3445,7 +3445,7 @@ do  --Vignette
 
     SharedVignette.Texture = SharedVignette:CreateTexture(nil, "BACKGROUND");
     SharedVignette.Texture:SetAllPoints(true);
-    SharedVignette.Texture:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Shared/ScreenVignette.png");
+    SharedVignette.Texture:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Shared/ScreenVignette.tga");
 
     SharedVignette.owners = {};
 

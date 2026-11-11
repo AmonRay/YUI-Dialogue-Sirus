@@ -177,7 +177,7 @@ end
 function FriendshipBar:LoadTheme()
     if self.Init then return end;
 
-    local barFile = addon.ThemeUtil:GetTextureFile("FriendshipBar.png");
+    local barFile = addon.ThemeUtil:GetTextureFile("FriendshipBar.tga");
     local numberFile = addon.ThemeUtil:GetTextureFile("FriendshipDigits.tga");
 
     for _, tex in ipairs(self.textures) do

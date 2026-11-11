@@ -10,10 +10,10 @@ local DataSource = CreateFrame("Frame");
 
 
 local RankIcons = {
-    [1] = "Interface/AddOns/DialogueUI/Art/Icons/Racing-Gold.png",
-    [2] = "Interface/AddOns/DialogueUI/Art/Icons/Racing-Silver.png",
-    [3] = "Interface/AddOns/DialogueUI/Art/Icons/Racing-Bronze.png",
-    [4] = "Interface/AddOns/DialogueUI/Art/Icons/Racing-None.png",
+    [1] = "Interface/AddOns/DialogueUI/Art/Icons/Racing-Gold.tga",
+    [2] = "Interface/AddOns/DialogueUI/Art/Icons/Racing-Silver.tga",
+    [3] = "Interface/AddOns/DialogueUI/Art/Icons/Racing-Bronze.tga",
+    [4] = "Interface/AddOns/DialogueUI/Art/Icons/Racing-None.tga",
 };
 
 
