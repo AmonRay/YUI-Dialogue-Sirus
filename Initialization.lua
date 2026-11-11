@@ -225,6 +225,13 @@ EL:SetScript("OnEvent", function(self, event, ...)
         SetDBValue(dbKey, DB[dbKey]);
 
         addon.CallbackRegistry:Trigger("PLAYER_ENTERING_WORLD");
+
+        if addon.IS_335 and not self.initialLoadingComplete then
+            --3.3.5a has no LOADING_SCREEN_DISABLED
+            self.initialLoadingComplete = true;
+            self:UnregisterEvent("LOADING_SCREEN_DISABLED");
+            addon.CallbackRegistry:Trigger("InitialLoadingComplete");
+        end
     elseif event == "LOADING_SCREEN_DISABLED" then
         self:UnregisterEvent(event);
         addon.CallbackRegistry:Trigger("InitialLoadingComplete");

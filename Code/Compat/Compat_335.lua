@@ -841,15 +841,78 @@ do
     --Sirus SharedXML\C_TimerAugment.lua defines colon methods (C_Timer:After(duration, callback)),
     --while retail code calls C_Timer.After(duration, callback) ("attempt to compare number with function").
     --The addon uses its own dot-style DUI_C_Timer so the global (and Blizzard's secure timers) stay untouched.
+    --NOTE: Sirus FrameXML\SecureCapsule.lua does take("C_Timer2"), so C_Timer2 is always nil for addons.
+    --Detecting the call style through C_Timer2 therefore picked the dot-style branch and every
+    --DUI_C_Timer.After() call crashed inside C_TimerAugment.lua:36 and never ran its callback.
+    --DUI_C_Timer is now fully self-contained (own OnUpdate driver) and does not touch the Sirus C_Timer at all.
     local T = {}
-    if C_Timer2 then
-        T.After = function(delay, callback) return C_Timer:After(delay, callback) end
-        T.NewTimer = function(delay, callback) return (C_Timer.NewTimer and C_Timer:NewTimer(delay, callback)) or C_Timer:After(delay, callback) end
-        T.NewTicker = function(delay, callback, iterations) return C_Timer:NewTicker(delay, callback, iterations) end
-    else
-        T.After = function(delay, callback) return C_Timer.After(delay, callback) end
-        T.NewTimer = function(delay, callback) return C_Timer.NewTimer(delay, callback) end
-        T.NewTicker = function(delay, callback, iterations) return C_Timer.NewTicker(delay, callback, iterations) end
+    do
+        local driver = CreateFrame("Frame")
+        local queue = {}
+        local pending = {}
+
+        local function Cancel(self) self._cancelled = true end
+        local function IsCancelled(self) return self._cancelled == true end
+
+        local function OnUpdate(self, elapsed)
+            if #pending > 0 then
+                for i = 1, #pending do
+                    queue[#queue + 1] = pending[i]
+                    pending[i] = nil
+                end
+            end
+            local now = GetTime()
+            local i = 1
+            while i <= #queue do
+                local t = queue[i]
+                if t._cancelled then
+                    table.remove(queue, i)
+                elseif now >= t._fireAt then
+                    table.remove(queue, i)
+                    local ok, err = pcall(t._callback, t)
+                    if not ok then geterrorhandler()(err) end
+                else
+                    i = i + 1
+                end
+            end
+            if #queue == 0 and #pending == 0 then
+                self:Hide()
+            end
+        end
+        driver:SetScript("OnUpdate", OnUpdate)
+        driver:Hide()
+
+        local function Schedule(t, delay)
+            delay = tonumber(delay) or 0
+            if delay < 0 then delay = 0 end
+            t._fireAt = GetTime() + delay
+            pending[#pending + 1] = t
+            driver:Show()
+            return t
+        end
+
+        T.NewTimer = function(delay, callback)
+            if type(callback) ~= "function" then return end
+            local t = {_callback = callback, Cancel = Cancel, IsCancelled = IsCancelled}
+            return Schedule(t, delay)
+        end
+
+        T.After = function(delay, callback)
+            T.NewTimer(delay, callback)
+        end
+
+        T.NewTicker = function(delay, callback, iterations)
+            if type(callback) ~= "function" then return end
+            local ticker = {Cancel = Cancel, IsCancelled = IsCancelled, _count = 0}
+            ticker._callback = function(self)
+                self._count = self._count + 1
+                callback(self)
+                if (not self._cancelled) and ((not iterations) or self._count < iterations) then
+                    Schedule(self, delay)
+                end
+            end
+            return Schedule(ticker, delay)
+        end
     end
     DUI_C_Timer = T
 end

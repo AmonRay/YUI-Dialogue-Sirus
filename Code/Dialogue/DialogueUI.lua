@@ -519,6 +519,8 @@ function DUIDialogBaseMixin:OnLoad()
 
     self.isGameLoading = true;
     self:RegisterEvent("LOADING_SCREEN_DISABLED");
+    --3.3.5a / Sirus: LOADING_SCREEN_DISABLED does not exist, isGameLoading was never cleared and every NPC dialog was deferred forever
+    self:RegisterEvent("PLAYER_ENTERING_WORLD");
 end
 
 function DUIDialogBaseMixin:LoadTheme()
@@ -2676,8 +2678,9 @@ function DUIDialogBaseMixin:OnEvent(event, ...)
         self:HideUI();
     elseif event == "ADVENTURE_MAP_OPEN" then
         CallbackRegistry:Trigger("PlayerInteraction.ShowUI", true);
-    elseif event == "LOADING_SCREEN_DISABLED" then  --not reliable on the intial login
-        self:UnregisterEvent(event);
+    elseif event == "LOADING_SCREEN_DISABLED" or event == "PLAYER_ENTERING_WORLD" then  --not reliable on the intial login
+        self:UnregisterEvent("LOADING_SCREEN_DISABLED");
+        self:UnregisterEvent("PLAYER_ENTERING_WORLD");
         After(4, function()
             self.isGameLoading = nil;
             self:HandleInitialLoadingComplete();
