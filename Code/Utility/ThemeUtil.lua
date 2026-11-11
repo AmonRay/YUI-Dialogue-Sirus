@@ -160,9 +160,8 @@ function ThemeUtil:GetTexturePath()
     return TEXTURE_PATH
 end
 
--- Bare names (including concatenated TextureKit-* and gamepad names) prefer
--- the current theme, then shared assets, then the non-themed categories.
--- Explicit categories disambiguate e.g. Keys/PS-PAD1 and PreviewPicture/TTSButton.
+-- Bare names may be assembled at runtime (prefix..name, decor/key tables).
+-- Search by the final string; explicit categories never select a different theme.
 local ASSET_DIRECTORIES = {"Theme_Shared", "Icons", "Keys", "GameAssets", "Book",
     "BasicShapes", "ParchmentDecor", "PreviewPicture", "Shared"};
 local MissingTextures = {};
@@ -174,37 +173,72 @@ local function MissingTexture(name)
     return ART_PATH.."Theme_Shared\\ClipboardBackground";
 end
 
--- Preserve explicit directories; only bare names select the active theme.
-function ThemeUtil:GetTextureFile(fileName)
-    if type(fileName) ~= "string" or fileName == "" then return end;
-    fileName = gsub(fileName, "/", "\\");
-    fileName = gsub(fileName, "%.[bB][lL][pP]$", "");
-    fileName = gsub(fileName, "%.[tT][gG][aA]$", "");
-    fileName = gsub(fileName, "%.[pP][nN][gG]$", "");
-    fileName = gsub(fileName, "%.[jJ][pP][eE]?[gG]$", "");
-    local key = string.lower(gsub(fileName, "\\", "/"));
-    if string.find(key, "^interface/") then return fileName end;
-    if string.find(key, "^art/") then
-        fileName = string.sub(fileName, 5);
-        key = string.sub(key, 5);
+local function NormalizeTextureName(name)
+    if type(name) ~= "string" or name == "" then return end;
+    name = gsub(name, "/", "\\");
+    name = gsub(name, "\\+", "\\");
+    name = gsub(name, "%.[bB][lL][pP]$", "");
+    name = gsub(name, "%.[tT][gG][aA]$", "");
+    name = gsub(name, "%.[pP][nN][gG]$", "");
+    name = gsub(name, "%.[jJ][pP][eE]?[gG]$", "");
+    name = gsub(name, "%.[dD][dD][sS]$", "");
+    local key = string.lower(gsub(name, "\\", "/"));
+    local root = string.lower(gsub(ART_PATH, "\\", "/"));
+    if string.sub(key, 1, #root) == root then
+        name, key = string.sub(name, #root + 1), string.sub(key, #root + 1);
+    elseif string.find(key, "^interface/") then
+        return name, key, true;
+    elseif string.find(key, "^art/") then
+        name, key = string.sub(name, 5), string.sub(key, 5);
     end
+    if key == "" then return end;
+    return name, key, false;
+end
+
+-- Quiet lookup for compat callers: nil means no known addon asset, not the
+-- visible missing-texture substitute. Additional returns are original pixels.
+function ThemeUtil:FindTextureFile(fileName)
+    local name, key, external = NormalizeTextureName(fileName);
+    if not name then return end;
+    if external then return name end;
     local sizes = addon.TextureFileSizes;
+    local function Found(directory, asset)
+        local relative = directory and directory.."\\"..asset or asset;
+        local size = sizes and sizes[string.lower(gsub(relative, "\\", "/"))];
+        if size then return ART_PATH..relative, size[1], size[2] end;
+    end
     if string.find(key, "/", 1, true) then
-        if string.find(key, "^shared/") and sizes and not sizes[key] then
-            fileName = "Theme_Shared\\"..string.sub(fileName, 8);
-            key = "theme_shared/"..string.sub(key, 8);
+        local file, w, h = Found(nil, name);
+        if file then return file, w, h end;
+        if string.find(key, "^shared/") then
+            return Found("Theme_Shared", string.sub(name, 8));
         end
-        if not sizes or sizes[key] then return ART_PATH..fileName end;
-        return MissingTexture(fileName);
+        if not sizes then return ART_PATH..name end;
+        return;
     end
-    local theme = THEME_ID == 2 and "theme_dark/" or "theme_brown/";
-    if not sizes or sizes[theme..key] then return TEXTURE_PATH..fileName end;
+    local active = THEME_ID == 2 and "Theme_Dark" or "Theme_Brown";
+    local file, w, h = Found(active, name);
+    if file then return file, w, h end;
     for _, directory in ipairs(ASSET_DIRECTORIES) do
-        if sizes[string.lower(directory).."/"..key] then
-            return ART_PATH..directory.."\\"..fileName;
-        end
+        file, w, h = Found(directory, name);
+        if file then return file, w, h end;
     end
-    return MissingTexture(fileName);
+    -- Only use the other theme after the shared/non-themed categories.
+    file, w, h = Found(THEME_ID == 2 and "Theme_Brown" or "Theme_Dark", name);
+    if file then return file, w, h end;
+    if not sizes then return TEXTURE_PATH..name end;
+end
+
+function ThemeUtil:GetTextureFile(fileName)
+    local name = NormalizeTextureName(fileName);
+    if not name then return end;
+    local file = self:FindTextureFile(fileName);
+    return file or MissingTexture(name);
+end
+
+function ThemeUtil:GetTextureSize(fileName)
+    local _, width, height = self:FindTextureFile(fileName);
+    return width, height;
 end
 
 function ThemeUtil:GetThemeID()

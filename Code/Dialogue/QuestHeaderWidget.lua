@@ -13,7 +13,9 @@ local ButtonMixin = {};
 local HeaderWidgetManger = CreateFrame("Frame");
 addon.HeaderWidgetManger = HeaderWidgetManger;
 
-local BASE_TEXTURE = ThemeUtil:GetTextureFile("QuestWidgetButton");
+local function GetBaseTexture()
+    return ThemeUtil:GetTextureFile("QuestWidgetButton");
+end
 
 local WIDGET_SPACING = 8;
 local PADDING_TEXT_BUTTON_V = 4;
@@ -36,7 +38,7 @@ do  --HeaderWidgetManger
     local function CreateButton()
         local f = CreateFrame("Button", nil, HeaderWidgetManger.parent, "DUIDialogHeaderWidgetTemplate");
         API.Mixin(f, ButtonMixin);
-        f.Background:SetTexture(BASE_TEXTURE);
+        f.Background:SetTexture(GetBaseTexture());
         f.Background:SetTexCoord(0, 128/512, 0/512, 32/512);
         f:SetScript("OnEnter", f.OnEnter);
         f:SetScript("OnLeave", f.OnLeave);
@@ -409,7 +411,7 @@ do  --ButtonMixin
         --self:SetIcon(nil);
         self.useIcon = true;
         self.iconTextGap = 2;
-        self.Icon:SetTexture(BASE_TEXTURE);
+        self.Icon:SetTexture(GetBaseTexture());
         self.Icon:SetTexCoord(164/512, 196/512, 0, 32/512);
         self:SetClickable(false);
         self.seconds = seconds;
@@ -483,7 +485,7 @@ do  --ButtonMixin
             achievementID = achievementID,
         };
         self:SetIcon(nil);
-        self.Icon:SetTexture(BASE_TEXTURE);
+        self.Icon:SetTexture(GetBaseTexture());
         self.Icon:SetTexCoord(132/512, 164/512, 0, 32/512);
         self.ButtonText:SetWidth(160);
         self:SetText(questLineName);
@@ -496,7 +498,7 @@ do  --ButtonMixin
         self.uiOrder = 0;
         self.useIcon = true;
         self.iconTextGap = 2;
-        self.Icon:SetTexture(BASE_TEXTURE);
+        self.Icon:SetTexture(GetBaseTexture());
         self.Icon:SetTexCoord(132/512, 164/512, 0, 32/512);
         self.ButtonText:SetWidth(160);
         self:SetText(chainName);

@@ -544,7 +544,7 @@ do  -- NPC Interaction
         [4675624] = "direction",        --Guard, asking for direction
     };
 
-    local TexturePrefix = "Interface/AddOns/DialogueUI/Art/Icons/NPCType-";
+    local TexturePrefix = "Interface/AddOns/DialogueUI/Art/Icons/";
 
     local CustomTypeTexture = {
         direction = "AskDirection", -- NPCType-Direction is absent in the 3.3.5 asset set.

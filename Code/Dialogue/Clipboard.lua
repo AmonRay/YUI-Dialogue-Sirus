@@ -174,7 +174,8 @@ function Clipboard:Init()
     ScrollBar:SetPoint("TOPRIGHT", self, "TOPRIGHT", -FRAME_INSET, -FRAME_INSET);
     ScrollBar:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -FRAME_INSET, FRAME_INSET);
     ScrollBar:SetAlwaysVisible(true);
-    ScrollBar:SetTheme(2);
+    ScrollBar:SetTheme(addon.ThemeUtil:GetThemeID());
+    addon.CallbackRegistry:Register("ThemeChanged", "SetTheme", ScrollBar);
     ScrollBar:Show();
 
     local ScrollFrame = CreateFrame("ScrollFrame", nil, self);

@@ -66,7 +66,6 @@ local GetQuestItemLink = GetQuestItemLink;
 
 
 local MAJOR_FACTION_REPUTATION_REWARD_ICON_FORMAT = [[Interface\Icons\UI_MajorFaction_%s]];
-local ICON_PATH = "Interface/AddOns/DialogueUI/Art/Icons/";
 local FORMAT_COUNT_OWNED_REQUIRED = "|cffaaaaaa%s/|r%s";
 
 
@@ -1402,7 +1401,6 @@ function DUIDialogItemButtonMixin:SetBackgroundTexture(id)
         return
     end
 
-    local prefix = ThemeUtil:GetTexturePath();
     local borderFile, bgFile, fontObject;
 
     if id == 1 then
@@ -2474,7 +2472,7 @@ do  --Quest Portrait
 
         self.Model:SetScript("OnModelLoaded", OnModelLoaded);
 
-        self:SetTheme(1);
+        self:SetTheme(ThemeUtil:GetThemeID());
 
         self.PortraitNameFrame:SetScript("OnEnter", function()
             if self.Name:IsTruncated() then

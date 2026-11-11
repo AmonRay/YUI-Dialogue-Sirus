@@ -1,0 +1,30 @@
+UNVERIFIED UI draft handoff
+
+Assigned scope: Code/Dialogue/, Code/SharedUITemplates/ only.
+ThemeUtil and Compat were not edited by this worker.
+
+Known inherited substitution:
+Code/Dialogue/UITemplates.lua, DUIDialogItemButtonMixin:SetBackgroundTexture(id == 3):
+RewardChoice-Selected is absent from both Art/Theme_Brown and Art/Theme_Dark.
+The existing draft uses RewardChoice-Pending instead. This pass preserved that
+substitution, not the unavailable asset call. Selected-state visual fidelity
+must be decided by the lead; do not count this as an exact visual port.
+
+Known artwork limits:
+Banner-H-Brown exists only in Theme_Shared; its brown appearance is baked artwork,
+not a forced selection of Theme_Brown by the widget.
+Unknown modern major-faction icons retain the existing API.GetHonorIcon fallback.
+Known candle/flame/storm/web names use ThemeUtil and packaged GameAssets files.
+
+Masks and slicing inspected, not rendered:
+LegacyPanel and GenericFrame use nine ordinary textures and SetTexCoord.
+FriendshipBar uses baked alpha and vertical UV clipping instead of a rotating mask.
+DialogueUI.xml Mask1/Mask2 are hidden ordinary textures, not mask objects.
+The inherited background approximation and these UV/layer choices need a Sirus check.
+
+Checks:
+Own script: python Code/SharedUITemplates/check_draft.py
+Execution was denied by the relay; no script output or Lua/runtime verification.
+The script covers assigned Lua/XML only, direct modern APIs, fixed theme selection,
+literal ThemeUtil names and required slice assets. It does not resolve all dynamic
+names, run Lua, or replace the QA worker's complete asset audit.

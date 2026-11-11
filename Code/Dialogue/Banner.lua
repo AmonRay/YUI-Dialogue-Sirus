@@ -8,7 +8,7 @@ addon.Banner = Banner;
 local outQuart = addon.EasingFunctions.outQuart;
 
 function Banner:Init()
-    -- Banner theme is always brown
+    -- Shared artwork has only a brown variant; it is not a forced UI theme.
     -- 3-Slice Background
     local pieces = {};
     local file = addon.ThemeUtil:GetTextureFile("Banner-H-Brown");

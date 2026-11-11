@@ -469,9 +469,40 @@ do
             self:SetVertexColor(r1, g1, b1, a1)
         end
     end
+    Add(textureIndex, "SetGradientAlpha", function(self, orientation, r1, g1, b1, a1, r2, g2, b2, a2)
+        -- Without native alpha gradients retain RGB interpolation; uniform alpha
+        -- is the only legacy approximation, not an emulation of per-pixel masks.
+        self:SetGradient(orientation, r1, g1, b1, r2, g2, b2)
+        self:SetVertexColor(1, 1, 1, ((a1 or 1) + (a2 or 1)) * 0.5)
+    end)
+    -- Keep mask references for callers that later update/remove them. This does
+    -- not render masking on the legacy client. Never replace a native mask API.
+    if textureIndex and not textureIndex.AddMaskTexture then
+        local masks = setmetatable({}, {__mode = "k"})
+        Add(textureIndex, "AddMaskTexture", function(self, mask)
+            if not mask then return end
+            local list = masks[self] or {}
+            masks[self] = list
+            for i = 1, #list do if list[i] == mask then return end end
+            list[#list + 1] = mask
+        end)
+        Add(textureIndex, "RemoveMaskTexture", function(self, mask)
+            local list = masks[self]
+            if not list then return end
+            for i = #list, 1, -1 do
+                if list[i] == mask then table.remove(list, i) end
+            end
+        end)
+        Add(textureIndex, "GetMaskTexture", function(self, index)
+            local list = masks[self]
+            return list and list[index or 1]
+        end)
+        Add(textureIndex, "GetNumMaskTextures", function(self)
+            local list = masks[self]
+            return list and #list or 0
+        end)
+    end
     Add(textureIndex, "GetMaskTexture", noop)
-    Add(textureIndex, "AddMaskTexture", noop)
-    Add(textureIndex, "RemoveMaskTexture", noop)
     Add(textureIndex, "GetNumMaskTextures", function() return 0 end)
     Add(textureIndex, "SetMask", noop)
     -- 3.3.5a regions have no SetScale/GetScale/GetEffectiveScale (retail code rescales slice textures)
@@ -714,32 +745,61 @@ do
     Add(textureIndex, "SetVertTile", noop)
     if textureIndex and not textureIndex.SetAtlas then
         textureIndex.SetAtlas = function(self, atlas, useAtlasSize)
-            -- Only addon-owned file names can be resolved without a retail atlas database.
+            if atlas == nil then self:SetTexture(nil) return end
             local theme = addon.ThemeUtil
-            local file = theme and theme:GetTextureFile(atlas)
-            if not file and type(atlas) == "string" then
-                -- Early callers run before ThemeUtil; use the same visible fallback.
-                file = "Interface\\AddOns\\DialogueUI\\Art\\Theme_Shared\\ClipboardBackground"
-                print("DUI-TEX: atlas before ThemeUtil: "..atlas)
-            end
-            local key = file and string.lower(string.gsub(file, "\\", "/"))
-            key = key and string.gsub(key, "^interface/addons/dialogueui/art/", "")
-            local size = key and addon.TextureFileSizes and addon.TextureFileSizes[key]
-            if size then
-                self:SetTexture(file)
-                self:SetTexCoord(0, 1, 0, 1)
-                if useAtlasSize then self:SetSize(size[1], size[2]) end
-                return
-            end
-            if GetAtlasInfo then
-                local info = GetAtlasInfo(atlas)
-                if info then
-                    self:SetTexture(info.file or info.filename)
-                    self:SetTexCoord(info.leftTexCoord, info.rightTexCoord, info.topTexCoord, info.bottomTexCoord)
-                    if useAtlasSize and info.width then
-                        self:SetWidth(info.width) self:SetHeight(info.height)
+            local file, width, height
+            if theme and theme.FindTextureFile then
+                file, width, height = theme:FindTextureFile(atlas)
+            elseif type(atlas) == "string" then
+                -- Compat is loaded first. Resolve known files using the size
+                -- manifest even before ThemeUtil exists (Brown is the default).
+                local key = string.lower(string.gsub(atlas, "\\", "/"))
+                key = string.gsub(key, "/+", "/")
+                key = string.gsub(key, "^interface/addons/dialogueui/art/", "")
+                key = string.gsub(key, "^art/", "")
+                key = string.gsub(key, "%.[%a]+$", "")
+                local sizes = addon.TextureFileSizes or {}
+                local size = sizes[key]
+                if not size and string.find(key, "^shared/") then
+                    key = "theme_shared/"..string.sub(key, 8)
+                    size = sizes[key]
+                end
+                if not size and not string.find(key, "/", 1, true) then
+                    for _, directory in ipairs({"theme_brown", "theme_shared", "icons", "keys", "gameassets",
+                        "book", "basicshapes", "parchmentdecor", "previewpicture", "shared", "theme_dark"}) do
+                        if sizes[directory.."/"..key] then
+                            key = directory.."/"..key
+                            size = sizes[key]
+                            break
+                        end
                     end
                 end
+                if size then
+                    file = "Interface\\AddOns\\DialogueUI\\Art\\"..string.gsub(key, "/", "\\")
+                    width, height = size[1], size[2]
+                end
+            end
+            if file then
+                self:SetTexture(file)
+                self:SetTexCoord(0, 1, 0, 1)
+                if useAtlasSize and width and height then self:SetSize(width, height) end
+                return
+            end
+            -- An unresolved addon name must not hide a valid native atlas.
+            local lookup = (C_Texture and C_Texture.GetAtlasInfo) or GetAtlasInfo
+            local info = lookup and lookup(atlas)
+            if info and (info.file or info.filename) then
+                self:SetTexture(info.file or info.filename)
+                self:SetTexCoord(info.leftTexCoord or 0, info.rightTexCoord or 1, info.topTexCoord or 0, info.bottomTexCoord or 1)
+                if useAtlasSize and info.width and info.height then self:SetSize(info.width, info.height) end
+                return
+            end
+            self:SetTexture(theme and theme:GetTextureFile(atlas) or
+                "Interface\\AddOns\\DialogueUI\\Art\\Theme_Shared\\ClipboardBackground")
+            self:SetTexCoord(0, 1, 0, 1)
+            if useAtlasSize then
+                local size = addon.TextureFileSizes and addon.TextureFileSizes["theme_shared/clipboardbackground"]
+                if size then self:SetSize(size[1], size[2]) end
             end
         end
     end

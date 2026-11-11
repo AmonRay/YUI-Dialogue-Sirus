@@ -1,32 +1,260 @@
 {
   "counts": {
-    "scanned_files": 109,
-    "reference_occurrences": 193,
-    "unique_paths": 133,
+    "scanned_files": 121,
+    "reference_occurrences": 498,
+    "unique_paths": 230,
     "broken_unique_paths": 0,
     "broken_occurrences": 0,
     "source_assets": 273,
     "build_assets": 273,
     "sources_missing_in_build": 0,
-    "unmentioned_build_assets": 142,
+    "unmentioned_build_assets": 43,
     "case_mismatches": 0,
-    "unresolved_expressions": 195,
+    "unresolved_expressions": 197,
     "numeric_expressions": 0,
     "external_literals": 0,
-    "dynamic_prefixes": 2
+    "dynamic_prefixes": 0
   },
   "references": [
     {
-      "path": "Icons/NPCType-",
+      "path": "Icons/CurrencyOverflow",
       "source": "API.lua",
-      "line": 547,
-      "kind": "literal-art"
+      "line": 1766,
+      "kind": "inline-texture"
+    },
+    {
+      "path": "Icons/Logo",
+      "source": "API.lua",
+      "line": 2313,
+      "kind": "inline-texture"
     },
     {
       "path": "Icons/IncompleteQuest",
       "source": "API.lua",
       "line": 1192,
       "kind": "constant-concat"
+    },
+    {
+      "path": "Icons/CompleteCampaignQuest",
+      "source": "API.lua",
+      "line": 1200,
+      "kind": "variable-concat"
+    },
+    {
+      "path": "Icons/CompleteLegendaryQuest",
+      "source": "API.lua",
+      "line": 1202,
+      "kind": "variable-concat"
+    },
+    {
+      "path": "Icons/CompleteImportantQuest",
+      "source": "API.lua",
+      "line": 1204,
+      "kind": "variable-concat"
+    },
+    {
+      "path": "Icons/CompleteQuest",
+      "source": "API.lua",
+      "line": 1206,
+      "kind": "variable-concat"
+    },
+    {
+      "path": "Icons/IncompleteCampaignQuest",
+      "source": "API.lua",
+      "line": 1210,
+      "kind": "variable-concat"
+    },
+    {
+      "path": "Icons/IncompleteLegendaryQuest",
+      "source": "API.lua",
+      "line": 1212,
+      "kind": "variable-concat"
+    },
+    {
+      "path": "Icons/IncompleteImportantQuest",
+      "source": "API.lua",
+      "line": 1214,
+      "kind": "variable-concat"
+    },
+    {
+      "path": "Icons/IncompleteMetaQuest",
+      "source": "API.lua",
+      "line": 1216,
+      "kind": "variable-concat"
+    },
+    {
+      "path": "Icons/IncompleteQuest",
+      "source": "API.lua",
+      "line": 1218,
+      "kind": "variable-concat"
+    },
+    {
+      "path": "Icons/DailyQuest",
+      "source": "API.lua",
+      "line": 1224,
+      "kind": "variable-concat"
+    },
+    {
+      "path": "Icons/WeeklyQuest",
+      "source": "API.lua",
+      "line": 1226,
+      "kind": "variable-concat"
+    },
+    {
+      "path": "Icons/RepeatableScheduler",
+      "source": "API.lua",
+      "line": 1228,
+      "kind": "variable-concat"
+    },
+    {
+      "path": "Icons/RepeatableQuest",
+      "source": "API.lua",
+      "line": 1230,
+      "kind": "variable-concat"
+    },
+    {
+      "path": "Icons/AvailableCampaignQuest",
+      "source": "API.lua",
+      "line": 1233,
+      "kind": "variable-concat"
+    },
+    {
+      "path": "Icons/AvailableLegendaryQuest",
+      "source": "API.lua",
+      "line": 1235,
+      "kind": "variable-concat"
+    },
+    {
+      "path": "Icons/AvailableImportantQuest",
+      "source": "API.lua",
+      "line": 1237,
+      "kind": "variable-concat"
+    },
+    {
+      "path": "Icons/AvailableMetaQuest",
+      "source": "API.lua",
+      "line": 1239,
+      "kind": "variable-concat"
+    },
+    {
+      "path": "Icons/AvailableQuest",
+      "source": "API.lua",
+      "line": 1241,
+      "kind": "variable-concat"
+    },
+    {
+      "path": "Icons/AskDirection",
+      "source": "API.lua",
+      "line": 550,
+      "kind": "npc-type-table"
+    },
+    {
+      "path": "ParchmentDecor/Dragonflight",
+      "source": "API.lua",
+      "line": 1301,
+      "kind": "decor-table"
+    },
+    {
+      "path": "ParchmentDecor/Dragonflight",
+      "source": "API.lua",
+      "line": 1302,
+      "kind": "decor-table"
+    },
+    {
+      "path": "ParchmentDecor/Dragonflight-Green",
+      "source": "API.lua",
+      "line": 1303,
+      "kind": "decor-table"
+    },
+    {
+      "path": "ParchmentDecor/Dragonflight-Green",
+      "source": "API.lua",
+      "line": 1304,
+      "kind": "decor-table"
+    },
+    {
+      "path": "ParchmentDecor/Dragonflight-Bronze",
+      "source": "API.lua",
+      "line": 1305,
+      "kind": "decor-table"
+    },
+    {
+      "path": "ParchmentDecor/Dragonflight-Red",
+      "source": "API.lua",
+      "line": 1306,
+      "kind": "decor-table"
+    },
+    {
+      "path": "ParchmentDecor/Dragonflight",
+      "source": "API.lua",
+      "line": 1307,
+      "kind": "decor-table"
+    },
+    {
+      "path": "ParchmentDecor/Dragonflight",
+      "source": "API.lua",
+      "line": 1308,
+      "kind": "decor-table"
+    },
+    {
+      "path": "ParchmentDecor/Alliance",
+      "source": "API.lua",
+      "line": 1310,
+      "kind": "decor-table"
+    },
+    {
+      "path": "ParchmentDecor/Horde",
+      "source": "API.lua",
+      "line": 1311,
+      "kind": "decor-table"
+    },
+    {
+      "path": "ParchmentDecor/TWW-Flame",
+      "source": "API.lua",
+      "line": 1313,
+      "kind": "decor-table"
+    },
+    {
+      "path": "ParchmentDecor/TWW-Candle",
+      "source": "API.lua",
+      "line": 1314,
+      "kind": "decor-table"
+    },
+    {
+      "path": "ParchmentDecor/TWW-Storm",
+      "source": "API.lua",
+      "line": 1315,
+      "kind": "decor-table"
+    },
+    {
+      "path": "ParchmentDecor/TWW-Web",
+      "source": "API.lua",
+      "line": 1316,
+      "kind": "decor-table"
+    },
+    {
+      "path": "ParchmentDecor/TWW-Azeroth",
+      "source": "API.lua",
+      "line": 1317,
+      "kind": "decor-table"
+    },
+    {
+      "path": "ParchmentDecor/TWW-Rocket",
+      "source": "API.lua",
+      "line": 1318,
+      "kind": "decor-table"
+    },
+    {
+      "path": "ParchmentDecor/TWW-Fist",
+      "source": "API.lua",
+      "line": 1319,
+      "kind": "decor-table"
+    },
+    {
+      "path": "ParchmentDecor/MID-DarkHeart",
+      "source": "API.lua",
+      "line": 1321,
+      "kind": "decor-table"
     },
     {
       "path": "Book/TextureKit-Parchment",
@@ -55,7 +283,7 @@
     {
       "path": "Theme_Shared/ClipboardBackground",
       "source": "Code/Compat/Compat_335.lua",
-      "line": 722,
+      "line": 798,
       "kind": "literal-art"
     },
     {
@@ -91,7 +319,7 @@
     {
       "path": "Theme_Shared/CopyTextButton",
       "source": "Code/Dialogue/Clipboard.lua",
-      "line": 309,
+      "line": 310,
       "kind": "theme-helper"
     },
     {
@@ -187,13 +415,13 @@
     {
       "path": "Theme_Shared/QuestWidgetButton",
       "source": "Code/Dialogue/QuestHeaderWidget.lua",
-      "line": 16,
+      "line": 17,
       "kind": "theme-helper"
     },
     {
       "path": "Icons/Warband",
       "source": "Code/Dialogue/QuestHeaderWidget.lua",
-      "line": 433,
+      "line": 435,
       "kind": "theme-helper"
     },
     {
@@ -230,173 +458,329 @@
       "path": "Theme_Shared/TranslationButton",
       "source": "Code/Dialogue/Translator.lua",
       "line": 52,
-      "kind": "literal-art"
-    },
-    {
-      "path": "ui_majorfactions_",
-      "source": "Code/Dialogue/UITemplates.lua",
-      "line": 89,
-      "kind": "dynamic-prefix"
+      "kind": "theme-helper"
     },
     {
       "path": "Icons/Hint",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 410,
+      "line": 409,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Brown/HotkeyBackground",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1046,
+      "line": 1045,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Dark/HotkeyBackground",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1046,
+      "line": 1045,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Brown/ItemOverlays",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1381,
+      "line": 1380,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Dark/ItemOverlays",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1381,
+      "line": 1380,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Brown/RewardChoice-Sheen",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1385,
+      "line": 1384,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Dark/RewardChoice-Sheen",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1385,
+      "line": 1384,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Brown/ItemOverlays",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1389,
+      "line": 1388,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Dark/ItemOverlays",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1389,
+      "line": 1388,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Brown/RewardChoice-Sheen",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1390,
+      "line": 1389,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Dark/RewardChoice-Sheen",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1390,
+      "line": 1389,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Brown/ItemButtonBackground",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1967,
+      "line": 1965,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Dark/ItemButtonBackground",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1967,
+      "line": 1965,
       "kind": "theme-helper"
     },
     {
       "path": "Icons/XP-Purple",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2059,
+      "line": 2057,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Brown/ButtonLockProgress",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2166,
+      "line": 2164,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Dark/ButtonLockProgress",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2166,
+      "line": 2164,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Brown/InputBox-SingleLine",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2230,
+      "line": 2228,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Dark/InputBox-SingleLine",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2230,
+      "line": 2228,
       "kind": "theme-helper"
     },
     {
       "path": "Icons/CurrencyOverflow",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2418,
+      "line": 2416,
       "kind": "theme-helper"
     },
     {
       "path": "Icons/Coin-Gold",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2425,
+      "line": 2423,
       "kind": "theme-helper"
     },
     {
       "path": "Icons/ItemIsUpgrade",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2433,
+      "line": 2431,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Brown/WarbandCompleted",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2452,
+      "line": 2450,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Dark/WarbandCompleted",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2452,
+      "line": 2450,
       "kind": "theme-helper"
     },
     {
       "path": "Theme_Shared/ClipboardBackground",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2594,
+      "line": 2592,
       "kind": "shared-helper"
     },
     {
       "path": "Theme_Shared/LoadingIndicator-Radial",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2747,
+      "line": 2745,
       "kind": "shared-helper"
+    },
+    {
+      "path": "Theme_Brown/ItemBorder",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1407,
+      "kind": "theme-variable"
+    },
+    {
+      "path": "Theme_Dark/ItemBorder",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1407,
+      "kind": "theme-variable"
+    },
+    {
+      "path": "Theme_Brown/RewardChoice-ItemBorder",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1411,
+      "kind": "theme-variable"
+    },
+    {
+      "path": "Theme_Dark/RewardChoice-ItemBorder",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1411,
+      "kind": "theme-variable"
+    },
+    {
+      "path": "Theme_Brown/RewardChoice-ItemBorder",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1415,
+      "kind": "theme-variable"
+    },
+    {
+      "path": "Theme_Dark/RewardChoice-ItemBorder",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1415,
+      "kind": "theme-variable"
+    },
+    {
+      "path": "Theme_Brown/ItemButtonBackground",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1408,
+      "kind": "theme-variable"
+    },
+    {
+      "path": "Theme_Dark/ItemButtonBackground",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1408,
+      "kind": "theme-variable"
+    },
+    {
+      "path": "Theme_Brown/RewardChoice-Pending",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1412,
+      "kind": "theme-variable"
+    },
+    {
+      "path": "Theme_Dark/RewardChoice-Pending",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1412,
+      "kind": "theme-variable"
+    },
+    {
+      "path": "Theme_Brown/RewardChoice-Pending",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1416,
+      "kind": "theme-variable"
+    },
+    {
+      "path": "Theme_Dark/RewardChoice-Pending",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1416,
+      "kind": "theme-variable"
+    },
+    {
+      "path": "Theme_Brown/OptionBackground-Common",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 889,
+      "kind": "theme-index-table"
+    },
+    {
+      "path": "Theme_Dark/OptionBackground-Common",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 889,
+      "kind": "theme-index-table"
+    },
+    {
+      "path": "Theme_Brown/OptionBackground-Blue",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 889,
+      "kind": "theme-index-table"
+    },
+    {
+      "path": "Theme_Dark/OptionBackground-Blue",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 889,
+      "kind": "theme-index-table"
+    },
+    {
+      "path": "Theme_Brown/OptionBackground-Hollow",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 890,
+      "kind": "theme-index-table"
+    },
+    {
+      "path": "Theme_Dark/OptionBackground-Hollow",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 890,
+      "kind": "theme-index-table"
+    },
+    {
+      "path": "Theme_Brown/OptionBackground-Grey",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 890,
+      "kind": "theme-index-table"
+    },
+    {
+      "path": "Theme_Dark/OptionBackground-Grey",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 890,
+      "kind": "theme-index-table"
+    },
+    {
+      "path": "Icons/trophy_of_strife",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 73,
+      "kind": "theme-index-table"
+    },
+    {
+      "path": "Icons/honor",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 74,
+      "kind": "theme-index-table"
+    },
+    {
+      "path": "Icons/conquest",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 75,
+      "kind": "theme-index-table"
     },
     {
       "path": "Theme_Brown/ButtonHighlight-Gossip",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 848,
+      "line": 847,
       "kind": "theme-table"
     },
     {
       "path": "Theme_Dark/ButtonHighlight-Gossip",
       "source": "Code/Dialogue/UITemplates.lua",
+      "line": 847,
+      "kind": "theme-table"
+    },
+    {
+      "path": "Theme_Brown/ButtonHighlight-Add",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 848,
+      "kind": "theme-table"
+    },
+    {
+      "path": "Theme_Dark/ButtonHighlight-Add",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 848,
+      "kind": "theme-table"
+    },
+    {
+      "path": "Theme_Brown/ButtonHighlight-Front",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 848,
+      "kind": "theme-table"
+    },
+    {
+      "path": "Theme_Dark/ButtonHighlight-Front",
+      "source": "Code/Dialogue/UITemplates.lua",
       "line": 848,
       "kind": "theme-table"
     },
@@ -473,51 +857,261 @@
       "kind": "theme-table"
     },
     {
-      "path": "Theme_Brown/ButtonHighlight-Add",
+      "path": "Keys/SPACE",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 852,
-      "kind": "theme-table"
+      "line": 984,
+      "kind": "hotkey-table"
     },
     {
-      "path": "Theme_Dark/ButtonHighlight-Add",
+      "path": "Keys/ERROR",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 852,
-      "kind": "theme-table"
+      "line": 985,
+      "kind": "hotkey-table"
     },
     {
-      "path": "Theme_Brown/ButtonHighlight-Front",
+      "path": "Keys/DISABLED",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 852,
-      "kind": "theme-table"
+      "line": 986,
+      "kind": "hotkey-table"
     },
     {
-      "path": "Theme_Dark/ButtonHighlight-Front",
+      "path": "Theme_Brown/HotkeyBackground-LB",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 852,
-      "kind": "theme-table"
+      "line": 988,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Dark/HotkeyBackground-LB",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 988,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Brown/HotkeyBackground-RB",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 989,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Dark/HotkeyBackground-RB",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 989,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Brown/XBOX-PAD1",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 990,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Dark/XBOX-PAD1",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 990,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Brown/XBOX-PAD2",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 991,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Dark/XBOX-PAD2",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 991,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Brown/XBOX-PAD3",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 992,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Dark/XBOX-PAD3",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 992,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Brown/XBOX-PAD4",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 993,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Dark/XBOX-PAD4",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 993,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Brown/HotkeyBackground-LB",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 995,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Dark/HotkeyBackground-LB",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 995,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Brown/HotkeyBackground-RB",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 996,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Dark/HotkeyBackground-RB",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 996,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Brown/PS-PAD1",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 997,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Dark/PS-PAD1",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 997,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Brown/PS-PAD2",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 998,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Dark/PS-PAD2",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 998,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Brown/PS-PAD3",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 999,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Dark/PS-PAD3",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 999,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Brown/PS-PAD4",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1000,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Dark/PS-PAD4",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1000,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Brown/HotkeyBackground-LB",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1002,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Dark/HotkeyBackground-LB",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1002,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Brown/HotkeyBackground-RB",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1003,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Dark/HotkeyBackground-RB",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1003,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Brown/SWITCH-PAD1",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1004,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Dark/SWITCH-PAD1",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1004,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Brown/SWITCH-PAD2",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1005,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Dark/SWITCH-PAD2",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1005,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Brown/SWITCH-PAD3",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1006,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Dark/SWITCH-PAD3",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1006,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Brown/SWITCH-PAD4",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1007,
+      "kind": "hotkey-table"
+    },
+    {
+      "path": "Theme_Dark/SWITCH-PAD4",
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1007,
+      "kind": "hotkey-table"
     },
     {
       "path": "GameAssets/ui_majorfactions_candle",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 81,
+      "line": 80,
       "kind": "redirect-texturekit"
     },
     {
       "path": "GameAssets/ui_majorfactions_flame",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 82,
+      "line": 81,
       "kind": "redirect-texturekit"
     },
     {
       "path": "GameAssets/ui_majorfactions_storm",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 83,
+      "line": 82,
       "kind": "redirect-texturekit"
     },
     {
       "path": "GameAssets/ui_majorfactions_web",
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 84,
+      "line": 83,
       "kind": "redirect-texturekit"
     },
     {
@@ -1049,6 +1643,12 @@
       "kind": "literal-art"
     },
     {
+      "path": "Keys/PC-TAB",
+      "source": "Code/Utility/LocaleFormatter.lua",
+      "line": 14,
+      "kind": "inline-texture"
+    },
+    {
       "path": "Theme_Shared/TTSButton",
       "source": "Code/Utility/TTS.lua",
       "line": 525,
@@ -1173,6 +1773,1236 @@
       "source": "Code/Widget/WidgetManager.xml",
       "line": 143,
       "kind": "literal-art"
+    },
+    {
+      "path": "Keys/XBOX-PAD1",
+      "source": "Locales/deDE.lua",
+      "line": 177,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-PAD2",
+      "source": "Locales/deDE.lua",
+      "line": 177,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-PAD1",
+      "source": "Locales/deDE.lua",
+      "line": 179,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-PAD2",
+      "source": "Locales/deDE.lua",
+      "line": 179,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-PAD1",
+      "source": "Locales/deDE.lua",
+      "line": 181,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-PAD2",
+      "source": "Locales/deDE.lua",
+      "line": 181,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-TAB",
+      "source": "Locales/deDE.lua",
+      "line": 193,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-SPACE",
+      "source": "Locales/deDE.lua",
+      "line": 209,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-SPACE",
+      "source": "Locales/deDE.lua",
+      "line": 230,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-PAD3",
+      "source": "Locales/deDE.lua",
+      "line": 231,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-PAD3",
+      "source": "Locales/deDE.lua",
+      "line": 232,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-PAD3",
+      "source": "Locales/deDE.lua",
+      "line": 233,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-R",
+      "source": "Locales/deDE.lua",
+      "line": 256,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-LT",
+      "source": "Locales/deDE.lua",
+      "line": 257,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-LT",
+      "source": "Locales/deDE.lua",
+      "line": 258,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-LT",
+      "source": "Locales/deDE.lua",
+      "line": 259,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/deDE.lua",
+      "line": 325,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/deDE.lua",
+      "line": 326,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/CONSOLE-MENU",
+      "source": "Locales/deDE.lua",
+      "line": 326,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/deDE.lua",
+      "line": 328,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/deDE.lua",
+      "line": 329,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/CONSOLE-MENU",
+      "source": "Locales/deDE.lua",
+      "line": 329,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-PAD1",
+      "source": "Locales/enUS.lua",
+      "line": 194,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-PAD2",
+      "source": "Locales/enUS.lua",
+      "line": 194,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-PAD1",
+      "source": "Locales/enUS.lua",
+      "line": 196,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-PAD2",
+      "source": "Locales/enUS.lua",
+      "line": 196,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-PAD1",
+      "source": "Locales/enUS.lua",
+      "line": 198,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-PAD2",
+      "source": "Locales/enUS.lua",
+      "line": 198,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-TAB",
+      "source": "Locales/enUS.lua",
+      "line": 212,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-INVALID",
+      "source": "Locales/enUS.lua",
+      "line": 227,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-SPACE",
+      "source": "Locales/enUS.lua",
+      "line": 228,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-SPACE",
+      "source": "Locales/enUS.lua",
+      "line": 250,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-PAD3",
+      "source": "Locales/enUS.lua",
+      "line": 251,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-PAD3",
+      "source": "Locales/enUS.lua",
+      "line": 252,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-PAD3",
+      "source": "Locales/enUS.lua",
+      "line": 253,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-R",
+      "source": "Locales/enUS.lua",
+      "line": 276,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-LT",
+      "source": "Locales/enUS.lua",
+      "line": 277,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-LT",
+      "source": "Locales/enUS.lua",
+      "line": 278,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-LT",
+      "source": "Locales/enUS.lua",
+      "line": 279,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/enUS.lua",
+      "line": 350,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/enUS.lua",
+      "line": 351,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/CONSOLE-MENU",
+      "source": "Locales/enUS.lua",
+      "line": 351,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/enUS.lua",
+      "line": 353,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/enUS.lua",
+      "line": 354,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/CONSOLE-MENU",
+      "source": "Locales/enUS.lua",
+      "line": 354,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-PAD1",
+      "source": "Locales/esES.lua",
+      "line": 180,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-PAD2",
+      "source": "Locales/esES.lua",
+      "line": 180,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-PAD1",
+      "source": "Locales/esES.lua",
+      "line": 182,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-PAD2",
+      "source": "Locales/esES.lua",
+      "line": 182,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-PAD1",
+      "source": "Locales/esES.lua",
+      "line": 184,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-PAD2",
+      "source": "Locales/esES.lua",
+      "line": 184,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-TAB",
+      "source": "Locales/esES.lua",
+      "line": 196,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-INVALID",
+      "source": "Locales/esES.lua",
+      "line": 211,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-SPACE",
+      "source": "Locales/esES.lua",
+      "line": 212,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-SPACE",
+      "source": "Locales/esES.lua",
+      "line": 234,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-PAD3",
+      "source": "Locales/esES.lua",
+      "line": 235,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-PAD3",
+      "source": "Locales/esES.lua",
+      "line": 236,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-PAD3",
+      "source": "Locales/esES.lua",
+      "line": 237,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-R",
+      "source": "Locales/esES.lua",
+      "line": 260,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-LT",
+      "source": "Locales/esES.lua",
+      "line": 261,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-LT",
+      "source": "Locales/esES.lua",
+      "line": 262,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-LT",
+      "source": "Locales/esES.lua",
+      "line": 263,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/esES.lua",
+      "line": 334,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/esES.lua",
+      "line": 335,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/CONSOLE-MENU",
+      "source": "Locales/esES.lua",
+      "line": 335,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/esES.lua",
+      "line": 337,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/esES.lua",
+      "line": 338,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/CONSOLE-MENU",
+      "source": "Locales/esES.lua",
+      "line": 338,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-PAD1",
+      "source": "Locales/esMX.lua",
+      "line": 180,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-PAD2",
+      "source": "Locales/esMX.lua",
+      "line": 180,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-PAD1",
+      "source": "Locales/esMX.lua",
+      "line": 182,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-PAD2",
+      "source": "Locales/esMX.lua",
+      "line": 182,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-PAD1",
+      "source": "Locales/esMX.lua",
+      "line": 184,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-PAD2",
+      "source": "Locales/esMX.lua",
+      "line": 184,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-TAB",
+      "source": "Locales/esMX.lua",
+      "line": 196,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-INVALID",
+      "source": "Locales/esMX.lua",
+      "line": 211,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-SPACE",
+      "source": "Locales/esMX.lua",
+      "line": 212,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-SPACE",
+      "source": "Locales/esMX.lua",
+      "line": 234,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-PAD3",
+      "source": "Locales/esMX.lua",
+      "line": 235,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-PAD3",
+      "source": "Locales/esMX.lua",
+      "line": 236,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-PAD3",
+      "source": "Locales/esMX.lua",
+      "line": 237,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-R",
+      "source": "Locales/esMX.lua",
+      "line": 260,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-LT",
+      "source": "Locales/esMX.lua",
+      "line": 261,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-LT",
+      "source": "Locales/esMX.lua",
+      "line": 262,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-LT",
+      "source": "Locales/esMX.lua",
+      "line": 263,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/esMX.lua",
+      "line": 334,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/esMX.lua",
+      "line": 335,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/CONSOLE-MENU",
+      "source": "Locales/esMX.lua",
+      "line": 335,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/esMX.lua",
+      "line": 337,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/esMX.lua",
+      "line": 338,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/CONSOLE-MENU",
+      "source": "Locales/esMX.lua",
+      "line": 338,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-PAD1",
+      "source": "Locales/frFR.lua",
+      "line": 180,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-PAD2",
+      "source": "Locales/frFR.lua",
+      "line": 180,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-PAD1",
+      "source": "Locales/frFR.lua",
+      "line": 182,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-PAD2",
+      "source": "Locales/frFR.lua",
+      "line": 182,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-PAD1",
+      "source": "Locales/frFR.lua",
+      "line": 184,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-PAD2",
+      "source": "Locales/frFR.lua",
+      "line": 184,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-TAB",
+      "source": "Locales/frFR.lua",
+      "line": 196,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-SPACE",
+      "source": "Locales/frFR.lua",
+      "line": 212,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-SPACE",
+      "source": "Locales/frFR.lua",
+      "line": 234,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-PAD3",
+      "source": "Locales/frFR.lua",
+      "line": 235,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-PAD3",
+      "source": "Locales/frFR.lua",
+      "line": 236,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-PAD3",
+      "source": "Locales/frFR.lua",
+      "line": 237,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-R",
+      "source": "Locales/frFR.lua",
+      "line": 260,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-LT",
+      "source": "Locales/frFR.lua",
+      "line": 261,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-LT",
+      "source": "Locales/frFR.lua",
+      "line": 262,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-LT",
+      "source": "Locales/frFR.lua",
+      "line": 263,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/frFR.lua",
+      "line": 334,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/frFR.lua",
+      "line": 335,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/CONSOLE-MENU",
+      "source": "Locales/frFR.lua",
+      "line": 335,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/frFR.lua",
+      "line": 337,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/frFR.lua",
+      "line": 338,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/CONSOLE-MENU",
+      "source": "Locales/frFR.lua",
+      "line": 338,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-PAD1",
+      "source": "Locales/koKR.lua",
+      "line": 178,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-PAD2",
+      "source": "Locales/koKR.lua",
+      "line": 178,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-PAD1",
+      "source": "Locales/koKR.lua",
+      "line": 180,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-PAD2",
+      "source": "Locales/koKR.lua",
+      "line": 180,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-PAD1",
+      "source": "Locales/koKR.lua",
+      "line": 182,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-PAD2",
+      "source": "Locales/koKR.lua",
+      "line": 182,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-TAB",
+      "source": "Locales/koKR.lua",
+      "line": 194,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-INVALID",
+      "source": "Locales/koKR.lua",
+      "line": 209,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-SPACE",
+      "source": "Locales/koKR.lua",
+      "line": 210,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-SPACE",
+      "source": "Locales/koKR.lua",
+      "line": 231,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-SPACE",
+      "source": "Locales/koKR.lua",
+      "line": 232,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-SPACE",
+      "source": "Locales/koKR.lua",
+      "line": 233,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-SPACE",
+      "source": "Locales/koKR.lua",
+      "line": 234,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-R",
+      "source": "Locales/koKR.lua",
+      "line": 257,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-LT",
+      "source": "Locales/koKR.lua",
+      "line": 258,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-LT",
+      "source": "Locales/koKR.lua",
+      "line": 259,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-LT",
+      "source": "Locales/koKR.lua",
+      "line": 260,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/koKR.lua",
+      "line": 326,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/koKR.lua",
+      "line": 327,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/CONSOLE-MENU",
+      "source": "Locales/koKR.lua",
+      "line": 327,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/koKR.lua",
+      "line": 329,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/koKR.lua",
+      "line": 330,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/CONSOLE-MENU",
+      "source": "Locales/koKR.lua",
+      "line": 330,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-PAD1",
+      "source": "Locales/ptBR.lua",
+      "line": 180,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-PAD2",
+      "source": "Locales/ptBR.lua",
+      "line": 180,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-PAD1",
+      "source": "Locales/ptBR.lua",
+      "line": 182,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-PAD2",
+      "source": "Locales/ptBR.lua",
+      "line": 182,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-PAD1",
+      "source": "Locales/ptBR.lua",
+      "line": 184,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-PAD2",
+      "source": "Locales/ptBR.lua",
+      "line": 184,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-TAB",
+      "source": "Locales/ptBR.lua",
+      "line": 196,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-INVALID",
+      "source": "Locales/ptBR.lua",
+      "line": 211,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-SPACE",
+      "source": "Locales/ptBR.lua",
+      "line": 212,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-SPACE",
+      "source": "Locales/ptBR.lua",
+      "line": 234,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-PAD3",
+      "source": "Locales/ptBR.lua",
+      "line": 235,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-PAD3",
+      "source": "Locales/ptBR.lua",
+      "line": 236,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-PAD3",
+      "source": "Locales/ptBR.lua",
+      "line": 237,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-R",
+      "source": "Locales/ptBR.lua",
+      "line": 260,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-LT",
+      "source": "Locales/ptBR.lua",
+      "line": 261,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-LT",
+      "source": "Locales/ptBR.lua",
+      "line": 262,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-LT",
+      "source": "Locales/ptBR.lua",
+      "line": 263,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/ptBR.lua",
+      "line": 334,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/ptBR.lua",
+      "line": 335,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/CONSOLE-MENU",
+      "source": "Locales/ptBR.lua",
+      "line": 335,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/ptBR.lua",
+      "line": 337,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/ptBR.lua",
+      "line": 338,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/CONSOLE-MENU",
+      "source": "Locales/ptBR.lua",
+      "line": 338,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-PAD1",
+      "source": "Locales/ruRU.lua",
+      "line": 177,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-PAD2",
+      "source": "Locales/ruRU.lua",
+      "line": 177,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-PAD1",
+      "source": "Locales/ruRU.lua",
+      "line": 179,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-PAD2",
+      "source": "Locales/ruRU.lua",
+      "line": 179,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-PAD1",
+      "source": "Locales/ruRU.lua",
+      "line": 181,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-PAD2",
+      "source": "Locales/ruRU.lua",
+      "line": 181,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-TAB",
+      "source": "Locales/ruRU.lua",
+      "line": 193,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-INVALID",
+      "source": "Locales/ruRU.lua",
+      "line": 208,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-SPACE",
+      "source": "Locales/ruRU.lua",
+      "line": 209,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-SPACE",
+      "source": "Locales/ruRU.lua",
+      "line": 230,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-PAD3",
+      "source": "Locales/ruRU.lua",
+      "line": 231,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-PAD3",
+      "source": "Locales/ruRU.lua",
+      "line": 232,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-PAD3",
+      "source": "Locales/ruRU.lua",
+      "line": 233,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-R",
+      "source": "Locales/ruRU.lua",
+      "line": 256,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-LT",
+      "source": "Locales/ruRU.lua",
+      "line": 257,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-LT",
+      "source": "Locales/ruRU.lua",
+      "line": 258,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-LT",
+      "source": "Locales/ruRU.lua",
+      "line": 259,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/ruRU.lua",
+      "line": 325,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/ruRU.lua",
+      "line": 326,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/CONSOLE-MENU",
+      "source": "Locales/ruRU.lua",
+      "line": 326,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/ruRU.lua",
+      "line": 328,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/ruRU.lua",
+      "line": 329,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/CONSOLE-MENU",
+      "source": "Locales/ruRU.lua",
+      "line": 329,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-PAD1",
+      "source": "Locales/zhCN.lua",
+      "line": 194,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-PAD2",
+      "source": "Locales/zhCN.lua",
+      "line": 194,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-PAD1",
+      "source": "Locales/zhCN.lua",
+      "line": 196,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-PAD2",
+      "source": "Locales/zhCN.lua",
+      "line": 196,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-PAD1",
+      "source": "Locales/zhCN.lua",
+      "line": 198,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-PAD2",
+      "source": "Locales/zhCN.lua",
+      "line": 198,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-TAB",
+      "source": "Locales/zhCN.lua",
+      "line": 212,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-INVALID",
+      "source": "Locales/zhCN.lua",
+      "line": 227,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-SPACE",
+      "source": "Locales/zhCN.lua",
+      "line": 228,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-SPACE",
+      "source": "Locales/zhCN.lua",
+      "line": 250,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-PAD3",
+      "source": "Locales/zhCN.lua",
+      "line": 251,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-PAD3",
+      "source": "Locales/zhCN.lua",
+      "line": 252,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-PAD3",
+      "source": "Locales/zhCN.lua",
+      "line": 253,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-R",
+      "source": "Locales/zhCN.lua",
+      "line": 276,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/XBOX-LT",
+      "source": "Locales/zhCN.lua",
+      "line": 277,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PS-LT",
+      "source": "Locales/zhCN.lua",
+      "line": 278,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/SWITCH-LT",
+      "source": "Locales/zhCN.lua",
+      "line": 279,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/zhCN.lua",
+      "line": 350,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/zhCN.lua",
+      "line": 351,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/CONSOLE-MENU",
+      "source": "Locales/zhCN.lua",
+      "line": 351,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/zhCN.lua",
+      "line": 353,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/PC-F1",
+      "source": "Locales/zhCN.lua",
+      "line": 354,
+      "kind": "locale-key"
+    },
+    {
+      "path": "Keys/CONSOLE-MENU",
+      "source": "Locales/zhCN.lua",
+      "line": 354,
+      "kind": "locale-key"
     }
   ],
   "broken_paths": [],
@@ -1181,75 +3011,18 @@
   "unmentioned_build_assets": [
     "BasicShapes/Mask-AllBlack.blp",
     "Book/ScreenDarken.blp",
-    "Icons/AskDirection.blp",
-    "Icons/AvailableCampaignQuest.blp",
-    "Icons/AvailableImportantQuest.blp",
-    "Icons/AvailableLegendaryQuest.blp",
-    "Icons/AvailableMetaQuest.blp",
-    "Icons/AvailableQuest.blp",
     "Icons/Coin-Copper.blp",
     "Icons/Coin-Silver.blp",
-    "Icons/CompleteCampaignQuest.blp",
     "Icons/CompleteDailyQuest.blp",
-    "Icons/CompleteImportantQuest.blp",
-    "Icons/CompleteLegendaryQuest.blp",
-    "Icons/CompleteQuest.blp",
-    "Icons/DailyQuest.blp",
     "Icons/Gossip-Blue.blp",
     "Icons/Incomplete-Brown.blp",
-    "Icons/IncompleteCampaignQuest.blp",
-    "Icons/IncompleteImportantQuest.blp",
-    "Icons/IncompleteLegendaryQuest.blp",
-    "Icons/IncompleteMetaQuest.blp",
-    "Icons/Logo.blp",
     "Icons/QuestTag-Dungeon.blp",
     "Icons/QuestTag-Raid.blp",
-    "Icons/RepeatableQuest.blp",
-    "Icons/RepeatableScheduler.blp",
     "Icons/UpgradeArrow.blp",
-    "Icons/WeeklyQuest.blp",
     "Icons/XP-Green.blp",
-    "Icons/conquest.blp",
-    "Icons/honor.blp",
-    "Icons/trophy_of_strife.blp",
-    "Keys/CONSOLE-MENU.blp",
-    "Keys/DISABLED.blp",
-    "Keys/ERROR.blp",
-    "Keys/PC-F1.blp",
-    "Keys/PC-INVALID.blp",
-    "Keys/PC-R.blp",
-    "Keys/PC-SPACE.blp",
-    "Keys/PC-TAB.blp",
-    "Keys/PS-LT.blp",
-    "Keys/PS-PAD1.blp",
-    "Keys/PS-PAD2.blp",
-    "Keys/PS-PAD3.blp",
     "Keys/PS-PAD4.blp",
-    "Keys/SPACE.blp",
-    "Keys/SWITCH-LT.blp",
-    "Keys/SWITCH-PAD1.blp",
-    "Keys/SWITCH-PAD2.blp",
-    "Keys/SWITCH-PAD3.blp",
     "Keys/SWITCH-PAD4.blp",
-    "Keys/XBOX-LT.blp",
-    "Keys/XBOX-PAD1.blp",
-    "Keys/XBOX-PAD2.blp",
-    "Keys/XBOX-PAD3.blp",
     "Keys/XBOX-PAD4.blp",
-    "ParchmentDecor/Alliance.blp",
-    "ParchmentDecor/Dragonflight-Bronze.blp",
-    "ParchmentDecor/Dragonflight-Green.blp",
-    "ParchmentDecor/Dragonflight-Red.blp",
-    "ParchmentDecor/Dragonflight.blp",
-    "ParchmentDecor/Horde.blp",
-    "ParchmentDecor/MID-DarkHeart.blp",
-    "ParchmentDecor/TWW-Azeroth.blp",
-    "ParchmentDecor/TWW-Candle.blp",
-    "ParchmentDecor/TWW-Fist.blp",
-    "ParchmentDecor/TWW-Flame.blp",
-    "ParchmentDecor/TWW-Rocket.blp",
-    "ParchmentDecor/TWW-Storm.blp",
-    "ParchmentDecor/TWW-Web.blp",
     "PreviewPicture/AutoQuestPopup.blp",
     "PreviewPicture/BookUI.blp",
     "PreviewPicture/CameraChangeFov.blp",
@@ -1265,56 +3038,14 @@
     "PreviewPicture/SimplifyCurrencyReward.blp",
     "PreviewPicture/TTSButton.blp",
     "PreviewPicture/Theme.blp",
-    "Theme_Brown/HotkeyBackground-LB.blp",
-    "Theme_Brown/HotkeyBackground-RB.blp",
-    "Theme_Brown/ItemBorder.blp",
-    "Theme_Brown/OptionBackground-Blue.blp",
-    "Theme_Brown/OptionBackground-Common.blp",
-    "Theme_Brown/OptionBackground-Grey.blp",
-    "Theme_Brown/OptionBackground-Hollow.blp",
-    "Theme_Brown/PS-PAD1.blp",
-    "Theme_Brown/PS-PAD2.blp",
-    "Theme_Brown/PS-PAD3.blp",
-    "Theme_Brown/PS-PAD4.blp",
-    "Theme_Brown/RewardChoice-ItemBorder.blp",
-    "Theme_Brown/RewardChoice-Pending.blp",
-    "Theme_Brown/SWITCH-PAD1.blp",
-    "Theme_Brown/SWITCH-PAD2.blp",
-    "Theme_Brown/SWITCH-PAD3.blp",
-    "Theme_Brown/SWITCH-PAD4.blp",
     "Theme_Brown/Settings-BackgroundShadow.blp",
     "Theme_Brown/Settings-Move.blp",
     "Theme_Brown/Settings-Reset.blp",
     "Theme_Brown/TooltipBackground.blp",
-    "Theme_Brown/XBOX-PAD1.blp",
-    "Theme_Brown/XBOX-PAD2.blp",
-    "Theme_Brown/XBOX-PAD3.blp",
-    "Theme_Brown/XBOX-PAD4.blp",
-    "Theme_Dark/HotkeyBackground-LB.blp",
-    "Theme_Dark/HotkeyBackground-RB.blp",
-    "Theme_Dark/ItemBorder.blp",
-    "Theme_Dark/OptionBackground-Blue.blp",
-    "Theme_Dark/OptionBackground-Common.blp",
-    "Theme_Dark/OptionBackground-Grey.blp",
-    "Theme_Dark/OptionBackground-Hollow.blp",
-    "Theme_Dark/PS-PAD1.blp",
-    "Theme_Dark/PS-PAD2.blp",
-    "Theme_Dark/PS-PAD3.blp",
-    "Theme_Dark/PS-PAD4.blp",
-    "Theme_Dark/RewardChoice-ItemBorder.blp",
-    "Theme_Dark/RewardChoice-Pending.blp",
-    "Theme_Dark/SWITCH-PAD1.blp",
-    "Theme_Dark/SWITCH-PAD2.blp",
-    "Theme_Dark/SWITCH-PAD3.blp",
-    "Theme_Dark/SWITCH-PAD4.blp",
     "Theme_Dark/Settings-BackgroundShadow.blp",
     "Theme_Dark/Settings-Move.blp",
     "Theme_Dark/Settings-Reset.blp",
     "Theme_Dark/TooltipBackground.blp",
-    "Theme_Dark/XBOX-PAD1.blp",
-    "Theme_Dark/XBOX-PAD2.blp",
-    "Theme_Dark/XBOX-PAD3.blp",
-    "Theme_Dark/XBOX-PAD4.blp",
     "Theme_Shared/BrushFrame-Mask-BottomRight.blp",
     "Theme_Shared/BrushFrame-Mask-TopLeft.blp",
     "Theme_Shared/Mask-HeartFill.blp",
@@ -1458,27 +3189,33 @@
     },
     {
       "source": "Code/Compat/Compat_335.lua",
-      "line": 608,
+      "line": 639,
       "kind": "SetTexture",
       "expression": "self, file, ...)"
     },
     {
       "source": "Code/Compat/Compat_335.lua",
-      "line": 716,
+      "line": 747,
       "kind": "SetAtlas",
       "expression": "function(self, atlas, useAtlasSize)"
     },
     {
       "source": "Code/Compat/Compat_335.lua",
-      "line": 729,
+      "line": 783,
       "kind": "SetTexture",
       "expression": "file)"
     },
     {
       "source": "Code/Compat/Compat_335.lua",
-      "line": 737,
+      "line": 792,
       "kind": "SetTexture",
       "expression": "info.file or info.filename)"
+    },
+    {
+      "source": "Code/Compat/Compat_335.lua",
+      "line": 797,
+      "kind": "SetTexture",
+      "expression": "theme and theme:GetTextureFile(atlas) or"
     },
     {
       "source": "Code/Dialogue/AlertFrame.lua",
@@ -1512,7 +3249,7 @@
     },
     {
       "source": "Code/Dialogue/Clipboard.lua",
-      "line": 309,
+      "line": 310,
       "kind": "SetTexture",
       "expression": "addon.ThemeUtil:GetTextureFile(\"CopyTextButton\"))"
     },
@@ -1638,33 +3375,33 @@
     },
     {
       "source": "Code/Dialogue/QuestHeaderWidget.lua",
-      "line": 39,
+      "line": 41,
       "kind": "SetTexture",
-      "expression": "BASE_TEXTURE)"
+      "expression": "GetBaseTexture())"
     },
     {
       "source": "Code/Dialogue/QuestHeaderWidget.lua",
-      "line": 305,
+      "line": 307,
       "kind": "SetTexture",
       "expression": "icon)"
     },
     {
       "source": "Code/Dialogue/QuestHeaderWidget.lua",
-      "line": 412,
+      "line": 414,
       "kind": "SetTexture",
-      "expression": "BASE_TEXTURE)"
+      "expression": "GetBaseTexture())"
     },
     {
       "source": "Code/Dialogue/QuestHeaderWidget.lua",
-      "line": 486,
+      "line": 488,
       "kind": "SetTexture",
-      "expression": "BASE_TEXTURE)"
+      "expression": "GetBaseTexture())"
     },
     {
       "source": "Code/Dialogue/QuestHeaderWidget.lua",
-      "line": 499,
+      "line": 501,
       "kind": "SetTexture",
-      "expression": "BASE_TEXTURE)"
+      "expression": "GetBaseTexture())"
     },
     {
       "source": "Code/Dialogue/StatusBar.lua",
@@ -1697,272 +3434,278 @@
       "expression": "addon.ThemeUtil:GetTextureFile(\"StatusBar-Notch\"))"
     },
     {
+      "source": "Code/Dialogue/Translator.lua",
+      "line": 52,
+      "kind": "SetTexture",
+      "expression": "addon.ThemeUtil:GetTextureFile(\"TranslationButton\"))"
+    },
+    {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 373,
+      "line": 372,
       "kind": "SetTexture",
       "expression": "GossipDataProvider:GetGossipIcon(data.icon, \"Gossip Red\"))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 375,
+      "line": 374,
       "kind": "SetTexture",
       "expression": "GossipDataProvider:GetGossipIcon(data.icon, \"Gossip Quest\"))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 378,
+      "line": 377,
       "kind": "SetTexture",
       "expression": "GossipDataProvider:GetGossipIcon(data.icon, \"Gossip Movie\"))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 381,
+      "line": 380,
       "kind": "SetTexture",
       "expression": "data.overrideIconID)"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 384,
+      "line": 383,
       "kind": "SetTexture",
       "expression": "icon)"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 410,
+      "line": 409,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(\"Hint\"))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 507,
+      "line": 506,
       "kind": "SetTexture",
       "expression": "GetQuestIcon(questInfo))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 866,
+      "line": 865,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(data.backTexture))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 873,
+      "line": 872,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(data.frontTexture))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 897,
+      "line": 896,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(backgrounds[id]))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1046,
+      "line": 1045,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(\"HotkeyBackground\"))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1087,
+      "line": 1086,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(iconData.file))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1381,
+      "line": 1380,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(\"ItemOverlays\"))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1385,
+      "line": 1384,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(\"RewardChoice-Sheen\"))"
+    },
+    {
+      "source": "Code/Dialogue/UITemplates.lua",
+      "line": 1388,
+      "kind": "SetTexture",
+      "expression": "ThemeUtil:GetTextureFile(\"ItemOverlays\"))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
       "line": 1389,
       "kind": "SetTexture",
-      "expression": "ThemeUtil:GetTextureFile(\"ItemOverlays\"))"
-    },
-    {
-      "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1390,
-      "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(\"RewardChoice-Sheen\"))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1422,
+      "line": 1420,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(borderFile))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1423,
+      "line": 1421,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(bgFile))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1641,
+      "line": 1639,
       "kind": "SetTexture",
       "expression": "texture)"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1732,
+      "line": 1730,
       "kind": "SetTexture",
       "expression": "texture)"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1796,
+      "line": 1794,
       "kind": "SetTexture",
       "expression": "majorFactionIcon)"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1813,
+      "line": 1811,
       "kind": "SetTexture",
       "expression": "icon)"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1832,
+      "line": 1830,
       "kind": "SetTexture",
       "expression": "skillIcon)"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1848,
+      "line": 1846,
       "kind": "SetTexture",
       "expression": "DUI_ICON_NOTE or 134328)"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1861,
+      "line": 1859,
       "kind": "SetTexture",
       "expression": "API.GetHonorIcon())"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1879,
+      "line": 1877,
       "kind": "SetTexture",
       "expression": "API.GetHonorIcon())"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1911,
+      "line": 1909,
       "kind": "SetTexture",
       "expression": "followerInfo.portraitIconID)"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1967,
+      "line": 1965,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(\"ItemButtonBackground\"))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1972,
+      "line": 1970,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(CUSTOM_ICONS[file]))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 1975,
+      "line": 1973,
       "kind": "SetTexture",
       "expression": "file)"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2019,
+      "line": 2017,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(name))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2059,
+      "line": 2057,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(\"XP-Purple\"))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2081,
+      "line": 2079,
       "kind": "SetTexture",
       "expression": "majorFactionIcon)"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2098,
+      "line": 2096,
       "kind": "SetTexture",
       "expression": "API.GetHonorIcon())"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2166,
+      "line": 2164,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(\"ButtonLockProgress\"))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2232,
+      "line": 2230,
       "kind": "SetTexture",
       "expression": "bgFile)"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2233,
+      "line": 2231,
       "kind": "SetTexture",
       "expression": "bgFile)"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2316,
+      "line": 2314,
       "kind": "SetTexture",
       "expression": "icon)"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2418,
+      "line": 2416,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(\"CurrencyOverflow\"))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2425,
+      "line": 2423,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(\"Coin-Gold\"))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2433,
+      "line": 2431,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(\"ItemIsUpgrade\"))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2452,
+      "line": 2450,
       "kind": "SetTexture",
       "expression": "ThemeUtil:GetTextureFile(\"WarbandCompleted\"))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2594,
+      "line": 2592,
       "kind": "SetTexture",
       "expression": "addon.Template.GetSharedTextureFile(\"ClipboardBackground\"))"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2751,
+      "line": 2749,
       "kind": "SetTexture",
       "expression": "texture)"
     },
     {
       "source": "Code/Dialogue/UITemplates.lua",
-      "line": 2756,
+      "line": 2754,
       "kind": "SetTexture",
       "expression": "texture)"
     },
@@ -2250,7 +3993,7 @@
     },
     {
       "source": "Code/SharedUITemplates/SharedUITemplates.lua",
-      "line": 15,
+      "line": 14,
       "kind": "SetTexture",
       "expression": "Template.GetSharedTextureFile(fileName))"
     },
@@ -2498,7 +4241,7 @@
   "numeric": [],
   "external": [],
   "source_hashes": {
-    "API.lua": "cac94190b6b0ffd79f7e293d356ecb4b489bc600f87fea51bdd3de0d9a329e63",
+    "API.lua": "8d2aa7a6476940b70c9da5eefee5fcd519c64e4eb294da277c6eaf9a24a0ee5d",
     "API.xml": "eb38c3cf033e4ccd8c367caca5df3d6800d08bfb9a1be84d273b55dc238f477a",
     "Code/Book/BookUI.lua": "cf061210104c2ff27b5dd10badc209d2be5ba118a028f67d5dee36a2b5b113c0",
     "Code/Book/BookUI.xml": "93deedb92eddc6329663b80662e995c9ed9fb1f951eca2b9db1b6f234c27a7d7",
@@ -2506,27 +4249,27 @@
     "Code/Book/BookUI_Component.lua": "4f2465e3e3fe223bc67ad3ed841c4905b8460a9eece33bd85d34633088b3e834",
     "Code/CallbackRegistry.lua": "dc21e2126159845dd35a70f92a1e2f1ed61a9df923739b3757e987e039b45e80",
     "Code/Camera.lua": "a2f771fd79abfeb6495e42d84152cc414aae95fe20785f55894381ad2dfc7e8d",
-    "Code/Compat/Compat_335.lua": "5466f726d2804130d170d6f9373ff1aa7404e7ecc5aa5a8a9b9c3a3d75e0114b",
+    "Code/Compat/Compat_335.lua": "912aa48173616fc02180c1b7043be5ae3d7239df7302243b6a0289f2d634b750",
     "Code/Compat/TextureSizes_335.lua": "aac233fb58bf00639157f3c4704834c025da3a1a14b6ca23bde8d39fb36d5f01",
     "Code/Core.lua": "d233341d123d382d5a86909c6cda814840e90f546e30ccb1e79791fbaf4a301e",
     "Code/Dialogue/ActionButton.lua": "9df5bad8ab507aff9d43cecce776a2cea73ff32e5bce94ce9ba2008f0613b086",
     "Code/Dialogue/AlertFrame.lua": "14a75a38a896ecb874956ee2ba371f9d5952ca8b7e14e252f4836eaed473b27e",
-    "Code/Dialogue/Banner.lua": "7a9a37d33f6796a7846e76ff006c0e21d7e18a160cfb84932558acff7547909d",
-    "Code/Dialogue/ChatFrame.lua": "81ab473ba54c63d79219f5c2cb28d429e4f7c98811b625aaca60d399e75e04d8",
-    "Code/Dialogue/Clipboard.lua": "3e7c9175dff56bc9eb81e806d918e682f561a227a6a088270ca3e80f7e117ece",
+    "Code/Dialogue/Banner.lua": "71a154c0acfcb4136d01e74a5f77acad30c442905582563298fe9f8f20d9ba31",
+    "Code/Dialogue/ChatFrame.lua": "13a4e8d3b6956c4a2617705769a25385433be8b7c7686189b1243d39623be75c",
+    "Code/Dialogue/Clipboard.lua": "5d92800b176c9efdc356c83322f42acba4398d5b4b8fd269d00391be7110e0f2",
     "Code/Dialogue/DialogueUI.lua": "a8d1a2d3c10e09cb947ff63ad91905544f7d90a003c00984a6e819173511d958",
     "Code/Dialogue/DialogueUI.xml": "b50c28aa2a08efcbb671b8111b221933e0d77a3eea3fd9ca5da957a7cf4810bb",
     "Code/Dialogue/FriendshipBar.lua": "52a81dd521fbeaa1896d35430ec431845b5a9f69957dd0f14419237c579b28c7",
     "Code/Dialogue/KeyboardControl.lua": "ed5d49d1f32d9fa5d4bc9d97d74c2b17a18714a70de58e532b1cecb1efbf51d9",
     "Code/Dialogue/LegacyPanel.lua": "a770a8fb198389066bd4d79cb63be58ce4881304deae0c57c61ee60cd7d541ad",
     "Code/Dialogue/QuestFlyout.lua": "f4876dff7db32bd89798d4e3cb9d825c90a36b7af5fc32be45ebd0558339acd7",
-    "Code/Dialogue/QuestHeaderWidget.lua": "29de0251f7d0f24a2f8acf63c9b77447efec381896e62151a52dd60f3f187a9e",
+    "Code/Dialogue/QuestHeaderWidget.lua": "df9c1dfb71a0c86f54916991652dae22a57ffe6a2bd6a910e02b0217bd0fd30e",
     "Code/Dialogue/QuestRewards.lua": "acd61e895730c47b047f35a71608fdcee2439b58925007c7c3d92c40ab9c83b4",
     "Code/Dialogue/RewardTooltipCode.lua": "01a3fa6becdda7aa1eec13423f7755f8ad8d145a72f7ad0ac42862531fdedf27",
     "Code/Dialogue/StatusBar.lua": "8651868b9218f9dec405c643e6341a6af63722201ccc8f5ee6a714f6afdb9d4b",
-    "Code/Dialogue/Translator.lua": "2714a65642b1261e5c9cdd0304cc4367928db4fb494a6d31a68da74638e6f596",
+    "Code/Dialogue/Translator.lua": "803554d0a82ea0004a4d401050bc390ebeb4b88d91d9059fa4e1e15ad7e139db",
     "Code/Dialogue/Tutorial.lua": "afdba3882930c12a9f61593fffa605baa7951293ddac0c0ba60ba1c3d2429fc9",
-    "Code/Dialogue/UITemplates.lua": "02d1fedc518be774ceafacb77555fdab43db6b316f37cbfab146a4b99a1278f0",
+    "Code/Dialogue/UITemplates.lua": "69f32328ef2c9742ebcad4638e46e42447a914dc0948f8593fa1f1d3b3f5828a",
     "Code/GossipData/GossipData_AutoQuest.lua": "799aa241fd08a3de7530453cbd45deb58dec9c7a63f30ba016ac989404a438c5",
     "Code/GossipData/GossipData_AutoSelect.lua": "dd6c9abf6532f14f555bb4becffe69414d891f8f482909bfa39f09f64d882761",
     "Code/GossipData/GossipData_Hint.lua": "a30f594e51cd79c8ec2e4588a9a7be66a8682f688dbd7e0f090e251d94886f2d",
@@ -2557,7 +4300,7 @@
     "Code/Settings/Settings_Font.lua": "5d73fc71a590966ef6605b718ff509b6ba34cf38eced84ce9b68931eb77e8005",
     "Code/Settings/Settings_Keybinding.lua": "0cbdd2f6d4c5e439a2d7d3a5f6a188ef92faeec70be5e42ef69e92d6fd0c76a2",
     "Code/SharedUITemplates/GenericFrame.lua": "849812f585aa84b93e36f974f12c153f5064d8bc37a7db0038ab279ab0c997ca",
-    "Code/SharedUITemplates/SharedUITemplates.lua": "7541284314ef567abda30af5686b3bc0fe948116aa235fa770b7c174dca513e4",
+    "Code/SharedUITemplates/SharedUITemplates.lua": "86f7165f206abd219a1ea80bb482a415b5168bb8a6a1b9e2787d244cf92693de",
     "Code/SharedUITemplates/SharedUITemplates.xml": "2afc9108bedc32c0814cc5c82d1d9acc27c3d135baa8b2a251fca5c37306eec6",
     "Code/Skimmer/Skimmer.xml": "e1c3b4490f9ff5cb1f62aeac8a0a7d5215448443dc0788b58516194afa50ebfc",
     "Code/Skimmer/Skimmer_Base.lua": "4b248710a82e0de4db0bae0284929fe2b7016e976bf15f5a183ca7eb041bbda2",
@@ -2594,7 +4337,7 @@
     "Code/Utility/LocaleFormatter.lua": "61b4b9274148e8114612b3acf2008bfd8d2a8c8b8a2360710c8b74bb45337486",
     "Code/Utility/QuestMuter.lua": "26e3301517a95e4a6045e5f14c1e1b0d359edf6910ba215b990a8eab8002dbeb",
     "Code/Utility/TextureSlice.lua": "708f30aac2d936edf79444eb5c4ee1914015eb3e99db16b7ae945c46622f4ffc",
-    "Code/Utility/ThemeUtil.lua": "b8440cdbd4c5540ff2ef109c5e59600f845290c000efc55473a8231ae11e582e",
+    "Code/Utility/ThemeUtil.lua": "f3af8ea5c61bd8b2f647a3a73a56fcd55e8ea3900bed4c5daa1b5646728e45f1",
     "Code/Utility/TTS.lua": "13b8ed80e8621e98ae086aff6b4a9edd25b22bcd41c15dbff1ac18e766726993",
     "Code/Utility/Utility.xml": "99496154135dd07d73a89f43f76869aa74530afa35692e384d5d1913c83bd6e3",
     "Code/Widget/HelpTip.lua": "97574a7a74fa7efc167a0425fd379ff7e7d44f62b41f603cfecf8ee30081db7e",
@@ -2606,6 +4349,53 @@
     "Code/Widget/WidgetManager.lua": "8460391425e671eb1492de9d62f125fb8c33bc0c4738cb6222fe1829dcb97caa",
     "Code/Widget/WidgetManager.xml": "a12c048bd9df1f427e89bce1042065506207c68d15cf3bad9f6596b5065888ef",
     "Fonts.xml": "b8fb08be58f4a8336bb9da6cb2028ef850e47839e6481b28f95131f5d0597acc",
-    "Initialization.lua": "bab2ed712dd7f4208ba8adfd7004affd3da1940bb7a1017de83355f47eb407e5"
-  }
+    "Initialization.lua": "bab2ed712dd7f4208ba8adfd7004affd3da1940bb7a1017de83355f47eb407e5",
+    "Locales/arAR.lua": "8444257eccea93e42fe6b2bb24e4696cf0ff4766d5414c62026c0e23a7926a39",
+    "Locales/deDE.lua": "b9a37b2f40961dcff3569803165bae8a91e5efa72f07106f0d781a5e8e9e7062",
+    "Locales/enUS.lua": "91bf19931f68edcbe04e6c54d75ea84179b7b75cd4af606b5225e2caa3e5c3c5",
+    "Locales/esES.lua": "e44ba2d02229956ace587399614a632bd57b25e3d64c9df96a5d6e31aa7d36ad",
+    "Locales/esMX.lua": "f0646f8c93acb58ff8229de681f1d54b0e4d15dcc6fc90b5246d234882b18c5e",
+    "Locales/frFR.lua": "b98c812c9ce4c3f6beaa1092eb7311a0996fc0cd340a09d473542bbc69303f44",
+    "Locales/itIT.lua": "ea44a0042d5090d5e97b91419a2de9eacf78cf0d5727f8d63e4de4289f60f8ec",
+    "Locales/koKR.lua": "d63d3e417520ad9b809ac86d0f8b9ca45651620ebf567e7d082ce5c087eb64ad",
+    "Locales/ptBR.lua": "79bb7ec8b4852868a14843f1683784ae9be7132d89e9fe98e3fac399c3a71d6a",
+    "Locales/ruRU.lua": "c781b64199a4656829e644500eb1b7904b2d3805f915ce3122dfcde612872d71",
+    "Locales/zhCN.lua": "12f420124de22c51765c3f72f9a50e8f5710a8f92de34ed9c6004b1fb9c24092",
+    "Locales/zhTW.lua": "82481f1d447e3c3d2f09ba684e334af50067caaac116be5d2eedc61b62db5c43"
+  },
+  "methodology": {
+    "status": "UNVERIFIED draft: static scan only, no game execution",
+    "count_unit": "Unique (source file, syntactic position, resolved path); both themes expand at one position; locales count per token occurrence.",
+    "scope": "Code/** and root Lua/XML; Locales/*.lua scanned for [KEY:device:button].",
+    "coverage": {
+      "inline-texture": 3,
+      "constant-concat": 26,
+      "variable-concat": 18,
+      "npc-type-table": 1,
+      "decor-table": 18,
+      "book-texturekit": 2,
+      "shared-helper": 3,
+      "literal-art": 17,
+      "theme-helper": 87,
+      "theme-variable": 12,
+      "theme-index-table": 11,
+      "theme-table": 24,
+      "hotkey-table": 39,
+      "redirect-texturekit": 4,
+      "theme-concat": 28,
+      "locale-key": 205
+    },
+    "limitations": [
+      "Not a Lua interpreter; scope-insensitive finite constant propagation.",
+      "unresolved lists API expressions, including nested helpers already extracted separately; it is not a count of missing files.",
+      "broken_paths is complete for extracted finite paths, not a proof for arbitrary runtime input.",
+      "Inventory presence is not format compatibility or visual correctness."
+    ]
+  },
+  "manual_findings": [
+    "API.lua concatenates TexturePrefix (Icons/NPCType-) with CustomTypeTexture.direction (AskDirection): Icons/NPCType-AskDirection, not Icons/AskDirection.",
+    "The existing AskDirection asset cannot satisfy the concatenated NPCType-AskDirection filename; application code and assets were not modified.",
+    "No bgName identifier exists in the scanned current code; direct helper variable alternatives and prefix..variable are covered by bounded literal propagation.",
+    "After parallel source edits, lead must rerun this scan and perform in-game verification; this handoff is not project acceptance."
+  ]
 }

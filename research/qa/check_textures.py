@@ -72,22 +72,17 @@ def main():
 
     def theme(name, file, text, pos, kind):
         name = normal(name)
-        if name.lower().startswith('theme_'):
+        if name.endswith(('-', '_')):
+            return  # Incomplete expressions are not assets.
+        if name.lower().startswith('theme_') or '/' in name:
             add(name, file, text, pos, kind)
             return
-        if name.endswith(('-', '_')):
-            add(name, file, text, pos, 'dynamic-prefix')
-            return
         for folder in ('Theme_Brown', 'Theme_Dark'):
+            # Match the resolver's active-theme-first search, then shared categories.
             candidate = folder + '/' + name
-            # Match ThemeUtil shared fallback against its manifest, not build existence.
-            shared = 'Theme_Shared/' + name
-            if candidate.lower() not in manifest and shared.lower() in manifest:
-                candidate = shared
-            else:
-                # ThemeUtil searches the remaining categories for bare names.
-                for category in ('Icons', 'Keys', 'GameAssets', 'Book', 'BasicShapes',
-                                 'ParchmentDecor', 'PreviewPicture'):
+            if candidate.lower() not in manifest:
+                for category in ('Theme_Shared', 'Icons', 'Keys', 'GameAssets', 'Book',
+                                 'BasicShapes', 'ParchmentDecor', 'PreviewPicture', 'Shared'):
                     if (category + '/' + name).lower() in manifest:
                         candidate = category + '/' + name
                         break
@@ -124,9 +119,12 @@ def main():
             value = decode(token[0]).replace('\\', '/')
             tail = text[token.end():].lstrip()
             if value.lower().startswith(PREFIX.lower()):
-                if tail.startswith('..') or value.endswith('/'):
+                if tail.startswith('..') or value.endswith('/') or value.endswith(('-', '_')):
                     continue  # Prefix, not a complete filename.
                 add(value, file, text, token.start(), 'literal-art')
+            # Inline WoW texture escape embedded in a larger Lua string.
+            for inline in re.finditer(r'\|T(Interface[/\\]AddOns[/\\]DialogueUI[/\\]Art[/\\][^:|]+)', value, re.I):
+                add(inline[1], file, text, token.start() + inline.start(1), 'inline-texture')
         # Theme, shared helpers and XML wrapper names.
         for m in re.finditer(r'(GetTextureFile|GetSharedTextureFile|DUI_SetSharedTexture)\s*\(\s*', text):
             offset = m.end()
@@ -152,6 +150,26 @@ def main():
                 theme(name, file, text, m.start(), 'theme-concat')
             elif prefix.lower().startswith(PREFIX.lower()):
                 add(prefix + name, file, text, m.start(), 'constant-concat')
+        # Finite local string alternatives (including prefix..bgName patterns).
+        literal_values = defaultdict(list)
+        for a in re.finditer(r'\b(\w+)\s*=\s*(' + STRING.pattern + ')', text):
+            literal_values[a[1]].append((decode(a[2]), a.start(2)))
+        for m in re.finditer(r'\b(\w+)\s*\.\.\s*(\w+)\b', text):
+            prefix = variables.get(m[1], '')
+            for value, pos in literal_values.get(m[2], []):
+                if prefix.startswith('@THEME/'):
+                    theme(value, file, text, pos, 'theme-variable-concat')
+                elif prefix.lower().startswith(PREFIX.lower()):
+                    add(prefix + value, file, text, pos, 'variable-concat')
+        for m in re.finditer(r'GetTextureFile\(\s*(\w+)\s*\)', text):
+            for value, pos in literal_values.get(m[1], []):
+                theme(value, file, text, pos, 'theme-variable')
+        # Simple string-valued tables passed by indexed name to the theme resolver.
+        for table_name in ('backgrounds', 'CUSTOM_ICONS'):
+            if re.search(r'GetTextureFile\(\s*' + table_name + r'\[', text):
+                for block in re.finditer(r'local ' + table_name + r'\s*=\s*\{([^}]+)\}', text):
+                    for item in re.finditer(r'\[[^]]+\]\s*=\s*(' + STRING.pattern + ')', block[1]):
+                        theme(decode(item[1]), file, text, block.start(1) + item.start(1), 'theme-index-table')
         # Structured table fields that feed theme helpers through variables.
         for m in re.finditer(r'\b(file|fileID|frontTexture|backTexture)\s*=\s*(' + STRING.pattern + ')', text):
             name = decode(m[2])
@@ -179,11 +197,38 @@ def main():
                 numeric.append(row)
             elif not first and not expr.startswith('nil'):
                 unresolved.append(row)
+        # Bounded runtime domains: table values actually concatenated with an Art prefix.
+        for prefix_var, table_var, table_pattern, value_pattern, kind in (
+            ('TexturePrefix', 'CustomTypeTexture', r'local CustomTypeTexture\s*=\s*\{([^}]+)\}',
+             r'\b\w+\s*=\s*(' + STRING.pattern + ')', 'npc-type-table'),
+            ('DECOR_PATH', 'BackgroundDecors', r'local BackgroundDecors\s*=\s*\{([^}]+)\}',
+             r'\[[^]]+\]\s*=\s*(' + STRING.pattern + ')', 'decor-table'),
+        ):
+            prefix = variables.get(prefix_var, '')
+            if prefix.lower().startswith(PREFIX.lower()) and re.search(
+                    rf'\b{prefix_var}\s*\.\.\s*{table_var}\s*\[', text):
+                for block in re.finditer(table_pattern, text):
+                    for item in re.finditer(value_pattern, block[1]):
+                        add(prefix + decode(item[1]), file, text,
+                            block.start(1) + item.start(1), kind)
+        # Literal keys in the table consumed by ThemeUtil:GetTextureFile(iconData.file).
+        if file.name == 'UITemplates.lua' and 'ThemeUtil:GetTextureFile(iconData.file)' in text:
+            for block in re.finditer(r'local HotkeyIcons\s*=\s*\{(.*?)\n\};', text, re.S):
+                for item in re.finditer(r'\bfile\s*=\s*(' + STRING.pattern + ')', block[1]):
+                    theme(decode(item[1]), file, text, block.start(1) + item.start(1), 'hotkey-table')
         # RedirectTextureKit keys form dynamic GameAssets filenames.
         for block in re.finditer(r'local RedirectTextureKit\s*=\s*\{([^}]+)\}', text):
             for m in re.finditer(r'(\w+)\s*=\s*true', block[1]):
                 add('GameAssets/ui_majorfactions_' + m[1], file, text,
                     block.start(1) + m.start(), 'redirect-texturekit')
+    # Locale tokens consumed by LocaleFormatter's dynamically formatted Keys path.
+    locale_files = sorted((ROOT / 'Locales').glob('*.lua'))
+    for file in locale_files:
+        raw = file.read_text(encoding='utf-8-sig')
+        hashes[file.relative_to(ROOT).as_posix()] = hashlib.sha256(raw.encode()).hexdigest()
+        text = strip_comments(raw)
+        for m in re.finditer(r'\[KEY:(\w+):(\w+)\]', text):
+            add('Keys/' + m[1] + '-' + m[2], file, text, m.start(), 'locale-key')
     unique = sorted({r['path'] for r in refs})
     dynamic_prefixes = [p for p in unique if p.endswith(('-', '_'))]
     missing = [p for p in unique if p.lower() not in lookup and not p.endswith(('-', '_'))]
@@ -195,7 +240,7 @@ def main():
     missing_conversion = [p for p in src if normal(p).lower() not in build_keys]
     suggestions = {p: get_close_matches(p.lower(), sorted(set(lookup) | set(source_keys)), n=3, cutoff=0.65)
                    for p in missing}
-    counts = dict(scanned_files=len(files), reference_occurrences=len(refs), unique_paths=len(unique),
+    counts = dict(scanned_files=len(files) + len(locale_files), reference_occurrences=len(refs), unique_paths=len(unique),
                   broken_unique_paths=len(missing), broken_occurrences=sum(r['path'] in missing for r in refs),
                   source_assets=len(src), build_assets=len(build),
                   sources_missing_in_build=len(missing_conversion), unmentioned_build_assets=len(unused),
@@ -205,9 +250,29 @@ def main():
     report = dict(counts=counts, references=refs, broken_paths=missing, case_mismatches=case,
                   suffix_or_name_candidates=suggestions, unmentioned_build_assets=unused,
                   sources_missing_in_build=missing_conversion, unresolved=unresolved,                  numeric=numeric, external=external, source_hashes=hashes)
+    report['methodology'] = {
+        'status': 'UNVERIFIED draft: static scan only, no game execution',
+        'count_unit': 'Unique (source file, syntactic position, resolved path); both themes expand at one position; locales count per token occurrence.',
+        'scope': 'Code/** and root Lua/XML; Locales/*.lua scanned for [KEY:device:button].',
+        'coverage': dict(Counter(r['kind'] for r in refs)),
+        'limitations': ['Not a Lua interpreter; scope-insensitive finite constant propagation.',
+                       'unresolved lists API expressions, including nested helpers already extracted separately; it is not a count of missing files.',
+                       'broken_paths is complete for extracted finite paths, not a proof for arbitrary runtime input.',
+                       'Inventory presence is not format compatibility or visual correctness.'],
+    }
+    report['manual_findings'] = [
+        'API.lua concatenates TexturePrefix (Icons/NPCType-) with CustomTypeTexture.direction (AskDirection): Icons/NPCType-AskDirection, not Icons/AskDirection.',
+        'The existing AskDirection asset cannot satisfy the concatenated NPCType-AskDirection filename; application code and assets were not modified.',
+        'No bgName identifier exists in the scanned current code; direct helper variable alternatives and prefix..variable are covered by bounded literal propagation.',
+        'After parallel source edits, lead must rerun this scan and perform in-game verification; this handoff is not project acceptance.',
+    ]
     (OUT / 'texture_report.json').write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding='utf-8')
     lines = ['# Статический аудит текстур (не игровая проверка)', '',
-             'Сканируются Code/** и корневые .lua/.xml; комментарии исключаются.',
+             'Непроверенный в игре черновик для ведущего. Код приложения и ассеты не менялись.',
+             'Сканируются Code/**, корневые .lua/.xml и токены клавиш Locales/*.lua; комментарии исключаются.',
+             '## Программные результаты',
+             'Единица счёта: файл, позиция и разрешённый путь; две темы дают два упоминания.',
+             'Табличные декор, клавиши, NPC-типы и встроенные |T-строки раскрываются отдельно.',
              'Ссылки = извлечённые статические упоминания; ThemeUtil раскрывается в две темы.',
              'Недостающий путь = нет файла любого поддерживаемого расширения без учёта регистра.',
              'Отсутствующие в сборке исходники перечислены независимо от ссылок.',
@@ -229,6 +294,14 @@ def main():
     lines += ['', '## Регистр', '```json', json.dumps(case, ensure_ascii=False, indent=2), '```',
               '', '## Похожие имена / суффиксы', '```json', json.dumps(suggestions, ensure_ascii=False, indent=2), '```',
               '', 'Полные ссылки, места вызовов, динамические выражения и хеши входных файлов: texture_report.json.']
+    lines += ['', '## Покрытие извлечения (программные числа)']
+    lines += [f'- {kind}: **{count}**' for kind, count in sorted(report['methodology']['coverage'].items())]
+    lines += ['', '## Ручные выводы и ограничения (не дополнительные числа)',
+              '- API.lua:547–567 собирает `Icons/NPCType-AskDirection`; `Icons/AskDirection` — другое имя. Это подтверждённая причина битого пути, а не рекомендация автоматически переименовать ассет.',
+              '- В текущем коде идентификатор bgName отсутствует; варианты prefix..variable и прямые переменные helper извлекаются по конечным строковым присваиваниям без исполнения Lua.',
+              '- unresolved — список выражений API, а не список отсутствующих файлов: в нём остаются и вложенные helper-вызовы, уже учтённые отдельно.',
+              '- Полный список отсутствующих файлов относится только к извлечённым конечным путям. Произвольные данные игры и внешние строки статически не ограничены.',
+              '- Ведущему: повторить скан после параллельных правок; проверить в Sirus декор, клавиши, две темы и сообщения DUI-TEX. Сборка и игра здесь не запускались.']
     (OUT / 'texture_report.md').write_text('\n'.join(lines) + '\n', encoding='utf-8')
     print(json.dumps(counts, indent=2))
     print('BROKEN PATHS:')

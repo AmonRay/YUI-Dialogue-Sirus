@@ -153,7 +153,8 @@ do  --ScrollBar
     ScrollBar:SetHeight(FRAME_HEIGHT);
     ScrollBar:SetPoint("TOPRIGHT", ChatFrame, "TOPRIGHT", -padding, -padding -copytextButtonHeight);
     ScrollBar:SetPoint("BOTTOMRIGHT", ChatFrame, "BOTTOMRIGHT", -padding, padding);
-    ScrollBar:SetTheme(2);
+    ScrollBar:SetTheme(addon.ThemeUtil:GetThemeID());
+    addon.CallbackRegistry:Register("ThemeChanged", "SetTheme", ScrollBar);
     ScrollView:SetScrollBar(ScrollBar);
 end
 
