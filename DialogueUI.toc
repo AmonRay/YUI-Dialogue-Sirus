@@ -18,6 +18,7 @@
 # 1.0.8 rebuild 5: textures -> BLP (uncompressed BGRA, like ElvUI-for-Sirus), 9-slice panel emulation, smooth camera (SaveView/SetView + absolute zoom), IsUnitModelReadyForUI and other missing API, 3.3.5a gossip icons
 # 1.0.8 rebuild 6: "Hide UI" works on 3.3.5a - the game interface is hidden while a dialog is open (UIParent:Hide() + SetUIVisibility(false), like Alt+Z)
 # 1.0.8 rebuild 7: textures are drawn on 3.3.5a - every BLP now carries a full mip chain (as the uncompressed BLPs of ElvUI-for-Sirus); the release workflow runs scripts/convert_textures_335.py and commits the rebuilt textures
+# 1.0.8 rebuild 8: the camera no longer jerks when a dialog closes on 3.3.5a - the game UI comes back first and the camera starts moving back a few frames later (SetView no longer runs in the heavy UIParent:Show() frame); a dialog opened right after another keeps the camera in place
 
 
 Code\Compat\Compat_335.lua

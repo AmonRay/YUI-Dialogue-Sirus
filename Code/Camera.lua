@@ -1190,6 +1190,12 @@ end
 --The retail code zoomed relative to a fake zoom value (a big CameraZoomIn that was never undone) and ran
 --console commands every frame, which made the camera jump. Here: SaveView once per interaction, absolute zoom
 --(fully in, then out by the goal in the same frame = one smooth move) and the exact camera is restored with SetView.
+--
+--Closing: the frame the dialog closes in is the heaviest one of the whole interaction (UIParent:Show() runs the OnShow
+--of every frame, names and health bars come back, gossip/quest close events). SetView used to run in that same frame:
+--the camera started moving back, the next frame came late and the first part of the way was skipped, the UI fade-in
+--kept the frame time uneven => the camera jerked on the way back (the way in has no such frame).
+--Now the UI comes back first and the camera starts moving once the frame time is back to normal (a few frames later).
 if addon.IS_335 then
     local VIEW_INDEX = 4;
     local MIN_ZOOM_335 = 3.5;
@@ -1197,11 +1203,81 @@ if addon.IS_335 then
     local SaveView, SetView = SaveView, SetView;
     local UnitHasVehicleUI = UnitHasVehicleUI;
 
-    local function SaveCameraOnce(self)
-        if not self.view335Saved then
-            self.view335Saved = true;
-            SaveView(VIEW_INDEX);
+    local VIEW_RESTORE_MIN_FRAMES = 2;          --Skip the frame that shows UIParent again and the one after it
+    local VIEW_RESTORE_SMOOTH_FRAME = 1/24;     --Then start on the first frame drawn faster than this...
+    local VIEW_RESTORE_MAX_DELAY = 0.35;        --...but never wait longer than this
+    local VIEW_BLEND_TIME = 1.5;                --SetView needs about a second to bring the camera back
+
+    local function IsInVehicle()
+        return UnitHasVehicleUI and UnitHasVehicleUI("player")
+    end
+
+    local ViewRestorer = CreateFrame("Frame");
+    ViewRestorer:Hide();
+
+    function ViewRestorer:ForceSmoothBlend()
+        --If the client has "cameraViewBlendStyle" (1 = smooth, 2 = instant) make sure our SetView is a smooth move
+        local style = GetCVar("cameraViewBlendStyle");
+        if style and style ~= "1" and not self.blendStyleBackup then
+            self.blendStyleBackup = style;
+            SetCVar("cameraViewBlendStyle", "1");
         end
+    end
+
+    function ViewRestorer:RestoreBlendStyle()
+        if self.blendStyleBackup then
+            SetCVar("cameraViewBlendStyle", self.blendStyleBackup);
+            self.blendStyleBackup = nil;
+        end
+    end
+
+    function ViewRestorer:OnUpdate(elapsed)
+        self.t = self.t + elapsed;
+        if self.pending then
+            self.frames = self.frames + 1;
+            if (self.frames >= VIEW_RESTORE_MIN_FRAMES and elapsed < VIEW_RESTORE_SMOOTH_FRAME) or (self.t >= VIEW_RESTORE_MAX_DELAY) then
+                self.pending = nil;
+                self.t = 0;
+                if IsInVehicle() then
+                    self:Stop();
+                else
+                    self:ForceSmoothBlend();
+                    SetView(VIEW_INDEX);
+                end
+            end
+        elseif self.t >= VIEW_BLEND_TIME then
+            self:Stop();
+        end
+    end
+
+    function ViewRestorer:Start()
+        self.pending = true;
+        self.t = 0;
+        self.frames = 0;
+        self:SetScript("OnUpdate", self.OnUpdate);
+        self:Show();
+    end
+
+    function ViewRestorer:Stop()
+        self.pending = nil;
+        self:SetScript("OnUpdate", nil);
+        self:Hide();
+        self:RestoreBlendStyle();
+    end
+
+    local function SaveCameraOnce(self)
+        if self.view335Saved then return end;
+        self.view335Saved = true;
+
+        if ViewRestorer:IsShown() then
+            --The previous dialog has just closed (next quest of the same NPC, a gossip option that opens a quest...)
+            --and the camera hasn't returned yet or is still on its way. The slot still holds the original view: keep it.
+            --No back-and-forth between the two dialogs, and the last close brings the camera all the way back.
+            ViewRestorer:Stop();
+            return
+        end
+
+        SaveView(VIEW_INDEX);
     end
 
     local function ZoomToAbsolute(goal)
@@ -1265,7 +1341,7 @@ if addon.IS_335 then
 
         if self.view335Saved then
             self.view335Saved = nil;
-            SetView(VIEW_INDEX);
+            ViewRestorer:Start();      --SetView a few frames later, after the UI is shown below (see the top of this block)
         end
 
         if not cvarRestored then return end;
