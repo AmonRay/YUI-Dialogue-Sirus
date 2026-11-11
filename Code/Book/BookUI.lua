@@ -1726,15 +1726,15 @@ do  --Keyboard Control, In Combat Behavior
     function DUIBookUIMixin:EnableControls(state)
         if state and not InCombatLockdown() then
             self:SetScript("OnKeyDown", self.OnKeyDown);
-            self:SetScript("OnGamePadStick", self.OnGamePadStick);
-            self:SetScript("OnGamePadButtonDown", self.OnGamePadButtonDown);
-            self:SetScript("OnGamePadButtonUp", self.OnGamePadButtonUp);
+            DUI_SetScriptSafe(self, "OnGamePadStick", self.OnGamePadStick);
+            DUI_SetScriptSafe(self, "OnGamePadButtonDown", self.OnGamePadButtonDown);
+            DUI_SetScriptSafe(self, "OnGamePadButtonUp", self.OnGamePadButtonUp);
             self:EnableGamePadStick(true);
         else
             self:SetScript("OnKeyDown", nil);
-            self:SetScript("OnGamePadStick", nil);
-            self:SetScript("OnGamePadButtonDown", nil);
-            self:SetScript("OnGamePadButtonUp", nil);
+            DUI_SetScriptSafe(self, "OnGamePadStick", nil);
+            DUI_SetScriptSafe(self, "OnGamePadButtonDown", nil);
+            DUI_SetScriptSafe(self, "OnGamePadButtonUp", nil);
             self:EnableGamePadStick(false);
         end
     end

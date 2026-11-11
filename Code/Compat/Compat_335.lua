@@ -100,6 +100,10 @@ function DUI_SetScriptSafe(object, scriptName, handler)
     end
 end
 
+--Sound file muting does not exist in 3.3.5a (Sound.lua mutes the "target lost" / menu open sounds)
+if not MuteSoundFile then P.MuteSoundFile = noop end
+if not UnmuteSoundFile then P.UnmuteSoundFile = noop end
+
 if not GetTimePreciseSec then
     function P.GetTimePreciseSec()
         return debugprofilestop() / 1000

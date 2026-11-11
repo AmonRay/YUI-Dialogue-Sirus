@@ -258,8 +258,8 @@ local function CreateSplashScreen()
         self.confirmKeyboardKey = addon.BindingUtil:GetActiveConfirmKey();
         self:SetScript("OnKeyDown", OnKeyDown);
         self:SetScript("OnKeyUp", OnKeyUp);
-        self:SetScript("OnGamePadButtonDown", OnGamePadButtonDown);
-        self:SetScript("OnGamePadButtonUp", OnGamePadButtonUp);
+        DUI_SetScriptSafe(self, "OnGamePadButtonDown", OnGamePadButtonDown);
+        DUI_SetScriptSafe(self, "OnGamePadButtonUp", OnGamePadButtonUp);
 
         BlackScreen.alpha = BlackScreen:GetAlpha();
         BlackScreen:SetScript("OnUpdate", function(bs, elapsed)
@@ -278,8 +278,8 @@ local function CreateSplashScreen()
         self:UnregisterEvent("PLAYER_REGEN_DISABLED");
         self:SetScript("OnKeyDown", nil);
         self:SetScript("OnKeyUp", nil);
-        self:SetScript("OnGamePadButtonDown", nil);
-        self:SetScript("OnGamePadButtonUp", nil);
+        DUI_SetScriptSafe(self, "OnGamePadButtonDown", nil);
+        DUI_SetScriptSafe(self, "OnGamePadButtonUp", nil);
 
         BlackScreen.alpha = BlackScreen:GetAlpha();
         BlackScreen:SetScript("OnUpdate", function(bs, elapsed)

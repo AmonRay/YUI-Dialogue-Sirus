@@ -273,8 +273,8 @@ function KeyboardControl:SetParentFrame(frame, inCombat)
 
     if listener then
         listener:SetScript("OnKeyDown", self.OnKeyDown);
-        listener:SetScript("OnGamePadButtonDown", self.OnGamePadButtonDown);
-        listener:SetScript("OnGamePadButtonUp", self.OnGamePadButtonUp)
+        DUI_SetScriptSafe(listener, "OnGamePadButtonDown", self.OnGamePadButtonDown);
+        DUI_SetScriptSafe(listener, "OnGamePadButtonUp", self.OnGamePadButtonUp)
         listener:EnableGamePadButton(true);
         listener:EnableKeyboard(true);
     end
@@ -284,10 +284,10 @@ function KeyboardControl:StopListeningKeys()
     self:SetScript("OnKeyDown", nil);
     self.combatFrame:SetScript("OnKeyDown", nil);
 
-    self:SetScript("OnGamePadButtonDown", nil);
-    self.combatFrame:SetScript("OnGamePadButtonDown", nil);
-    self:SetScript("OnGamePadButtonUp", nil);
-    self.combatFrame:SetScript("OnGamePadButtonUp", nil);
+    DUI_SetScriptSafe(self, "OnGamePadButtonDown", nil);
+    DUI_SetScriptSafe(self.combatFrame, "OnGamePadButtonDown", nil);
+    DUI_SetScriptSafe(self, "OnGamePadButtonUp", nil);
+    DUI_SetScriptSafe(self.combatFrame, "OnGamePadButtonUp", nil);
 
     self:EnableGamePadButton(false);
     self.combatFrame:EnableGamePadButton(false);
