@@ -139,6 +139,82 @@ if not UnitHasVehiclePlayerFrameUI then
     end
 end
 
+
+-- ---------------------------------------------------------------------------
+-- Retail globals that the dialog / quest / widget code calls without a guard.
+-- All of them are nil on 3.3.5a ("attempt to call global ... (a nil value)").
+-- ---------------------------------------------------------------------------
+-- API.lua UnitPortraitSetter: 3.3.5a builds unit portraits synchronously,
+-- so the model is "ready" as soon as the unit exists.
+if not IsUnitModelReadyForUI then
+    function P.IsUnitModelReadyForUI(unit)
+        return (unit ~= nil and UnitExists(unit)) and true or false
+    end
+end
+
+-- DialogueUI.lua quest layouts: no quest currencies, hidden quest items or quest portraits on 3.3.5a
+if not GetNumQuestCurrencies then function P.GetNumQuestCurrencies() return 0 end end
+if not IsQuestItemHidden then function P.IsQuestItemHidden() return 0 end end       --callers test "hidden == 0"
+if not GetQuestPortraitGiver then function P.GetQuestPortraitGiver() return 0 end end
+if not GetQuestCurrencyInfo then P.GetQuestCurrencyInfo = noop end
+if not GetQuestCurrencyID then P.GetQuestCurrencyID = noop end
+if not GetNumRewardCurrencies then function P.GetNumRewardCurrencies() return 0 end end
+if not GetRewardSkillLineID then P.GetRewardSkillLineID = noop end
+if not IsCharacterNewlyBoosted then function P.IsCharacterNewlyBoosted() return false end end
+if not IsSpellKnownOrOverridesKnown then
+    function P.IsSpellKnownOrOverridesKnown(spellID)
+        return (spellID and IsSpellKnown and IsSpellKnown(spellID)) and true or false
+    end
+end
+
+-- API.lua GetInteractType: no cursor-type query on 3.3.5a, report "no type"
+if not SetUnitCursorTexture then
+    function P.SetUnitCursorTexture(texture)
+        if texture and texture.SetTexture then texture:SetTexture(nil) end
+        return false
+    end
+end
+
+-- BookUI.lua
+if not ItemTextIsFullPage then function P.ItemTextIsFullPage() return false end end
+
+-- QuestAreaTrigger.lua (nil = use its map-position fallback)
+if not UnitPosition then P.UnitPosition = noop end
+
+-- API.lua (clear keyboard focus)
+if not securecallfunction then
+    function P.securecallfunction(func, ...)
+        return securecall(func, ...)
+    end
+end
+
+-- UITemplates.lua item buttons (Ctrl+Click = dressing room)
+if not DressUpLink then
+    function P.DressUpLink(link)
+        if link and DressUpItemLink then
+            return DressUpItemLink(link)
+        end
+    end
+end
+
+-- Widget_QuestPopup.lua: auto-accept quest popups arrived in 4.0
+if not AddAutoQuestPopUp then function P.AddAutoQuestPopUp() return false end end
+if not RemoveAutoQuestPopUp then P.RemoveAutoQuestPopUp = noop end
+if not ShowQuestOffer then P.ShowQuestOffer = noop end
+
+-- GossipData_LFRQueue.lua
+if not GetRaidDifficultyID then
+    function P.GetRaidDifficultyID() return GetRaidDifficulty and GetRaidDifficulty() or 1 end
+end
+if not GetDungeonDifficultyID then
+    function P.GetDungeonDifficultyID() return GetDungeonDifficulty and GetDungeonDifficulty() or 1 end
+end
+
+-- Retail file IDs used as default icons -> real 3.3.5a paths (SetTexture(number) shows nothing here)
+P.DUI_ICON_QUESTIONMARK = "Interface\\Icons\\INV_Misc_QuestionMark"
+P.DUI_ICON_NOTE = "Interface\\Icons\\INV_Misc_Note_02"
+P.DUI_ICON_GOSSIP = "Interface\\GossipFrame\\GossipGossipIcon"
+
 if not Clamp then
     function Clamp(v, a, b) if v < a then return a elseif v > b then return b end return v end
 end
@@ -372,9 +448,237 @@ do
     Add(textureIndex, "RemoveMaskTexture", noop)
     Add(textureIndex, "GetNumMaskTextures", function() return 0 end)
     Add(textureIndex, "SetMask", noop)
-    Add(textureIndex, "SetTextureSliceMargins", noop)
-    Add(textureIndex, "SetTextureSliceMode", noop)
-    Add(textureIndex, "ClearTextureSlice", noop)
+    -- 3.3.5a regions have no SetScale/GetScale/GetEffectiveScale (retail code rescales slice textures)
+    Add(textureIndex, "SetScale", noop)
+    Add(textureIndex, "GetScale", function() return 1 end)
+    Add(textureIndex, "GetEffectiveScale", function(self)
+        local parent = self:GetParent()
+        return parent and parent:GetEffectiveScale() or 1
+    end)
+    -- Texture slicing (SetTextureSliceMargins) does not exist on 3.3.5a, so every panel background was a
+    -- single stretched image. Emulation: the sliced texture keeps its anchors/size but draws nothing; nine
+    -- sibling textures on the same parent draw corners/edges/center. Corner size: 1 texel = 1 screen pixel
+    -- (same rule as the addon's own PseudoSliceTexture). Needs addon.TextureFileSizes
+    -- (Code/Compat/TextureSizes_335.lua); files without a known size are drawn unsliced.
+    if textureIndex and not textureIndex.SetTextureSliceMargins then
+        local OrigSetTexture, OrigGetTexture, OrigSetTexCoord = textureIndex.SetTexture, textureIndex.GetTexture, textureIndex.SetTexCoord
+        local OrigSetVertexColor, OrigSetAlpha = textureIndex.SetVertexColor, textureIndex.SetAlpha
+        local OrigShow, OrigHide = textureIndex.Show, textureIndex.Hide
+        local OrigSetDesaturated, OrigSetBlendMode, OrigSetDrawLayer = textureIndex.SetDesaturated, textureIndex.SetBlendMode, textureIndex.SetDrawLayer
+        local SliceData = setmetatable({}, {__mode = "k"})
+        local SlicePieces = setmetatable({}, {__mode = "k"})
+        local PIECE_COL = {1, 2, 3, 1, 2, 3, 1, 2, 3}
+        local PIECE_ROW = {1, 1, 1, 2, 2, 2, 3, 3, 3}
+
+        local function FileKey(file)
+            if type(file) ~= "string" or file == "" then return end
+            local key = string.lower(file)
+            key = string.gsub(key, "\\", "/")
+            key = string.gsub(key, "^interface/addons/dialogueui/art/", "")
+            key = string.gsub(key, "%.%w+$", "")
+            return key
+        end
+
+        local function PixelToUnit(region)
+            local h
+            if GetPhysicalScreenSize then h = select(2, GetPhysicalScreenSize()) end
+            if not (h and h > 0) then
+                local res = GetCVar("gxResolution")
+                h = tonumber(res and string.match(res, "%d+x(%d+)") or "")
+            end
+            if not (h and h > 0) then h = 768 end
+            local parent = region:GetParent()
+            local scale = parent and parent:GetEffectiveScale() or 1
+            if not scale or scale <= 0 then scale = 1 end
+            return 768 / h / scale
+        end
+
+        local function GetPieces(host)
+            local pieces = SlicePieces[host]
+            if pieces then return pieces end
+            local parent = host:GetParent()
+            local layer, sublevel = host:GetDrawLayer()
+            layer = layer or "ARTWORK"
+            pieces = {}
+            for i = 1, 9 do
+                local piece = parent:CreateTexture(nil, layer)
+                if sublevel then pcall(OrigSetDrawLayer, piece, layer, sublevel) end
+                OrigHide(piece)
+                pieces[i] = piece
+            end
+            local p = pieces
+            p[1]:SetPoint("TOPLEFT", host, "TOPLEFT", 0, 0)
+            p[3]:SetPoint("TOPRIGHT", host, "TOPRIGHT", 0, 0)
+            p[7]:SetPoint("BOTTOMLEFT", host, "BOTTOMLEFT", 0, 0)
+            p[9]:SetPoint("BOTTOMRIGHT", host, "BOTTOMRIGHT", 0, 0)
+            p[2]:SetPoint("TOPLEFT", p[1], "TOPRIGHT", 0, 0); p[2]:SetPoint("BOTTOMRIGHT", p[3], "BOTTOMLEFT", 0, 0)
+            p[4]:SetPoint("TOPLEFT", p[1], "BOTTOMLEFT", 0, 0); p[4]:SetPoint("BOTTOMRIGHT", p[7], "TOPRIGHT", 0, 0)
+            p[5]:SetPoint("TOPLEFT", p[1], "BOTTOMRIGHT", 0, 0); p[5]:SetPoint("BOTTOMRIGHT", p[9], "TOPLEFT", 0, 0)
+            p[6]:SetPoint("TOPLEFT", p[3], "BOTTOMLEFT", 0, 0); p[6]:SetPoint("BOTTOMRIGHT", p[9], "TOPRIGHT", 0, 0)
+            p[8]:SetPoint("TOPLEFT", p[7], "TOPRIGHT", 0, 0); p[8]:SetPoint("BOTTOMRIGHT", p[9], "BOTTOMLEFT", 0, 0)
+            SlicePieces[host] = pieces
+            return pieces
+        end
+
+        local function ApplyStyle(data, pieces)
+            for i = 1, 9 do
+                local piece = pieces[i]
+                OrigSetVertexColor(piece, data.r or 1, data.g or 1, data.b or 1, data.a or 1)
+                OrigSetAlpha(piece, data.alpha or 1)
+                if OrigSetDesaturated then OrigSetDesaturated(piece, data.desaturated and true or false) end
+                if OrigSetBlendMode and data.blendMode then OrigSetBlendMode(piece, data.blendMode) end
+            end
+        end
+
+        local function UpdateVisibility(host, data)
+            local pieces = SlicePieces[host]
+            local show = data.fileWidth and host:IsShown()
+            for i = 1, 9 do
+                if show then OrigShow(pieces[i]) else OrigHide(pieces[i]) end
+            end
+        end
+
+        local function Layout(host, data)
+            local w, h = data.fileWidth, data.fileHeight
+            if not w then return end
+            local pieces = SlicePieces[host]
+            local left, top, right, bottom = data.left, data.top, data.right, data.bottom
+            local L, R, T, B = data.texL, data.texR, data.texT, data.texB
+            local sx = (R >= L) and 1 or -1
+            local sy = (B >= T) and 1 or -1
+            local xs = {L, L + sx * left / w, R - sx * right / w, R}
+            local ys = {T, T + sy * top / h, B - sy * bottom / h, B}
+            local unit = PixelToUnit(host)
+            local cl, cr = math.max(left * unit, 0.01), math.max(right * unit, 0.01)
+            local ct, cb = math.max(top * unit, 0.01), math.max(bottom * unit, 0.01)
+            pieces[1]:SetWidth(cl); pieces[1]:SetHeight(ct)
+            pieces[3]:SetWidth(cr); pieces[3]:SetHeight(ct)
+            pieces[7]:SetWidth(cl); pieces[7]:SetHeight(cb)
+            pieces[9]:SetWidth(cr); pieces[9]:SetHeight(cb)
+            for i = 1, 9 do
+                local c, r = PIECE_COL[i], PIECE_ROW[i]
+                OrigSetTexture(pieces[i], data.file)
+                OrigSetTexCoord(pieces[i], xs[c], xs[c + 1], ys[r], ys[r + 1])
+            end
+        end
+
+        local function SetFile(host, data, file, ...)
+            data.file = file
+            local key = FileKey(file)
+            local size = key and addon.TextureFileSizes and addon.TextureFileSizes[key]
+            if size then
+                data.fileWidth, data.fileHeight = size[1], size[2]
+                OrigSetTexture(host, nil)
+                Layout(host, data)
+            else
+                data.fileWidth, data.fileHeight = nil, nil
+                OrigSetTexture(host, file, ...)
+                OrigSetTexCoord(host, data.texL, data.texR, data.texT, data.texB)
+            end
+            UpdateVisibility(host, data)
+        end
+
+        local Methods = {}
+        function Methods.SetTexture(self, file, ...)
+            local data = SliceData[self]
+            if type(file) ~= "string" then
+                data.file, data.fileWidth, data.fileHeight = file, nil, nil
+                UpdateVisibility(self, data)
+                return OrigSetTexture(self, file, ...)
+            end
+            SetFile(self, data, file, ...)
+            return true
+        end
+        function Methods.GetTexture(self)
+            return SliceData[self].file
+        end
+        function Methods.SetTexCoord(self, ...)
+            local data = SliceData[self]
+            if select("#", ...) >= 8 then
+                local ULx, ULy, _, _, _, _, LRx, LRy = ...
+                data.texL, data.texR, data.texT, data.texB = ULx, LRx, ULy, LRy
+            else
+                local l, r, t, b = ...
+                data.texL, data.texR, data.texT, data.texB = l or 0, r or 1, t or 0, b or 1
+            end
+            if data.fileWidth then
+                Layout(self, data)
+            else
+                OrigSetTexCoord(self, ...)
+            end
+        end
+        function Methods.SetVertexColor(self, r, g, b, a)
+            local data = SliceData[self]
+            data.r, data.g, data.b, data.a = r, g, b, a
+            OrigSetVertexColor(self, r, g, b, a)
+            ApplyStyle(data, SlicePieces[self])
+        end
+        function Methods.SetAlpha(self, alpha)
+            local data = SliceData[self]
+            data.alpha = alpha
+            OrigSetAlpha(self, alpha)
+            ApplyStyle(data, SlicePieces[self])
+        end
+        function Methods.SetDesaturated(self, desaturated)
+            local data = SliceData[self]
+            data.desaturated = desaturated
+            ApplyStyle(data, SlicePieces[self])
+            if OrigSetDesaturated then return OrigSetDesaturated(self, desaturated) end
+        end
+        function Methods.SetBlendMode(self, mode)
+            local data = SliceData[self]
+            data.blendMode = mode
+            OrigSetBlendMode(self, mode)
+            ApplyStyle(data, SlicePieces[self])
+        end
+        function Methods.SetDrawLayer(self, layer, sublevel)
+            OrigSetDrawLayer(self, layer, sublevel)
+            local pieces = SlicePieces[self]
+            for i = 1, 9 do OrigSetDrawLayer(pieces[i], layer, sublevel) end
+        end
+        function Methods.Show(self)
+            OrigShow(self)
+            UpdateVisibility(self, SliceData[self])
+        end
+        function Methods.Hide(self)
+            OrigHide(self)
+            UpdateVisibility(self, SliceData[self])
+        end
+
+        textureIndex.SetTextureSliceMargins = function(self, left, top, right, bottom)
+            local data = SliceData[self]
+            if not data then
+                data = {}
+                local ULx, ULy, _, _, _, _, LRx, LRy = self:GetTexCoord()
+                data.texL, data.texR, data.texT, data.texB = ULx or 0, LRx or 1, ULy or 0, LRy or 1
+                data.r, data.g, data.b, data.a = self:GetVertexColor()
+                data.alpha = self:GetAlpha()
+                data.blendMode = self.GetBlendMode and self:GetBlendMode() or nil
+                data.desaturated = self.IsDesaturated and self:IsDesaturated() or nil
+                data.file = OrigGetTexture(self)
+                SliceData[self] = data
+                GetPieces(self)
+                for name, func in pairs(Methods) do self[name] = func end
+                ApplyStyle(data, SlicePieces[self])
+            end
+            data.left, data.top, data.right, data.bottom = left or 0, top or 0, right or 0, bottom or 0
+            SetFile(self, data, data.file)
+        end
+        textureIndex.SetTextureSliceMode = function(self, mode)
+            local data = SliceData[self]
+            if data then data.mode = mode end
+        end
+        textureIndex.ClearTextureSlice = function(self)
+            local data = SliceData[self]
+            if not data then return end
+            SliceData[self] = nil
+            for name in pairs(Methods) do self[name] = nil end
+            local pieces = SlicePieces[self]
+            for i = 1, 9 do OrigHide(pieces[i]) end
+            OrigSetTexture(self, data.file)
+            OrigSetTexCoord(self, data.texL, data.texR, data.texT, data.texB)
+        end
+    end
     Add(textureIndex, "SetRotation", noop)
     Add(textureIndex, "SetSnapToPixelGrid", noop)
     Add(textureIndex, "SetHorizTile", noop)
@@ -565,10 +869,10 @@ do
     end)
 
     Default("C_Garrison", "GetFollowerInfo", function()
-        return {name = "", quality = 1, level = 1, portraitIconID = 134400, isTroop = false}
+        return {name = "", quality = 1, level = 1, portraitIconID = DUI_ICON_QUESTIONMARK, isTroop = false}
     end)
     Default("C_Garrison", "GetFollowerAbilityInfo", function()
-        return {name = "", description = "", icon = 134400}
+        return {name = "", description = "", icon = DUI_ICON_QUESTIONMARK}
     end)
     Default("C_Garrison", "GetFollowerAbilities", EmptyList)
 
@@ -949,13 +1253,17 @@ do
     Set("GetNumAvailableQuests", function() return GetNumGossipAvailableQuests() end)
     Set("GetNumActiveQuests", function() return GetNumGossipActiveQuests() end)
 
+    -- Retail code compares option icons with file IDs (132053 = chat bubble: sort order, auto-select) and
+    -- GossipDataProvider maps these IDs to the addon's own icons; 3.3.5a only gives the gossip type.
+    local GOSSIP_TYPE_FILEID = {gossip = 132053, trainer = 132058, vendor = 132060, banker = 132050, binder = 132052}
+
     Set("GetOptions", function()
         local options = {}
         for i, v in ipairs(Collect(2, GetGossipOptions())) do
             local gossipType = v[2] or "gossip"
             options[i] = {
                 name = v[1],
-                icon = "Interface\\GossipFrame\\"..gossipType.."GossipIcon",
+                icon = GOSSIP_TYPE_FILEID[gossipType] or ("Interface\\GossipFrame\\"..gossipType.."GossipIcon"),
                 type = gossipType,
                 gossipOptionID = i,
                 orderIndex = i,

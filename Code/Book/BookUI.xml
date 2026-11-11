@@ -88,7 +88,7 @@
         </Anchors>
         <Layers>
             <Layer level="BACKGROUND" textureSubLevel="-4">
-                <Texture parentKey="ScreenVignette" file="Interface\AddOns\DialogueUI\Art\Book\ScreenDarken.tga" hidden="false">
+                <Texture parentKey="ScreenVignette" file="Interface\AddOns\DialogueUI\Art\Book\ScreenDarken" hidden="false">
 
                 </Texture>
             </Layer>

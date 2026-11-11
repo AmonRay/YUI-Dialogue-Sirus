@@ -56,7 +56,7 @@ local function CreateSplashScreen()
     BlackScreen:SetFrameStrata("FULLSCREEN");
 
     local BackgroundDecor = f:CreateTexture(nil, "ARTWORK");
-    BackgroundDecor:SetTexture("Interface/AddOns/DialogueUI/Art/ParchmentDecor/Dalaran.tga");
+    BackgroundDecor:SetTexture("Interface/AddOns/DialogueUI/Art/ParchmentDecor/Dalaran");
     BackgroundDecor:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", 0, 0);
     BackgroundDecor:SetSize(0.85 * frameHeight, 0.85 * frameHeight);
 
@@ -98,8 +98,8 @@ local function CreateSplashScreen()
         if DeviceUtil:IsUsingControllerLayout() then
             LeftKeyIcon:Show();
             RightKeyIcon:Show();
-            LeftKeyIcon:SetTexture(addon.ThemeUtil:GetTextureFile("D-PAD-LEFT.tga"));
-            RightKeyIcon:SetTexture(addon.ThemeUtil:GetTextureFile("D-PAD-RIGHT.tga"));
+            LeftKeyIcon:SetTexture(addon.ThemeUtil:GetTextureFile("D-PAD-LEFT"));
+            RightKeyIcon:SetTexture(addon.ThemeUtil:GetTextureFile("D-PAD-RIGHT"));
         else
             LeftKeyIcon:Hide();
             RightKeyIcon:Hide();

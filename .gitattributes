@@ -1,2 +1,11 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Game assets are binary (never touch line endings)
+*.blp binary
+*.tga binary
+*.jpg binary
+*.png binary
+*.ttf binary
+*.ogg binary
+*.mp3 binary

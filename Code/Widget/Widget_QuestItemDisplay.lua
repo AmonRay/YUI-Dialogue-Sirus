@@ -156,7 +156,7 @@ function QuestItemDisplay:Init()
     local function CreateQueueMarker()
         --Sit below the frame, marker indicates the number of items in the queue
         local texture = self:CreateTexture(nil, "OVERLAY");
-        texture:SetTexture(ThemeUtil:GetTextureFile("QuestItemDisplay-UI.tga"));
+        texture:SetTexture(ThemeUtil:GetTextureFile("QuestItemDisplay-UI"));
         texture:SetTexCoord(0, 0.0625, 0.1875, 0.25);
         texture:SetSize(QUEUE_MARKER_SIZE, QUEUE_MARKER_SIZE);
         return texture
@@ -249,7 +249,7 @@ function QuestItemDisplay:LoadTheme()
         return
     end
 
-    local file = ThemeUtil:GetTextureFile("QuestItemDisplay-UI.tga");
+    local file = ThemeUtil:GetTextureFile("QuestItemDisplay-UI");
     local isDarkMode = ThemeUtil:IsDarkMode();
 
     self.Background:SetTexture(file);
@@ -619,7 +619,7 @@ function QuestItemDisplay:SetStartQuestItem(itemID, startQuestID, isOnQuest)
     self.itemType = "questOffer";
     self.startQuestID = startQuestID;
 
-    local icon = "Interface/AddOns/DialogueUI/Art/Icons/QuestItem-NotOnQuest.tga";
+    local icon = "Interface/AddOns/DialogueUI/Art/Icons/QuestItem-NotOnQuest";
     self.ButtonIcon:SetTexture(icon);
     self.ButtonIcon:Show();
     local questName = API.GetQuestName(startQuestID);
@@ -810,7 +810,7 @@ function QuestItemDisplay:ToggleEditMode()
     self:Clear();
     self.ItemName:SetText(L["Quest Item Display"]);
     self.Description:SetText(L["Drag To Move"]);
-    self.ItemIcon:SetTexture(134400);   --QuestionMark
+    self.ItemIcon:SetTexture(DUI_ICON_QUESTIONMARK or 134400);   --QuestionMark
     self.CloseButton:StopCountdown();
     self:ShowTextButton(false);
     self:Layout(true);

@@ -15,9 +15,11 @@
 # 1.0.8 rebuild 2: XML OnEvent passes `event` explicitly (3.3.5a inline OnEvent is function(self, event, ...), so '...' dropped the event name and the dialog stayed deferred forever)
 # 1.0.8 rebuild 3: safety net - the initial-loading guard can no longer swallow NPC interactions after login
 # 1.0.8 rebuild 4: OnGamePad* scripts set via DUI_SetScriptSafe (not in 3.3.5a); MuteSoundFile/UnmuteSoundFile stubs
+# 1.0.8 rebuild 5: textures -> BLP (uncompressed BGRA, like ElvUI-for-Sirus), 9-slice panel emulation, smooth camera (SaveView/SetView + absolute zoom), IsUnitModelReadyForUI and other missing API, 3.3.5a gossip icons
 
 
 Code\Compat\Compat_335.lua
+Code\Compat\TextureSizes_335.lua
 Initialization.lua
 Locales\Localization.xml
 Fonts.xml

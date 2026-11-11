@@ -71,9 +71,9 @@ local FORMAT_COUNT_OWNED_REQUIRED = "|cffaaaaaa%s/|r%s";
 
 
 local CUSTOM_ICONS = {
-    [1121020] = "trophy_of_strife.tga",
-    [1455894] = "honor.tga",
-    [1523630] = "conquest.tga",
+    [1121020] = "trophy_of_strife",
+    [1455894] = "honor",
+    [1523630] = "conquest",
 };
 
 
@@ -407,7 +407,7 @@ function DUIDialogOptionButtonMixin:SetGossipHint(data, hotkey)
     self.gossipOptionID = data.gossipOptionID;
 
     local name = L["Show Answer"];
-    self.Icon:SetTexture(ICON_PATH.."Hint.tga");
+    self.Icon:SetTexture(ICON_PATH.."Hint");
 
     self.showIcon = true;
     self.id = data.orderIndex or 0;
@@ -845,11 +845,11 @@ function DUIDialogOptionButtonMixin:Layout(largePadding)
 end
 
 local SharedHighlightTexture = {
-    [0] = {backTexture = "ButtonHighlight-Gossip.tga", blendMode = "BLEND"},
-    [1] = {backTexture = "ButtonHighlight-Add.tga", blendMode = "ADD", color = {0.62, 0, 0}, frontTexture = "ButtonHighlight-Front.tga"},    --Red
-    [2] = {backTexture = "ButtonHighlight-Add.tga", blendMode = "ADD", color = {0, 0.3, 0.4}, frontTexture = "ButtonHighlight-Front.tga"},   --Blue
-    [3] = {backTexture = "ButtonHighlight-Add.tga", blendMode = "ADD", color = {0.23, 0.23, 0.23}, frontTexture = "ButtonHighlight-Front.tga"},
-    [4] = {backTexture = "ButtonHighlight-Add.tga", blendMode = "ADD", color = {0.23, 0.23, 0.23}, frontTexture = "ButtonHighlight-Front.tga"},
+    [0] = {backTexture = "ButtonHighlight-Gossip", blendMode = "BLEND"},
+    [1] = {backTexture = "ButtonHighlight-Add", blendMode = "ADD", color = {0.62, 0, 0}, frontTexture = "ButtonHighlight-Front"},    --Red
+    [2] = {backTexture = "ButtonHighlight-Add", blendMode = "ADD", color = {0, 0.3, 0.4}, frontTexture = "ButtonHighlight-Front"},   --Blue
+    [3] = {backTexture = "ButtonHighlight-Add", blendMode = "ADD", color = {0.23, 0.23, 0.23}, frontTexture = "ButtonHighlight-Front"},
+    [4] = {backTexture = "ButtonHighlight-Add", blendMode = "ADD", color = {0.23, 0.23, 0.23}, frontTexture = "ButtonHighlight-Front"},
 };
 
 function DUIDialogOptionButtonMixin:SetParentHighlightTexture(parentHighlightFrame)
@@ -893,19 +893,19 @@ function DUIDialogOptionButtonMixin:SetButtonArt(id)
         self.Background:SetTexture(nil);
         self.Name:SetFontObject("DUIFont_Quest_Gossip");
     elseif id == 1 then     --Red
-        bgName = "OptionBackground-Common.tga";
+        bgName = "OptionBackground-Common";
         self.Background:SetTexture(prefix..bgName);
         self.Name:SetFontObject("DUIFont_Quest_Quest");
     elseif id == 2 then     --Daily
-        bgName = "OptionBackground-Blue.tga";
+        bgName = "OptionBackground-Blue";
         self.Background:SetTexture(prefix..bgName);
         self.Name:SetFontObject("DUIFont_Quest_Quest");
     elseif id == 3 then     --Goodbye/Declick Button, Unfinished Quest
-        bgName = "OptionBackground-Hollow.tga"; --Grey
+        bgName = "OptionBackground-Hollow"; --Grey
         self.Background:SetTexture(prefix..bgName);
         self.Name:SetFontObject("DUIFont_Quest_Disabled");
     elseif id == 4 then     --Exit / Incomplete Quest
-        bgName = "OptionBackground-Grey.tga";
+        bgName = "OptionBackground-Grey";
         self.Background:SetTexture(prefix..bgName);
         self.Name:SetFontObject("DUIFont_Quest_Quest");
     end
@@ -994,30 +994,30 @@ end
 
 
 local HotkeyIcons = {
-    SPACE = {file = "SPACE.tga", ratio = 1, rightCoord = 1, tint = true},
-    ERROR = {file = "ERROR.tga", ratio = 1, rightCoord = 1},
-    DISABLED = {file = "DISABLED.tga", ratio = 1, rightCoord = 1},
+    SPACE = {file = "SPACE", ratio = 1, rightCoord = 1, tint = true},
+    ERROR = {file = "ERROR", ratio = 1, rightCoord = 1},
+    DISABLED = {file = "DISABLED", ratio = 1, rightCoord = 1},
 
-    XBOX_PADLSHOULDER = {file = "HotkeyBackground-LB.tga", themed = true, text = "LB", ratio = 1.5, rightCoord = 0.75, noBackground = true, useFrameSize = true, trilinear = true},
-    XBOX_PADRSHOULDER = {file = "HotkeyBackground-RB.tga", themed = true, text = "RB", ratio = 1.5, rightCoord = 0.75, noBackground = true, useFrameSize = true, trilinear = true},
-    XBOX_PAD1 = {file = "XBOX-PAD1.tga", themed = true, ratio = 1, rightCoord = 1, noBackground = true, useFrameSize = true, trilinear = true},
-    XBOX_PAD2 = {file = "XBOX-PAD2.tga", themed = true, ratio = 1, rightCoord = 1, noBackground = true, useFrameSize = true, trilinear = true},
-    XBOX_PAD3 = {file = "XBOX-PAD3.tga", themed = true, ratio = 1, rightCoord = 1, noBackground = true, useFrameSize = true, trilinear = true},
-    XBOX_PAD4 = {file = "XBOX-PAD4.tga", themed = true, ratio = 1, rightCoord = 1, noBackground = true, useFrameSize = true, trilinear = true},
+    XBOX_PADLSHOULDER = {file = "HotkeyBackground-LB", themed = true, text = "LB", ratio = 1.5, rightCoord = 0.75, noBackground = true, useFrameSize = true, trilinear = true},
+    XBOX_PADRSHOULDER = {file = "HotkeyBackground-RB", themed = true, text = "RB", ratio = 1.5, rightCoord = 0.75, noBackground = true, useFrameSize = true, trilinear = true},
+    XBOX_PAD1 = {file = "XBOX-PAD1", themed = true, ratio = 1, rightCoord = 1, noBackground = true, useFrameSize = true, trilinear = true},
+    XBOX_PAD2 = {file = "XBOX-PAD2", themed = true, ratio = 1, rightCoord = 1, noBackground = true, useFrameSize = true, trilinear = true},
+    XBOX_PAD3 = {file = "XBOX-PAD3", themed = true, ratio = 1, rightCoord = 1, noBackground = true, useFrameSize = true, trilinear = true},
+    XBOX_PAD4 = {file = "XBOX-PAD4", themed = true, ratio = 1, rightCoord = 1, noBackground = true, useFrameSize = true, trilinear = true},
 
-    PS_PADLSHOULDER = {file = "HotkeyBackground-LB.tga", themed = true, text = "L1", ratio = 1.5, rightCoord = 0.75, noBackground = true, useFrameSize = true, trilinear = true},
-    PS_PADRSHOULDER = {file = "HotkeyBackground-RB.tga", themed = true, text = "R1", ratio = 1.5, rightCoord = 0.75, noBackground = true, useFrameSize = true, trilinear = true},
-    PS_PAD1 = {file = "PS-PAD1.tga", themed = true, ratio = 1, rightCoord = 1, noBackground = true, useFrameSize = true, trilinear = true},
-    PS_PAD2 = {file = "PS-PAD2.tga", themed = true, ratio = 1, rightCoord = 1, noBackground = true, useFrameSize = true, trilinear = true},
-    PS_PAD3 = {file = "PS-PAD3.tga", themed = true, ratio = 1, rightCoord = 1, noBackground = true, useFrameSize = true, trilinear = true},
-    PS_PAD4 = {file = "PS-PAD4.tga", themed = true, ratio = 1, rightCoord = 1, noBackground = true, useFrameSize = true, trilinear = true},
+    PS_PADLSHOULDER = {file = "HotkeyBackground-LB", themed = true, text = "L1", ratio = 1.5, rightCoord = 0.75, noBackground = true, useFrameSize = true, trilinear = true},
+    PS_PADRSHOULDER = {file = "HotkeyBackground-RB", themed = true, text = "R1", ratio = 1.5, rightCoord = 0.75, noBackground = true, useFrameSize = true, trilinear = true},
+    PS_PAD1 = {file = "PS-PAD1", themed = true, ratio = 1, rightCoord = 1, noBackground = true, useFrameSize = true, trilinear = true},
+    PS_PAD2 = {file = "PS-PAD2", themed = true, ratio = 1, rightCoord = 1, noBackground = true, useFrameSize = true, trilinear = true},
+    PS_PAD3 = {file = "PS-PAD3", themed = true, ratio = 1, rightCoord = 1, noBackground = true, useFrameSize = true, trilinear = true},
+    PS_PAD4 = {file = "PS-PAD4", themed = true, ratio = 1, rightCoord = 1, noBackground = true, useFrameSize = true, trilinear = true},
 
-    SWITCH_PADLSHOULDER = {file = "HotkeyBackground-LB.tga", themed = true, text = "L", ratio = 1.5, rightCoord = 0.75, noBackground = true, useFrameSize = true, trilinear = true},
-    SWITCH_PADRSHOULDER = {file = "HotkeyBackground-RB.tga", themed = true, text = "R", ratio = 1.5, rightCoord = 0.75, noBackground = true, useFrameSize = true, trilinear = true},
-    SWITCH_PAD1 = {file = "SWITCH-PAD1.tga", themed = true, ratio = 1, rightCoord = 1, noBackground = true, useFrameSize = true, trilinear = true},
-    SWITCH_PAD2 = {file = "SWITCH-PAD2.tga", themed = true, ratio = 1, rightCoord = 1, noBackground = true, useFrameSize = true, trilinear = true},
-    SWITCH_PAD3 = {file = "SWITCH-PAD3.tga", themed = true, ratio = 1, rightCoord = 1, noBackground = true, useFrameSize = true, trilinear = true},
-    SWITCH_PAD4 = {file = "SWITCH-PAD4.tga", themed = true, ratio = 1, rightCoord = 1, noBackground = true, useFrameSize = true, trilinear = true},
+    SWITCH_PADLSHOULDER = {file = "HotkeyBackground-LB", themed = true, text = "L", ratio = 1.5, rightCoord = 0.75, noBackground = true, useFrameSize = true, trilinear = true},
+    SWITCH_PADRSHOULDER = {file = "HotkeyBackground-RB", themed = true, text = "R", ratio = 1.5, rightCoord = 0.75, noBackground = true, useFrameSize = true, trilinear = true},
+    SWITCH_PAD1 = {file = "SWITCH-PAD1", themed = true, ratio = 1, rightCoord = 1, noBackground = true, useFrameSize = true, trilinear = true},
+    SWITCH_PAD2 = {file = "SWITCH-PAD2", themed = true, ratio = 1, rightCoord = 1, noBackground = true, useFrameSize = true, trilinear = true},
+    SWITCH_PAD3 = {file = "SWITCH-PAD3", themed = true, ratio = 1, rightCoord = 1, noBackground = true, useFrameSize = true, trilinear = true},
+    SWITCH_PAD4 = {file = "SWITCH-PAD4", themed = true, ratio = 1, rightCoord = 1, noBackground = true, useFrameSize = true, trilinear = true},
 };
 
 HotkeyIcons.PADLSHOULDER = HotkeyIcons.XBOX_PADLSHOULDER;
@@ -1055,15 +1055,15 @@ function DUIDialogHotkeyFrameMixin:ReloadKey()
 end
 
 function DUIDialogHotkeyFrameMixin:LoadTheme()
-    self.Background:SetTexture(ThemeUtil:GetTextureFile("HotkeyBackground.tga"));
+    self.Background:SetTexture(ThemeUtil:GetTextureFile("HotkeyBackground"));
     self:ReloadKey();
 end
 
 function DUIDialogHotkeyFrameMixin:SetTheme(themeID)
     if themeID == 2 then
-        self.Background:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Dark/HotkeyBackground.tga");
+        self.Background:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Dark/HotkeyBackground");
     else
-        self.Background:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Brown/HotkeyBackground.tga");
+        self.Background:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Brown/HotkeyBackground");
     end
 end
 
@@ -1400,16 +1400,16 @@ function DUIDialogItemButtonMixin:OnLoad()
     self.textShrink = ITEMBUTTON_TEXT_WDITH_SHRINK;
     self.dynamicResize = true;
     self:SetBackgroundTexture(1);
-    self.ItemOverlay:SetTexture(ThemeUtil:GetTextureFile("ItemOverlays.tga"));
+    self.ItemOverlay:SetTexture(ThemeUtil:GetTextureFile("ItemOverlays"));
     self:UpdatePixel();
     PixelUtil:AddPixelPerfectObject(self);
     self:RemoveTextureBorder(true);
-    self.Sheen:SetTexture(ThemeUtil:GetTextureFile("RewardChoice-Sheen.tga"));
+    self.Sheen:SetTexture(ThemeUtil:GetTextureFile("RewardChoice-Sheen"));
 end
 
 function DUIDialogItemButtonMixin:LoadTheme()
-    self.ItemOverlay:SetTexture(ThemeUtil:GetTextureFile("ItemOverlays.tga"));
-    self.Sheen:SetTexture(ThemeUtil:GetTextureFile("RewardChoice-Sheen.tga"));
+    self.ItemOverlay:SetTexture(ThemeUtil:GetTextureFile("ItemOverlays"));
+    self.Sheen:SetTexture(ThemeUtil:GetTextureFile("RewardChoice-Sheen"));
 
     local backgroundID = self.backgroundID;
     self.backgroundID = nil;
@@ -1428,16 +1428,16 @@ function DUIDialogItemButtonMixin:SetBackgroundTexture(id)
     local borderFile, bgFile, fontObject;
 
     if id == 1 then
-        borderFile = "ItemBorder.tga";
-        bgFile = "ItemButtonBackground.tga";
+        borderFile = "ItemBorder";
+        bgFile = "ItemButtonBackground";
         fontObject = "DUIFont_Item";
     elseif id == 2 then
-        borderFile = "RewardChoice-ItemBorder.tga";
-        bgFile = "RewardChoice-Pending.tga";
+        borderFile = "RewardChoice-ItemBorder";
+        bgFile = "RewardChoice-Pending";
         fontObject = "DUIFont_ItemSelect";
     elseif id == 3 then
-        borderFile = "RewardChoice-ItemBorder.tga";
-        bgFile = "RewardChoice-Selected.tga";
+        borderFile = "RewardChoice-ItemBorder";
+        bgFile = "RewardChoice-Pending";     --RewardChoice-Selected is not in Art/ (3.3.5a draws a missing file as a green box)
         fontObject = "DUIFont_ItemSelect";
     end
 
@@ -1867,7 +1867,7 @@ function DUIDialogItemButtonMixin:SetRewardTitle(titleName)
     self.spellID = nil;
     self.itemID = nil;
 
-    self.Icon:SetTexture(134328);   --interface/icons/inv_misc_note_02.blp
+    self.Icon:SetTexture(DUI_ICON_NOTE or 134328);   --interface/icons/inv_misc_note_02.blp
     self:SetItemName(L["Format Reward Title"]:format(titleName));
     self:SetItemCount(nil);
     self:SetItemOverlay(nil);
@@ -1986,7 +1986,7 @@ function DUIDialogSmallItemButtonMixin:OnLoad()
 end
 
 function DUIDialogSmallItemButtonMixin:SetBackgroundTexture()
-    self.Background:SetTexture(ThemeUtil:GetTextureFile("ItemButtonBackground.tga"));
+    self.Background:SetTexture(ThemeUtil:GetTextureFile("ItemButtonBackground"));
 end
 
 function DUIDialogSmallItemButtonMixin:SetIcon(file)
@@ -2038,11 +2038,11 @@ end
 
 local function SetCoinIcon(button, rawCopper)
     if rawCopper < 100 then
-        button.Icon:SetTexture(ICON_PATH.."Coin-Copper.tga");
+        button.Icon:SetTexture(ICON_PATH.."Coin-Copper");
     elseif rawCopper < 10000 then
-        button.Icon:SetTexture(ICON_PATH.."Coin-Silver.tga");
+        button.Icon:SetTexture(ICON_PATH.."Coin-Silver");
     else
-        button.Icon:SetTexture(ICON_PATH.."Coin-Gold.tga");
+        button.Icon:SetTexture(ICON_PATH.."Coin-Gold");
     end
 end
 
@@ -2083,7 +2083,7 @@ function DUIDialogSmallItemButtonMixin:SetXP(amount)
     self.type = nil;
     self.index = 0;
 
-    self.Icon:SetTexture(ICON_PATH.."XP-Purple.tga");
+    self.Icon:SetTexture(ICON_PATH.."XP-Purple");
     self:RemoveTextureBorder(false);
 
     local percentage = API.GetXPPercentage(amount);
@@ -2190,7 +2190,7 @@ function DUIDialogOptionButtonLockMixin:SetParentButton(optionButton, callback, 
 end
 
 function DUIDialogOptionButtonLockMixin:LoadTheme()
-    self.ProgressTexture:SetTexture(ThemeUtil:GetTextureFile("ButtonLockProgress.tga"));
+    self.ProgressTexture:SetTexture(ThemeUtil:GetTextureFile("ButtonLockProgress"));
 end
 
 function DUIDialogOptionButtonLockMixin:OnLoad()
@@ -2254,7 +2254,7 @@ function DUIDialogInputBoxMixin:OnEvent(event, ...)
 end
 
 function DUIDialogInputBoxMixin:SetBackgroundTexture()
-    local bgFile = ThemeUtil:GetTextureFile("InputBox-SingleLine.tga");
+    local bgFile = ThemeUtil:GetTextureFile("InputBox-SingleLine");
 
     self.EditBox.Background:SetTexture(bgFile);
     self.EditBox.Highlight:SetTexture(bgFile);
@@ -2442,14 +2442,14 @@ do  --Icon Frame Overlay
     function DUIDialogIconFrameMixin:SetCurrencyOverflow()
         self:SetSize(14, 14);
         self:AllPoints(true);
-        self.Icon:SetTexture(ICON_PATH.."CurrencyOverflow.tga");
+        self.Icon:SetTexture(ICON_PATH.."CurrencyOverflow");
         self.Icon:SetTexCoord(0, 1, 0, 1);
     end
 
     function DUIDialogIconFrameMixin:SetHighestSellPrice()
         self:SetSize(15, 15);
         self:AllPoints(true);
-        self.Icon:SetTexture(ICON_PATH.."Coin-Gold.tga");
+        self.Icon:SetTexture(ICON_PATH.."Coin-Gold");
         self.Icon:SetTexCoord(0, 1, 0, 1);
     end
 
@@ -2457,7 +2457,7 @@ do  --Icon Frame Overlay
         self:SetSize(32, 32);
         self:AllPoints(false);
         self.Icon:SetSize(32, 32);
-        self.Icon:SetTexture(ICON_PATH.."ItemIsUpgrade.tga");
+        self.Icon:SetTexture(ICON_PATH.."ItemIsUpgrade");
         self.Icon:SetPoint("CENTER", self, "CENTER", 0, 0);
         self.Icon:SetTexCoord(0, 1, 0, 1);
         if playAnimation then
@@ -2476,7 +2476,7 @@ do  --Icon Frame Overlay
         self:AllPoints(true);
         self:SetSize(size, size);
         self:SetUsingParentLevel(true);
-        self.Icon:SetTexture(ThemeUtil:GetTextureFile("WarbandCompleted.tga"));
+        self.Icon:SetTexture(ThemeUtil:GetTextureFile("WarbandCompleted"));
         if isGreyBackground then
             self.Icon:SetTexCoord(0.5, 1, 0, 1);
         else
@@ -2788,7 +2788,7 @@ do  --Loading Indicator
         f:SetFrameStrata("FULLSCREEN_DIALOG");
         f.ShowFrame = f.Show;
 
-        local texture = "Interface/AddOns/DialogueUI/Art/Theme_Shared/LoadingIndicator-Radial.tga";
+        local texture = "Interface/AddOns/DialogueUI/Art/Theme_Shared/LoadingIndicator-Radial";
 
         f.Background = f:CreateTexture(nil, "BORDER");
         f.Background:SetAllPoints(true);

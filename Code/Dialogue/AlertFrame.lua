@@ -291,7 +291,7 @@ function AlertFrame:ShowLFGDialog()
         LFGAlert.Icon = LFGAlert:CreateTexture(nil, "OVERLAY");
         LFGAlert.Icon:SetSize(iconSize, iconSize);
         LFGAlert.Icon:SetPoint("LEFT", LFGAlert, "LEFT", 0, 0);
-        LFGAlert.Icon:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Shared/LFGEye.tga");
+        LFGAlert.Icon:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Shared/LFGEye");
 
         LFGAlert.Text = LFGAlert:CreateFontString(nil, "OVERLAY", "DUIFont_AlertFont"); --Top right of the screen
         LFGAlert.Text:SetPoint("LEFT", LFGAlert, "LEFT", iconSize + gap, 0);
@@ -304,7 +304,7 @@ function AlertFrame:ShowLFGDialog()
         LFGAlert.Background = LFGAlert:CreateTexture(nil, "BACKGROUND");
         LFGAlert.Background:SetSize(256, 256);
         LFGAlert.Background:SetPoint("CENTER", LFGAlert, "CENTER", -8, -4);
-        LFGAlert.Background:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Shared/TopAlertBackground.tga");
+        LFGAlert.Background:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Shared/TopAlertBackground");
         --LFGAlert.Background:SetVertexColor(66/255, 183/255, 97/255);
         LFGAlert.Background:SetAlpha(0.67);
 

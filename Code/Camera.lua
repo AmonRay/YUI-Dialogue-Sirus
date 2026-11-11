@@ -1167,3 +1167,95 @@ if UIModeUtil and UIModeUtil.RegisterMode and UIModeUtil.SetModeActive then
 
     EventRegistry:RegisterCallback("UI.TopLevelParentHidden", Dummy.OnUIParentShown, Dummy);
 end
+
+
+--3.3.5a (Sirus): there is no GetCameraZoom, no ActionCam (test_camera* CVars) and no "pitchlimit" command.
+--The retail code zoomed relative to a fake zoom value (a big CameraZoomIn that was never undone) and ran
+--console commands every frame, which made the camera jump. Here: SaveView once per interaction, absolute zoom
+--(fully in, then out by the goal in the same frame = one smooth move) and the exact camera is restored with SetView.
+if addon.IS_335 then
+    local VIEW_INDEX = 4;
+    local MIN_ZOOM_335 = 3.5;
+    local MAX_ZOOM_335 = 28;
+    local SaveView, SetView = SaveView, SetView;
+    local UnitHasVehicleUI = UnitHasVehicleUI;
+
+    local function SaveCameraOnce(self)
+        if not self.view335Saved then
+            self.view335Saved = true;
+            SaveView(VIEW_INDEX);
+        end
+    end
+
+    local function ZoomToAbsolute(goal)
+        if not goal then return end;
+        if UnitHasVehicleUI and UnitHasVehicleUI("player") then return end;
+        if goal < MIN_ZOOM_335 then
+            goal = MIN_ZOOM_335;
+        elseif goal > MAX_ZOOM_335 then
+            goal = MAX_ZOOM_335;
+        end
+        CameraZoomIn(50);
+        CameraZoomIn(50);
+        CameraZoomOut(goal);
+    end
+
+    function CameraUtil:GetShoulderOffsetForCurrentZoom()
+        return 0
+    end
+
+    function CameraUtil:MoveCameraToFinalPosition()
+        --No over-shoulder camera on 3.3.5a
+    end
+
+    function CameraUtil:ZoomTo(goal)
+        if not self.isActive then return end;
+        SaveCameraOnce(self);
+        ZoomToAbsolute(goal);
+    end
+
+    function CameraUtil:Intro_FocusNPC()
+        self.cameraMode = 1;
+        self.t = 0;
+        self.oldZoom = nil;
+        SaveCameraOnce(self);
+        local success = API.EvaluateNPCSize();
+        if not success then
+            self:OnModelEvaluationComplete(3);
+        end
+    end
+
+    function CameraUtil:Intro_PanCamera()
+        --No over-shoulder offset on 3.3.5a: keep the camera where it is
+        self.cameraMode = 2;
+        self.t = 0;
+        self.shoulderOffset = 0;
+        self.shoulderBlend = 0.1;
+    end
+
+    function CameraUtil:Intro_ZoomToObject()
+        self.t = 0;
+        self.oldZoom = nil;
+        self:ZoomTo(3);
+    end
+
+    function CameraUtil:Restore()
+        self.isActive = false;
+        self:SetScript("OnUpdate", nil);
+        self:StopUpdatingForm();
+
+        local cvarRestored = self:RestoreCVars();
+
+        if self.view335Saved then
+            self.view335Saved = nil;
+            SetView(VIEW_INDEX);
+        end
+
+        if not cvarRestored then return end;
+
+        self.fovChanged = nil;
+        self.oldZoom = nil;
+        FadeHelper:FadeInUI(addon.DialogueUI);
+        self:OnInteractionStop();
+    end
+end

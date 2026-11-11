@@ -358,7 +358,7 @@ local function CreateArrowButton(bar, onClickFunc)
 
     b.Texture = b:CreateTexture(nil, "ARTWORK");
     b.Texture:SetAllPoints(true);
-    b.Texture:SetTexture(FILE_PATH.."ScrollBar-Vertical-Buttons.tga");
+    b.Texture:SetTexture(FILE_PATH.."ScrollBar-Vertical-Buttons");
 
     return b
 end
@@ -440,7 +440,7 @@ local function CreateScrollBar(parent)
     BottomArrow:SetPoint("BOTTOM", f, "BOTTOM", 0, 0);
     BottomArrow.RedDot = BottomArrow:CreateTexture(nil, "OVERLAY");
     BottomArrow.RedDot:SetSize(BUTTON_SIZE, BUTTON_SIZE);
-    BottomArrow.RedDot:SetTexture(FILE_PATH.."ScrollBar-Vertical-Buttons.tga");
+    BottomArrow.RedDot:SetTexture(FILE_PATH.."ScrollBar-Vertical-Buttons");
     BottomArrow.RedDot:SetTexCoord(0.5, 1, 0.5, 1);
     BottomArrow.RedDot:SetPoint("CENTER", BottomArrow, "TOPRIGHT", -1, -1);
     BottomArrow.RedDot:Hide();
@@ -456,7 +456,7 @@ local function CreateScrollBar(parent)
     local corner = 2;
     Rail.Texture:SetTextureSliceMargins(corner, corner, corner, corner);
     Rail.Texture:SetTextureSliceMode(1);
-    Rail.Texture:SetTexture(FILE_PATH.."ScrollBar-Vertical-Rail.tga");
+    Rail.Texture:SetTexture(FILE_PATH.."ScrollBar-Vertical-Rail");
 
     local Thumb  = CreateFrame("Frame", nil, f);
     f.Thumb = Thumb;
@@ -472,7 +472,7 @@ local function CreateScrollBar(parent)
     local corner = 4;
     Thumb.Texture:SetTextureSliceMargins(corner, corner, corner, corner);
     Thumb.Texture:SetTextureSliceMode(1);
-    Thumb.Texture:SetTexture(FILE_PATH.."ScrollBar-Vertical-Thumb.tga");
+    Thumb.Texture:SetTexture(FILE_PATH.."ScrollBar-Vertical-Thumb");
 
     Thumb:SetScript("OnEnter", Thumb_OnEnter);
     Thumb:SetScript("OnLeave", Thumb_OnLeave);

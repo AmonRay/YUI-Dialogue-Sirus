@@ -49,7 +49,7 @@ local function CreateTranslatorButton(parent, onClickFunc)
     b.Icon = b:CreateTexture(nil, "OVERLAY");
     b.Icon:SetSize(ICON_SIZE, ICON_SIZE);
     b.Icon:SetPoint("CENTER", b, "CENTER", 0, 0);
-    b.Icon:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Shared/TranslationButton.tga");
+    b.Icon:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Shared/TranslationButton");
     b.Icon:SetAlpha(ALPHA_UNFOCUSED);
 
     API.Mixin(b, TranslatorButtonMixin);

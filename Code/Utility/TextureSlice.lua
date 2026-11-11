@@ -8,7 +8,7 @@ local ThemeUtil = addon.ThemeUtil;
 
 local TEXTURE_INFO = {
     --Width, height, 4 margins
-    ["HotkeyBackground.tga"] = {32, 32, 8, 8, 8, 8},
+    ["HotkeyBackground"] = {32, 32, 8, 8, 8, 8},
 };
 
 

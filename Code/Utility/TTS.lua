@@ -522,7 +522,7 @@ do  --TTS Play Button
         b:SetAlpha(ALPHA_UNFOCUSED);
         b:RegisterForClicks("LeftButtonUp", "RightButtonUp");
 
-        local file = "Interface/AddOns/DialogueUI/Art/Theme_Shared/TTSButton.tga";
+        local file = "Interface/AddOns/DialogueUI/Art/Theme_Shared/TTSButton";
 
         b.Icon = b:CreateTexture(nil, "OVERLAY");
         b.Icon:SetSize(ICON_SIZE, ICON_SIZE);

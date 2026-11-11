@@ -330,7 +330,7 @@ do  --Camera Calibrator
             local Arrow = b:CreateTexture(nil, "OVERLAY");
             Arrow:SetPoint("CENTER", b, "CENTER", 0, 0);
             Arrow:SetSize(18, 18);
-            Arrow:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Dark/Settings-ArrowOption.tga");
+            Arrow:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Dark/Settings-ArrowOption");
             if isLeft then
                 Arrow:SetTexCoord(1, 0.5, 0, 0.5);
                 b.delta = -1;

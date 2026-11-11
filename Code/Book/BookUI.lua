@@ -553,8 +553,8 @@ DUIBookUIMixin = {};
 
 do  --Background Calculation \ Theme
     local TextureKit = {
-        [1] = {file = "Parchment.tga", textColor = {0.19, 0.17, 0.13}, pageSelectedColor = "Ivory", pageNormalColor = "LightBrown", shadow = false, widgetTheme = 3},
-        [2] = {file = "Metal.tga", textColor = {0.8, 0.8, 0.8}, pageSelectedColor = "DarkModeGrey90", pageNormalColor = "DarkModeGrey70", shadow = true, widgetTheme = 4},
+        [1] = {file = "Parchment", textColor = {0.19, 0.17, 0.13}, pageSelectedColor = "Ivory", pageNormalColor = "LightBrown", shadow = false, widgetTheme = 3},
+        [2] = {file = "Metal", textColor = {0.8, 0.8, 0.8}, pageSelectedColor = "DarkModeGrey90", pageNormalColor = "DarkModeGrey70", shadow = true, widgetTheme = 4},
     };
 
     function DUIBookUIMixin:SetTextureKit(textureKitID)

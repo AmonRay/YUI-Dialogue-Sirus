@@ -162,7 +162,7 @@ function NameplateGossip:Init()
     self.Background = self:CreateTexture(nil, "BACKGROUND");
     self.Background:SetTextureSliceMargins(corner, corner, corner, corner);
     self.Background:SetTextureSliceMode(1);
-    self.Background:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Shared/NameplateDialogShadow.tga");
+    self.Background:SetTexture("Interface/AddOns/DialogueUI/Art/Theme_Shared/NameplateDialogShadow");
     self.Background:SetPoint("CENTER", self.Text, "CENTER", 0, 0);
 
     self.Init = nil;
