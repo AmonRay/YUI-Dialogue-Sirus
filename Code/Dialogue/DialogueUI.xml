@@ -177,7 +177,7 @@
             <OnLoad>DUI_ApplyMixin(self, "DUIDialogInputBoxMixin"); self:OnLoad();</OnLoad>
             <OnShow>self:OnShow();</OnShow>
             <OnHide>self:OnHide();</OnHide>
-            <OnEvent>self:OnEvent(...);</OnEvent>
+            <OnEvent>self:OnEvent(event, ...);</OnEvent>
         </Scripts>
     </Frame>
 
@@ -566,7 +566,7 @@
             <OnLoad>DUI_ApplyMixin(self, "DUIDialogBaseMixin"); self:OnLoad();</OnLoad>
             <OnShow>self:OnShow();</OnShow>
             <OnHide>self:OnHide();</OnHide>
-            <OnEvent>self:OnEvent(...);</OnEvent>
+            <OnEvent>self:OnEvent(event, ...);</OnEvent>
             <OnMouseUp>self:OnMouseUp(button);</OnMouseUp>
             <OnMouseWheel>self:OnMouseWheel(delta);</OnMouseWheel>
         </Scripts>
