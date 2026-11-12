@@ -1376,6 +1376,9 @@ function DUIDialogItemButtonMixin:OnLoad()
     self.textMaxLines = 2;
     self.textShrink = ITEMBUTTON_TEXT_WDITH_SHRINK;
     self.dynamicResize = true;
+    -- Preserve the corners while the reward button grows horizontally.
+    self.Background:SetTextureSliceMargins(8, 8, 8, 8);
+    self.Background:SetTextureSliceMode(1);
     self:SetBackgroundTexture(1);
     self.ItemOverlay:SetTexture(ThemeUtil:GetTextureFile("ItemOverlays"));
     self:UpdatePixel();
@@ -1570,6 +1573,19 @@ function DUIDialogItemButtonMixin:ResetCountLayout()
     self.Count:SetJustifyH("RIGHT");
 end
 
+function DUIDialogItemButtonMixin:PlaceWideCount()
+    local reserve = self.Count:GetStringWidth() + 8;
+    self.Count:ClearAllPoints();
+    self.Count:SetPoint("RIGHT", self, "RIGHT", -8, 0);
+    self.Count:SetJustifyH("RIGHT");
+    self.Name:ClearAllPoints();
+    self.Name:SetPoint("TOPLEFT", self, "TOPLEFT", 40, 0);
+    self.Name:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -8 - reserve, 0);
+    self.textShrink = ITEMBUTTON_TEXT_WDITH_SHRINK + reserve;
+    self:ResetToDefaultSize();
+    self:FitToName();
+end
+
 function DUIDialogItemButtonMixin:SetItemCount(amount, alignToCenter)
     self:ResetCountLayout();
     local separateCount;
@@ -1588,21 +1604,17 @@ function DUIDialogItemButtonMixin:SetItemCount(amount, alignToCenter)
         self.Count:SetText(nil);
     end
     self.Count:SetTextColor(1, 1, 1);
-    if separateCount then
-        local reserve = self.Count:GetStringWidth() + 8;
-        self.Count:ClearAllPoints();
-        self.Count:SetPoint("RIGHT", self, "RIGHT", -8, 0);
-        self.Name:ClearAllPoints();
-        self.Name:SetPoint("TOPLEFT", self, "TOPLEFT", 40, 0);
-        self.Name:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -8 - reserve, 0);
-        self.textShrink = ITEMBUTTON_TEXT_WDITH_SHRINK + reserve;
-    elseif alignToCenter then
-        self.Count:ClearAllPoints();
-        self.Count:SetPoint("BOTTOM", self.Icon, "BOTTOM", 0, 1);
-        self.Count:SetJustifyH("CENTER");
+    if separateCount or (self.Count:GetText() and self.Count:GetStringWidth() > self.Icon:GetWidth() - 2) then
+        self:PlaceWideCount();
+    else
+        if alignToCenter then
+            self.Count:ClearAllPoints();
+            self.Count:SetPoint("BOTTOM", self.Icon, "BOTTOM", 0, 1);
+            self.Count:SetJustifyH("CENTER");
+        end
+        self:ResetToDefaultSize();
+        self:FitToName();
     end
-    self:ResetToDefaultSize();
-    self:FitToName();
 end
 
 local ITEM_OVERLAYS = {
@@ -1716,11 +1728,13 @@ end
 
 function DUIDialogItemButtonMixin:SetCurrency(questInfoType, index)
     self.objectType = "currency";
+    self.objectType = "currency";
+
     self.type = questInfoType;
+
     self.index = index;
 
-    local info = GetQuestCurrency(questInfoType, index);
-    local name, texture, amount, quality = info.name, info.texture, info.duiDisplayedAmount, info.quality;
+    self:ResetCountLayout();
     local currencyID = info.currencyID;
     self.currencyID = currencyID;
     self.currencyInfo = info;
@@ -1767,7 +1781,9 @@ function DUIDialogItemButtonMixin:SetCurrency(questInfoType, index)
         -- Usually the amount is bigger than 0 but Bonus Experience [CurrencyID:1877] is the exception
         self.Count:SetText(nil);
     end
-
+    if self.Count:GetText() and self.Count:GetStringWidth() > self.Icon:GetWidth() - 2 then
+        self:PlaceWideCount();
+    end
     self:SetItemOverlay(nil);
     self:SetQuestRewardContextFlags(info.questRewardContextFlags);
 end

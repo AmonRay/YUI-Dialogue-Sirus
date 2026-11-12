@@ -65,11 +65,11 @@ FORMAT_COUNT_OWNED_REQUIRED='%s/%s'
 function IsQuestRequiredItem() return false end
 function GetItemCount() return 99 end
 function region()
- return {SetText=function(s,t) s.text=t end,GetStringWidth=function(s) return #(s.text or '')*7 end,
+ return {SetText=function(s,t) s.text=t end,GetStringWidth=function(s) local t=s.text; if type(t)=='number' then t=tostring(t) end; return #(t or '')*7 end,
  ClearAllPoints=function(s) s.points={} end, SetPoint=function(s,...) s.points=s.points or {} table.insert(s.points,{...}) end,
- SetJustifyH=function(s,v) s.justify=v end,SetTextColor=noop}
+ SetJustifyH=function(s,v) s.justify=v end,SetTextColor=noop,GetText=function(s) return s.text end}
 end
-button=setmetatable({Name=region(),Count=region(),Icon={},type='required',itemID=1}, {__index=DUIDialogItemButtonMixin})
+button=setmetatable({Name=region(),Count=region(),Icon={GetWidth=function() return 36 end},type='required',itemID=1}, {__index=DUIDialogItemButtonMixin})
 function button:ResetToDefaultSize() end
 function button:FitToName() self.fitted=self.textShrink end
 ''')

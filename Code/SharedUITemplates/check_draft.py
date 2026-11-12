@@ -17,7 +17,7 @@ for folder in ('Code/Dialogue', 'Code/SharedUITemplates'):
             continue
         text = path.read_text(encoding='utf-8-sig')
         for label, pattern in (
-            ('modern texture API', r':(?:SetAtlas|SetMask|AddMaskTexture|SetTexelSnappingBias|SetSnapToPixelGrid|SetTextureSliceMargins)\s*\('),
+            ('modern texture API', r':(?:SetAtlas|SetMask|AddMaskTexture|SetTexelSnappingBias|SetSnapToPixelGrid)\s*\('),
             ('direct addon texture path', r'Interface[/\\]AddOns[/\\]DialogueUI[/\\]Art[/\\]'),
             ('fixed theme selection', r':SetTheme\([12]\)'),
         ):
@@ -36,7 +36,15 @@ for folder, name in (('Theme_Brown', 'GenericFrame-Tiled-Large'), ('Theme_Dark',
     if not (art / folder / (name + '.blp')).is_file():
         errors.append(f'missing slice artwork: {folder}/{name}')
 print('Assigned Lua/XML static errors:', len(errors))
+
 for error in errors:
+
     print(error)
+
+shimmed = sum(len(re.findall(r':SetTextureSlice(?:Margins|Mode)\s*\(', path.read_text(encoding='utf-8-sig')))
+              for path in sorted((root / 'Code' / 'Dialogue').glob('*.lua')) + sorted((root / 'Code' / 'SharedUITemplates').glob('*.lua')))
+print('compat-shimmed slice API calls (Compat_335:715,736):', shimmed)
+
 print('NOT VERIFIED: Lua execution, in-client visuals, masks, theme switching and packaging')
+
 raise SystemExit(bool(errors))

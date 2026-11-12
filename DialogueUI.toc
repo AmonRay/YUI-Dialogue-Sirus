@@ -22,6 +22,7 @@
 # 1.0.8 rebuild 9: window textures resolve on 3.3.5a - ThemeUtil searches every asset category for bare names (theme -> shared -> icons/keys/gameassets/book/shapes/decor/preview), Compat_335 replaces atlas/gradient/mask API, 9-slice panels are rebuilt from plain textures with SetTexCoord, NPCType-Direction -> Icons/AskDirection
 # 1.0.8 rebuild 10: template/layout cleanup - shared paths resolve through ThemeUtil, scroll bars follow the current theme with ThemeChanged, portrait and quest header textures resolve at use time; cursor texture prefix fixed to Icons/AskDirection (0 broken paths in the static scan)
 # 1.0.8 rebuild 11: required-item count column; moving camera restores distance without saved heading; widget compatibility methods are private to DialogueUI objects (in-client acceptance pending)
+# 1.0.8 rebuild 12: quest text wraps at full width (paragraph height measured per layout, pooled fontstrings reset size); journal objective progress counts into scroll range; wide item/currency counts reserve name space and reset layout on reuse; item button background 9-sliced; Interface Options category "Dialogue UI"
 
 Code\Compat\Compat_335.lua
 Code\Compat\TextureSizes_335.lua

@@ -396,6 +396,9 @@ function DUIDialogBaseMixin:OnLoad()
     end
 
     local function OnAcquireFontString(fontString)
+        -- Reset measured geometry before reusing a paragraph as a subheader.
+        fontString:SetWidth(0);
+        fontString:SetHeight(0);
         fontString:SetSpacing(TEXT_SPACING);
     end
 
@@ -1053,14 +1056,22 @@ function DUIDialogBaseMixin:FadeInContentFrame()
     end
 end
 
+-- Only the width is constrained; a RIGHT anchor would also bind the paragraph
+-- vertically to the content frame and prevent its height from growing.
+local function LayoutParagraphText(frame, fs, offsetY, text)
+    fs:SetWidth(frame.contentWidth - 2 * PADDING_H * FRAME_SIZE_MULTIPLIER);
+    fs:SetHeight(0);
+    fs:SetPoint("TOPLEFT", frame.ContentFrame, "TOPLEFT", PADDING_H * FRAME_SIZE_MULTIPLIER, -offsetY);
+    fs:SetText(text);
+    local height = fs:GetStringHeight();
+    fs:SetHeight(height);
+    return Round(offsetY + height)
+end
+
 function DUIDialogBaseMixin:InsertText(offsetY, text, fontObject)
-	--Add no spacing
-	local fs = self:AcquireLeftFontString(fontObject);
-	fs:SetPoint("TOPLEFT", self.ContentFrame, "TOPLEFT", PADDING_H * FRAME_SIZE_MULTIPLIER, -offsetY);
-	fs:SetPoint("RIGHT", self.ContentFrame, "RIGHT", -PADDING_H * FRAME_SIZE_MULTIPLIER, 0);
-	fs:SetText(text);
-	offsetY = Round(offsetY + fs:GetHeight());
-	return offsetY
+    --Add no spacing
+    local fs = self:AcquireLeftFontString(fontObject);
+    return LayoutParagraphText(self, fs, offsetY, text)
 end
 
 function DUIDialogBaseMixin:InsertParagraph(offsetY, paragraphText, fontObject)
@@ -1077,10 +1088,7 @@ function DUIDialogBaseMixin:FormatParagraph(offsetY, text, ttsFlag)
             if not firstObject then
                 firstObject = fs;
             end
-            fs:SetPoint("TOPLEFT", self.ContentFrame, "TOPLEFT", PADDING_H * FRAME_SIZE_MULTIPLIER, -offsetY);
-            fs:SetPoint("RIGHT", self.ContentFrame, "RIGHT", -PADDING_H * FRAME_SIZE_MULTIPLIER, 0);
-            fs:SetText(paragraphText);
-            offsetY = Round(offsetY + fs:GetHeight() + PARAGRAPH_SPACING);
+            offsetY = LayoutParagraphText(self, fs, offsetY, paragraphText) + PARAGRAPH_SPACING;
             lastObject = fs;
             fs.ttsFlag = ttsFlag;
         end
@@ -1089,9 +1097,7 @@ function DUIDialogBaseMixin:FormatParagraph(offsetY, text, ttsFlag)
         --For QuestGreeting where the NPC says nothing
         local fs = self:AcquireLeftFontString();
         firstObject = fs;
-        fs:SetPoint("TOPLEFT", self.ContentFrame, "TOPLEFT", PADDING_H * FRAME_SIZE_MULTIPLIER, -offsetY);
-        fs:SetPoint("RIGHT", self.ContentFrame, "RIGHT", -PADDING_H * FRAME_SIZE_MULTIPLIER, 0);
-        fs:SetText(" ");
+        offsetY = LayoutParagraphText(self, fs, offsetY, " ");
         lastObject = fs;
     end
 
@@ -1127,10 +1133,7 @@ function DUIDialogBaseMixin:FormatDualParagraph(offsetY, text1, text2)
                         if not firstObject then
                             firstObject = fs;
                         end
-                        fs:SetPoint("TOPLEFT", self.ContentFrame, "TOPLEFT", PADDING_H * FRAME_SIZE_MULTIPLIER, -offsetY);
-                        fs:SetPoint("RIGHT", self.ContentFrame, "RIGHT", -PADDING_H * FRAME_SIZE_MULTIPLIER, 0);
-                        fs:SetText(para[i]);
-                        offsetY = Round(offsetY + fs:GetHeight() + PARAGRAPH_SPACING);
+                        offsetY = LayoutParagraphText(self, fs, offsetY, para[i]) + PARAGRAPH_SPACING;
                         lastObject = fs;
                         fs.isTranslation = j == 2;
                     end
@@ -1787,7 +1790,7 @@ function DUIDialogBaseMixin:HandleQuestProgress(playFadeIn)
             local subheader = self:AcquireAndSetSubHeader(L["Quest Objectives"]);
             subheader:SetPoint("TOPLEFT", self.ContentFrame, "TOPLEFT", PADDING_H * FRAME_SIZE_MULTIPLIER, -offsetY);
             offsetY = Round(offsetY + subheader.size);
-            self:InsertText(offsetY, objcetiveProgress);
+            offsetY = self:InsertText(offsetY, objcetiveProgress);
         end
     end
 

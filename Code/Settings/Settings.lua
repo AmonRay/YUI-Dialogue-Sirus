@@ -2547,6 +2547,30 @@ do  --Create an entrance to settings in Blizzard addon settings window
                 SetupInstruction();
             end
         end);
+    elseif InterfaceOptions_AddCategory then
+        -- Wrath/Sirus uses the legacy AddOns tab, not the retail Settings API.
+        -- The full settings UI already lives in MainFrame.
+        local panel = CreateFrame("Frame", "DialogueUIInterfaceOptionsPanel", UIParent);
+        panel:Hide();
+        panel.name = "Dialogue UI";
+
+        local title = panel:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge");
+        title:SetPoint("TOPLEFT", panel, "TOPLEFT", 16, -16);
+        title:SetText(panel.name);
+
+        local button = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate");
+        button:SetWidth(240);
+        button:SetHeight(24);
+        button:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -20);
+        button:SetText(L["Open Settings"]);
+        button:SetScript("OnClick", function()
+            -- Close covering menus before showing our DIALOG-strata window.
+            if InterfaceOptionsFrame then HideUIPanel(InterfaceOptionsFrame); end
+            if GameMenuFrame then HideUIPanel(GameMenuFrame); end
+            MainFrame:Show();
+        end);
+
+        InterfaceOptions_AddCategory(panel);
     end
 end
 
