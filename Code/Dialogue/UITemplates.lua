@@ -1472,11 +1472,28 @@ function DUIDialogItemButtonMixin:UpdatePixel(scale)
         scale = self:GetEffectiveScale();
     end
 
-    local iconShrink = 6.0;
-    local offset = API.GetPixelForScale(scale, iconShrink);
+    --3.3.5a mixes pixel offsets into unit sized regions: on a small UI scale the 6 pixel
+    --inset ate most of the 36 unit slot, so the reward icon was squeezed into a sliver and
+    --the label band showed through. Keep the slot square, as tall as the row, and cap the
+    --inset so the icon always stays readable.
+    local area = self.AreaDefinitionItemBorder;
+    local slot = self:GetHeight();
+
+    if slot and slot > 0 then
+        area:SetSize(slot, slot);
+    end
+
+    local areaWidth = area:GetWidth() or 36;
+    local areaHeight = area:GetHeight() or 36;
+    local offset = math.min(API.GetPixelForScale(scale, 6.0), areaWidth*0.12, areaHeight*0.12);
+    local iconSize = math.max(areaWidth - 2*offset, 1);
+
     self.Icon:ClearAllPoints();
-    self.Icon:SetPoint("TOPLEFT", self.AreaDefinitionItemBorder, "TOPLEFT", offset, -offset);
-    self.Icon:SetPoint("BOTTOMRIGHT", self.AreaDefinitionItemBorder, "BOTTOMRIGHT", -offset, offset);
+    self.Icon:SetSize(iconSize, iconSize);
+    self.Icon:SetPoint("TOPLEFT", area, "TOPLEFT", offset, -offset);
+
+    self.ItemBorder:ClearAllPoints();
+    self.ItemBorder:SetAllPoints(area);
 
     API.UpdateTextureSliceScale(self.ItemBorder);
 end
