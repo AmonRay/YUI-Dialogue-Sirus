@@ -265,9 +265,21 @@ function DUIDialogSettingsMixin:LoadTheme()
 
     self.HeaderDivider:SetTexture(filePath.."Settings-Divider-H");
     self.VerticalDivider:SetTexture(filePath.."Settings-Divider-V");
+
+    --3.3.5a has no TextureSlice API: a plain SetTexture stretches the whole artwork,
+    --which turned these decorative frames into thick, smeared outlines on hover.
+    --Slice them so the rounded corners keep their shape and only the flat parts stretch.
+    local function SetupSlice(texture, left, top, right, bottom)
+        texture:SetTextureSliceMargins(left, top, right, bottom);
+        texture:SetTextureSliceMode(1);
+    end
+
     self.PreviewBorder:SetTexture(filePath.."Settings-PreviewBorder");
+    SetupSlice(self.PreviewBorder, 6, 6, 6, 6);         --1px frame, 64x64 source
     self.Header.Selection:SetTexture(filePath.."Settings-TabButton-Selection");
+    SetupSlice(self.Header.Selection, 24, 8, 24, 8);    --rounded pill, 128x64 source
     self.ButtonHighlight.BackTexture:SetTexture(filePath.."Settings-ButtonHighlight");
+    SetupSlice(self.ButtonHighlight.BackTexture, 24, 8, 24, 8);
 
     local file1 = filePath.."Settings-CloseButton";
     self.Header.CloseButton.Background:SetTexture(file1);
