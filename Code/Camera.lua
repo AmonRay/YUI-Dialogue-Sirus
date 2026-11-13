@@ -1215,7 +1215,15 @@ if addon.IS_335 then
     local YAW_SIGN = 1;
 
     local PAN_ANGLE = 0.30;         --radians of sideways camera pan for the "Pan Camera" mode
-    local FOCUS_ZOOM_335 = 4.5;     --yards between camera and player while focusing an NPC
+    local FOCUS_ZOOM_335 = 3.0;     --retail switch: yards between camera and player while focusing an NPC
+
+    --The original addon asks for camera distances in yards (3 for a close look at the quest giver) out
+    --of a normal ~12 yard camera. GetViewAngles/SaveViewRaw on this client use their own scale, so
+    --such a goal is turned into a share of the distance the player had before the dialogue: the focus
+    --view then always ends up closer, whatever the client units are.
+    local RETAIL_CAMERA_DISTANCE = 12.0;
+    local MIN_ZOOM_FACTOR = 0.08;
+    local MAX_ZOOM_FACTOR = 1.0;    --never pull the camera farther than the player had it
 
     local SaveView = SaveView;
     local SaveViewRaw = SaveViewRaw;
@@ -1282,6 +1290,20 @@ if addon.IS_335 then
         if zoom < MIN_ZOOM_335 then return MIN_ZOOM_335 end;
         if zoom > MAX_ZOOM_335 then return MAX_ZOOM_335 end;
         return zoom
+    end
+
+    local function ToViewDistance(self, goal, view)
+        local base = (self.view335View and self.view335View.distance) or (view and view.distance);
+
+        if not (base and base > 0) then
+            return ClampZoom(goal)
+        end
+
+        local factor = (tonumber(goal) or RETAIL_CAMERA_DISTANCE) / RETAIL_CAMERA_DISTANCE;
+        if factor < MIN_ZOOM_FACTOR then factor = MIN_ZOOM_FACTOR end;
+        if factor > MAX_ZOOM_FACTOR then factor = MAX_ZOOM_FACTOR end;
+
+        return base * factor
     end
 
     local function GetUnitWorldXY(unit)
@@ -1410,10 +1432,10 @@ if addon.IS_335 then
 
         SaveCameraOnce(self);
 
-        goal = ClampZoom(goal);
-        if not goal then return end;
-
         local view = GetView();
+
+        local goal = ToViewDistance(self, goal, view);
+        if not goal then return end;
 
         if noZoomOut and view and goal > view.distance then return end;
 
@@ -1455,7 +1477,7 @@ if addon.IS_335 then
         local view = GetView();
         if view and CanWriteView() then
             local yawTowards = GetYawTowards("npc");
-            local distance = ClampZoom(FOCUS_ZOOM_335 * ZOOM_MUTIPLIER) or view.distance;
+            local distance = ToViewDistance(self, FOCUS_ZOOM_335 * ZOOM_MUTIPLIER, view) or view.distance;
 
             if WriteView({
                 distance = distance,
