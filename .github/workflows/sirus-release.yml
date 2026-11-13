@@ -119,10 +119,19 @@ jobs:
           else
             : > release-notes.md
           fi
+          if [ ! -s release-notes.md ]; then
+            echo "::warning::No '## [${NUM}]' section found in CHANGELOG.md - the release gets the fallback notes."
+            {
+              echo "Backport of Dialogue UI for WoW 3.3.5a (Sirus interface patch)."
+              echo
+              echo "Unpack into \`World of Warcraft/Interface/AddOns\` - the archive contains a single \`DialogueUI\` folder."
+            } > release-notes.md
+          fi
           {
-            echo "Backport of Dialogue UI for WoW 3.3.5a (Sirus interface patch)."
             echo
-            echo "Unpack into \`World of Warcraft/Interface/AddOns\` - the archive contains a single \`DialogueUI\` folder."
+            echo "---"
+            echo
+            echo "**Полный список изменений:** [CHANGELOG.md](https://github.com/${GITHUB_REPOSITORY}/blob/main/CHANGELOG.md) · **Архив:** \`DialogueUI-${NUM}-sirus.zip\`"
           } >> release-notes.md
           gh release create "$TAG" "${{ steps.pkg.outputs.zip_path }}" \
             --target "${{ steps.tex.outputs.sha }}" \
