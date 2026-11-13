@@ -1560,6 +1560,39 @@ function DUIDialogSettingsMixin:SelectTabByID(tabID, forceUpdate)
     end
 end
 
+do  --Dropdown value report (debug)
+    SLASH_DUI_DROPDOWN1 = "/duidropdown";
+
+    SlashCmdList["DUI_DROPDOWN"] = function()
+        local function Describe(row)
+            if not row then return "row: missing" end;
+            local widget = row.widget;
+            if not widget then return "widget: missing" end;
+            local text = widget.ValueText;
+            local r, g, b = text:GetTextColor();
+            return string.format("dbKey=%s choices=%s selected=%s text=%q shown=%s size=%.1fx%.1f alpha=%.2f color=%.2f/%.2f/%.2f",
+                tostring(widget.dbKey), tostring(widget.choices and #widget.choices), tostring(widget.selectedID),
+                tostring(text:GetText()), tostring(text:IsShown()), text:GetWidth(), text:GetHeight(),
+                text:GetAlpha(), r or -1, g or -1, b or -1);
+        end
+
+        print("|cff00ff98Dialogue UI dropdowns|r");
+        local shown = 0;
+
+        for dbKey, widget in pairs(MainFrame.dbKeyToWidget or {}) do
+            if widget.widget and widget.widget.choices then
+                print(dbKey..": "..Describe(widget));
+                shown = shown + 1;
+            end
+        end
+
+        if shown == 0 then
+            print("no dropdown rows built yet (open the settings window and the tab with the font first)");
+        end
+    end
+end
+
+
 function DUIDialogSettingsMixin:SelectTabByDelta(delta)
     local tabID = self.tabID or 0;
     if delta > 0 and tabID < self.numTabs then
@@ -2242,6 +2275,16 @@ do  --DropdownButton
         self:SetSize(width, height);
         local arrowSize = 0.5*height;
         self.Arrow:SetSize(arrowSize, arrowSize);
+
+        --The template leaves both regions unanchored, so give them explicit geometry: the bar has to
+        --cover the button and the value text has to sit between the left edge and the arrow.
+        self.Background:ClearAllPoints();
+        self.Background:SetAllPoints(self);
+
+        self.ValueText:ClearAllPoints();
+        self.ValueText:SetPoint("LEFT", self, "LEFT", 0.75*height, 0);
+        self.ValueText:SetPoint("RIGHT", self.Arrow, "LEFT", -0.5*height, 0);
+        self.ValueText:SetHeight(height);
     end
 
     function DUIDialogSettingsDropdownButtonMixin:ToggleMenu()
