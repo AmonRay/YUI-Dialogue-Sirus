@@ -151,6 +151,31 @@ function DUIDialogSettingsMixin:MoveToBestPosition()
     self:UpdateScrollFrameBound();
 end
 
+function DUIDialogSettingsMixin:UpdateOptionClipping()
+    --3.3.5a ignores clipChildren: rows scrolled past the list bounds kept drawing over the
+    --game world below the window, so they are hidden explicitly here.
+    local buttons = self.shownOptionButtons;
+    local ScrollFrame = self.ScrollFrame;
+
+    if not (buttons and ScrollFrame) then return end;
+
+    local viewTop = ScrollFrame:GetTop();
+    local viewBottom = ScrollFrame:GetBottom();
+
+    if not (viewTop and viewBottom) then return end;
+
+    for _, button in ipairs(buttons) do
+        button:Show();
+
+        local top = button:GetTop();
+        local bottom = button:GetBottom();
+
+        if not (top and bottom and bottom >= viewBottom - 0.5 and top <= viewTop + 0.5) then
+            button:Hide();
+        end
+    end
+end
+
 function DUIDialogSettingsMixin:UpdateScrollFrameBound()
     self.scrollFrameTop = self.ScrollFrame:GetTop();
     self.scrollFrameBottom = self.ScrollFrame:GetBottom();
@@ -1149,6 +1174,9 @@ function ScrollFrameMixin:SetScrollOffset(scrollOffset)
         self.scrollOffset = scrollOffset;
         self.Reference:SetPoint("TOPLEFT", 0, scrollOffset);
         self.scrollBar:UpdateThumbPosition();
+        if MainFrame.UpdateOptionClipping then
+            MainFrame:UpdateOptionClipping();
+        end
     end
 end
 
@@ -1428,6 +1456,7 @@ function DUIDialogSettingsMixin:SelectTabByID(tabID, forceUpdate)
     local isOptionValid;
     local isLastRequirementMet;
     local dbKeyToWidget = {};
+    local shownOptionButtons = {};
 
     for i, optionData in ipairs(tabData.options) do
         if optionData.requiredParentValueAnd or optionData.requiredParentValueOr or optionData.requireSameParentValue then
@@ -1509,6 +1538,7 @@ function DUIDialogSettingsMixin:SelectTabByID(tabID, forceUpdate)
             optionButton:SetPoint("TOPLEFT", self.ScrollFrame.Reference, "TOPLEFT", 0, (1 - numShownOptions)*OPTIONBUTTON_HEIGHT);
             optionButton:SetMouseWheelTarget(self.ScrollFrame);
             optionButton:SetData(optionData);
+            shownOptionButtons[#shownOptionButtons + 1] = optionButton;
             if optionData.dbKey then
                 dbKeyToWidget[optionData.dbKey] = optionButton;
             end
@@ -1518,6 +1548,8 @@ function DUIDialogSettingsMixin:SelectTabByID(tabID, forceUpdate)
     self.ScrollFrame:SetContentHeight(numShownOptions * OPTIONBUTTON_HEIGHT);
     self.ScrollFrame:SetScrollOffset(self["tabOffset"..self.tabID] or 0);
     self.dbKeyToWidget = dbKeyToWidget;
+    self.shownOptionButtons = shownOptionButtons;
+    self:UpdateOptionClipping();
 
     if GAME_PAD_ACTIVE then
         self:FocusObjectByIndex(self["tab"..self.tabID.."gamepadFocusIndex"] or 1);
