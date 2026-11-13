@@ -1117,10 +1117,21 @@ function DUIDialogHotkeyFrameMixin:SetKey(key)
             self.KeyName:Show();
             self.Background:Show();
 
+            --FontString:GetWidth() is still 0 until the string is laid out, which left the keycap as a
+            --tiny square with the key name spilling out of it. Measure the string itself instead.
+            local textWidth = self.KeyName:GetStringWidth() or 0;
+            if textWidth <= 0 then
+                textWidth = self.KeyName:GetWidth() or 0;
+            end
+
             if strlen(key) == 1 then
                 width = height;
             else
-                width = Round(self.KeyName:GetWidth() + 12);
+                width = Round(textWidth + 12);
+            end
+
+            if width < height then
+                width = height;
             end
         end
 

@@ -529,17 +529,21 @@ local function ValueTextFormatter_PrimaryControlKey(arrowOptionButton, dbValue)
     end
 
     local fontString = arrowOptionButton.ValueText;
-    local hotkeyWidth = f:GetWidth();
     f:SetKey(key or "ERROR");
     fontString:SetText(keyDesc);
+
+    --Width of the keycap as it is drawn, not the size it had before the key was set
+    local hotkeyWidth = f:GetWidth() or 0;
 
     local widgetWidth = hotkeyWidth + HOTKEYFRAME_VALUETEXT_GAP;
     fontString:ClearAllPoints();
     fontString:SetPoint("TOP", arrowOptionButton, "TOP", widgetWidth*0.5, ARROWOPTION_VALUETEXT_OFFSET_Y);
     f:ClearAllPoints();
     f:SetParent(arrowOptionButton);
-    local textWidth = fontString:GetWrappedWidth();
-    f:SetPoint("RIGHT", fontString, "CENTER", -0.5*textWidth -HOTKEYFRAME_VALUETEXT_GAP, 0);
+
+    --Hang the keycap off the left edge of the label. Measuring the label and offsetting it by half of
+    --its own width put the keycap on top of the first letter whenever that measurement was short.
+    f:SetPoint("RIGHT", fontString, "LEFT", -HOTKEYFRAME_VALUETEXT_GAP, 0);
 end
 
 local function PrimaryControlKey_Interact_Tooltip()
