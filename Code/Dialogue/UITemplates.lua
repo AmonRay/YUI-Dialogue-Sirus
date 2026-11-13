@@ -225,6 +225,13 @@ end
 local function OnClickFunc_ConfirmGossip(acceptButton)
     if acceptButton.confirmGossipID then
         C_GossipInfo.SelectOption(acceptButton.confirmGossipID, "", true);
+
+        --The confirmation is sent: leave the screen with the amount instead of waiting on it while the
+        --server answers (it comes back if the client asks again, e.g. when the gold is not there).
+        local owner = acceptButton.owner;
+        if owner and owner.HideGossipConfirm then
+            owner:HideGossipConfirm();
+        end
     end
 end
 
