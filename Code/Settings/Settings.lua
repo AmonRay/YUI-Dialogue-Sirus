@@ -161,6 +161,16 @@ function DUIDialogSettingsMixin:UpdateOptionClipping()
 
     if not (buttons and ScrollFrame) then return end;
 
+    if ScrollFrame.Clip then
+        --The client clips the list itself, so every row can stay shown: hiding a half visible row is
+        --what made items disappear at the top and bottom of the list.
+        for _, button in ipairs(buttons) do
+            button:Show();
+        end
+
+        return
+    end
+
     local viewTop = ScrollFrame:GetTop();
     local viewBottom = ScrollFrame:GetBottom();
 
@@ -1195,6 +1205,12 @@ end
 
 function ScrollFrameMixin:SetContentHeight(contentHeight)
     self:SetScrollRange(contentHeight - self:GetViewSize());
+
+    --The client only scrolls (and clips) as far as the scroll child reaches
+    local Reference = self.Reference;
+    if self.Clip and Reference then
+        Reference:SetHeight(math.max(contentHeight, 1));
+    end
 end
 
 function ScrollFrameMixin:GetScrollOffset()
@@ -1205,7 +1221,13 @@ function ScrollFrameMixin:SetScrollOffset(scrollOffset)
     scrollOffset = Clamp(scrollOffset, 0, self.maxScrollOffset);
     if scrollOffset ~= self.scrollOffset then
         self.scrollOffset = scrollOffset;
-        self.Reference:SetPoint("TOPLEFT", 0, scrollOffset);
+
+        if self.Clip then
+            self.Clip:SetVerticalScroll(scrollOffset);
+        else
+            self.Reference:SetPoint("TOPLEFT", 0, scrollOffset);
+        end
+
         self.scrollBar:UpdateThumbPosition();
         if MainFrame.UpdateOptionClipping then
             MainFrame:UpdateOptionClipping();
@@ -1297,6 +1319,18 @@ function DUIDialogSettingsMixin:Init()
     API.Mixin(self.ScrollFrame, ScrollFrameMixin);
     self.ScrollFrame:EnableMouseWheel(true);
     self.ScrollFrame:SetScript("OnMouseWheel", ScrollFrameMixin.OnMouseWheel);
+
+    --3.3.5a does not clip a plain frame (clipChildren in the XML does nothing), so the option rows are
+    --scrolled inside a real ScrollFrame that clips its scroll child on its own. Without it a half
+    --visible row at the edge of the list disappeared entirely instead of being cut, and the last row
+    --never scrolled fully into view.
+    if self.ScrollFrame.SetScrollChild and not self.ScrollFrame.Clip then
+        local Clip = CreateFrame("ScrollFrame", nil, self.ScrollFrame);
+        Clip:SetAllPoints(self.ScrollFrame);
+        self.ScrollFrame.Reference:SetParent(Clip);
+        Clip:SetScrollChild(self.ScrollFrame.Reference);
+        self.ScrollFrame.Clip = Clip;
+    end
 
     --ScrollBar
     local ScrollBar = addon.CreateScrollBar(self);
@@ -1578,7 +1612,7 @@ function DUIDialogSettingsMixin:SelectTabByID(tabID, forceUpdate)
             numShownOptions = numShownOptions + 1;
             optionButton = self.optionButtonPool:Acquire();
             optionButton.isParentOption = nil;
-            optionButton:SetParent(self.ScrollFrame);
+            optionButton:SetParent(self.ScrollFrame.Reference);
             optionButton:SetSize(OPTIONBUTTON_WIDTH, OPTIONBUTTON_HEIGHT);
             optionButton:SetPoint("TOPLEFT", self.ScrollFrame.Reference, "TOPLEFT", 0, (1 - numShownOptions)*OPTIONBUTTON_HEIGHT);
             optionButton:SetMouseWheelTarget(self.ScrollFrame);
