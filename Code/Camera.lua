@@ -1225,11 +1225,21 @@ if addon.IS_335 then
     local MIN_ZOOM_FACTOR = 0.08;
     local MAX_ZOOM_FACTOR = 1.0;    --never pull the camera farther than the player had it
 
+    --The client keeps C_Camera and SaveViewRaw away from addons (FrameXML/SecureCapsule.lua takes them
+    --out of the global namespace on non-dev clients), so every view based step is optional and the
+    --native camera controls below do the actual work when the views are not available.
+    local PAN_DURATION = 0.35;      --seconds the native camera turn stays engaged for "Horizontal"
+    local NATIVE_MIN_ZOOM = 1.5;    --yards, the closest the native zoom goes
+
     local SaveView = SaveView;
     local SaveViewRaw = SaveViewRaw;
     local SetView = SetView;
     local CameraZoomIn = CameraZoomIn;
     local CameraZoomOut = CameraZoomOut;
+    local MoveViewLeftStart = MoveViewLeftStart;
+    local MoveViewLeftStop = MoveViewLeftStop;
+    local MoveViewRightStart = MoveViewRightStart;
+    local MoveViewRightStop = MoveViewRightStop;
     local UnitHasVehicleUI = UnitHasVehicleUI;
     local C_Camera = C_Camera;
 
@@ -1328,6 +1338,45 @@ if addon.IS_335 then
         if (dx*dx + dy*dy) < 0.01 then return end;
 
         return math.atan2(dx, dy) * YAW_SIGN
+    end
+
+    local PanDriver = CreateFrame("Frame");
+    PanDriver:Hide();
+
+    function PanDriver:Run(turnLeft, duration)
+        self:Stop();
+
+        local start = turnLeft and MoveViewLeftStart or MoveViewRightStart;
+        local finish = turnLeft and MoveViewLeftStop or MoveViewRightStop;
+
+        if type(start) ~= "function" or type(finish) ~= "function" then return false end;
+
+        self.finish = finish;
+        self.t = 0;
+        self.duration = duration or PAN_DURATION;
+
+        start();
+        self:SetScript("OnUpdate", self.OnUpdate);
+        self:Show();
+
+        return true
+    end
+
+    function PanDriver:OnUpdate(elapsed)
+        self.t = self.t + elapsed;
+        if self.t >= self.duration then
+            self:Stop();
+        end
+    end
+
+    function PanDriver:Stop()
+        if self.finish then
+            self.finish();
+            self.finish = nil;
+        end
+
+        self:SetScript("OnUpdate", nil);
+        self:Hide();
     end
 
     local ViewRestorer = CreateFrame("Frame");
@@ -1432,12 +1481,12 @@ if addon.IS_335 then
 
         SaveCameraOnce(self);
 
+        local goalRetail = tonumber(goal);
         local view = GetView();
 
-        local goal = ToViewDistance(self, goal, view);
-        if not goal then return end;
+        local distance = ToViewDistance(self, goalRetail, view);
 
-        if noZoomOut and view and goal > view.distance then return end;
+        if distance and noZoomOut and view and distance > view.distance then return end;
 
         if view and CanWriteView() then
             local yaw = view.yaw;
@@ -1450,18 +1499,23 @@ if addon.IS_335 then
                 end
             end
 
-            if WriteView({ distance = goal, yaw = yaw, pitch = view.pitch, altitude = view.altitude }) then
-                self.currentZoom335 = goal;
+            if distance and WriteView({ distance = distance, yaw = yaw, pitch = view.pitch, altitude = view.altitude }) then
+                self.currentZoom335 = distance;
                 return
             end
         end
 
-        --Fallback for clients without the saved-view API
+        --No camera view API for addons on this client: zoom with the native controls. Zooming all the
+        --way in first makes the next step an absolute distance instead of a relative nudge.
         if type(CameraZoomIn) == "function" then
-            CameraZoomIn(50);
-            CameraZoomIn(50);
-            CameraZoomOut(goal);
-            self.currentZoom335 = goal;
+            local zoom = math.max(goalRetail or FOCUS_ZOOM_335, NATIVE_MIN_ZOOM);
+
+            CameraZoomIn(100);
+            if type(CameraZoomOut) == "function" then
+                CameraZoomOut(zoom);
+            end
+
+            self.currentZoom335 = zoom;
         end
     end
 
@@ -1503,18 +1557,28 @@ if addon.IS_335 then
 
         local view = GetView();
 
-        if not (view and CanWriteView()) then return end;
+        if view and CanWriteView() then
+            --Retail pans sideways with test_cameraOverShoulder. With the view API the same offset is a
+            --small rotation, which frames the NPC off-centre the same way.
+            local pan = PAN_ANGLE * (self.offsetMultiplier or 1);
 
-        --Retail pans sideways with test_cameraOverShoulder. The closest equivalent here is rotating the
-        --view a little, which frames the NPC off-centre the same way.
-        local pan = PAN_ANGLE * (self.offsetMultiplier or 1);
+            WriteView({
+                distance = view.distance,
+                yaw = view.yaw + pan * YAW_SIGN,
+                pitch = view.pitch,
+                altitude = view.altitude,
+            });
 
-        WriteView({
-            distance = view.distance,
-            yaw = view.yaw + pan * YAW_SIGN,
-            pitch = view.pitch,
-            altitude = view.altitude,
-        });
+            return
+        end
+
+        --Without the view API the camera is orbited with the native move-view controls. They keep
+        --turning while engaged, so the turn is timed and always turns the camera back on restore.
+        local pan = PAN_DURATION * (self.offsetMultiplier or 1);
+
+        if PanDriver:Run(pan < 0, math.abs(pan)) then
+            self.pannedNative335 = { left = pan < 0, duration = PanDriver.duration };
+        end
     end
 
     function CameraUtil:Intro_ZoomToObject()
@@ -1529,6 +1593,12 @@ if addon.IS_335 then
         self:StopUpdatingForm();
 
         local cvarRestored = self:RestoreCVars();
+
+        if self.pannedNative335 then
+            local pan = self.pannedNative335;
+            self.pannedNative335 = nil;
+            PanDriver:Run(not pan.left, pan.duration);  --turn the camera back the way it came
+        end
 
         if self.view335Saved then
             self.view335Saved = nil;
@@ -1571,6 +1641,8 @@ do  --Camera capability report (3.3.5a calibration helper)
             "SetView:", Flag(type(SetView) == "function"), "ResetView:", Flag(type(ResetView) == "function"));
         print("GetCameraZoom:", Flag(type(GetCameraZoom) == "function"), "CameraZoomIn:", Flag(type(CameraZoomIn) == "function"),
             "UnitPosition:", Flag(type(UnitPosition) == "function"), "GetPlayerFacing:", Flag(type(GetPlayerFacing) == "function"));
+        print("MoveView:", Flag(type(MoveViewRightStart) == "function"), "MoveViewStop:", Flag(type(MoveViewRightStop) == "function"),
+            "ZoomOut:", Flag(type(CameraZoomOut) == "function"));
         print("cameraView:", CVar("cameraView"), "blend:", CVar("cameraViewBlendStyle"),
             "distMax:", CVar("cameraDistanceMax"), "fov:", CVar("cameraFov"), "overShoulder:", CVar("test_cameraOverShoulder"));
 
