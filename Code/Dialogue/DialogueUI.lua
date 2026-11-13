@@ -2657,7 +2657,6 @@ function DUIDialogBaseMixin:OnEvent(event, ...)
     elseif event == "GOSSIP_CLOSED" then
         self.keepGossipHistory = false;
         self.selectedGossipIndex = nil;
-        self.gossipAutoConfirmed = nil;
     elseif event == "QUEST_ACCEPTED" then
         self:HandleQuestAccepted(...);
     elseif event == "QUEST_LOG_UPDATE" then
@@ -2669,7 +2668,6 @@ function DUIDialogBaseMixin:OnEvent(event, ...)
         end
     elseif event == "QUEST_FINISHED" then
         self.keepGossipHistory = false;
-        self.gossipAutoConfirmed = nil;
     elseif event == "PLAYER_REGEN_DISABLED" then
         if self:IsShown() then
             CameraUtil:OnEnterCombatDuringInteraction();
@@ -2679,18 +2677,9 @@ function DUIDialogBaseMixin:OnEvent(event, ...)
         local gossipID, text, cost = ...
         self:RegisterEvent("GOSSIP_CONFIRM_CANCEL");
 
-        --The client only finishes a gossip that asked for a confirmation when the same option is
-        --selected again with the confirmed flag. The confirmation screen never worked for that (the
-        --option was sent again without the flag, so the server asked once more), and dialogs that take
-        --gold in the end could not be completed at all. Confirm right away, and only fall back to the
-        --screen if the client asks a second time for the same option.
-        if self.gossipAutoConfirmed ~= gossipID then
-            self.gossipAutoConfirmed = gossipID;
-            C_GossipInfo.SelectOption(gossipID, "", true);
-        else
-            self.gossipAutoConfirmed = nil;
-            self:HandleGossipConfirm(gossipID, text, cost);
-        end
+        --The cost stays on screen: the confirmation is sent by the Accept button of this step, which
+        --re-selects the option with the confirmed flag (see OnClickFunc_ConfirmGossip).
+        self:HandleGossipConfirm(gossipID, text, cost);
     elseif event == "GOSSIP_CONFIRM_CANCEL" then
         --CallbackRegistry:Trigger("PlayerInteraction.ShowUI", true);
         self:UnregisterEvent(event);
