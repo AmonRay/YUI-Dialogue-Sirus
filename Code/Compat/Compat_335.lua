@@ -1463,8 +1463,11 @@ do
         return quests
     end)
 
-    Set("SelectOption", function(optionID) SelectGossipOption(optionID) end)
-    Set("SelectOptionByIndex", function(index) SelectGossipOption(index) end)
+    --The client needs SelectGossipOption(index, text, confirmed) to finish a gossip that asked for a
+    --GOSSIP_CONFIRM: dropping the extra arguments made it ask again forever, so a confirm screen could
+    --never be accepted.
+    Set("SelectOption", function(optionID, ...) SelectGossipOption(optionID, ...) end)
+    Set("SelectOptionByIndex", function(optionID, ...) SelectGossipOption(optionID, ...) end)
     Set("SelectAvailableQuest", function(questID) SelectGossipAvailableQuest(questID) end)
     Set("SelectActiveQuest", function(questID) SelectGossipActiveQuest(questID) end)
     Set("CloseGossip", function() CloseGossip() end)
