@@ -37,7 +37,9 @@ local HOTKEYFRAME_VALUETEXT_GAP = 4;
 local TAB_BUTTON_GAP = 4;
 local TAB_BUTTON_TEXT_PADDING = 8;
 
-local PREVIEW_PATH = "Interface/AddOns/DialogueUI/Art/PreviewPicture/";
+--3.3.5a resolves texture paths with backslashes; the theme art uses them too, while the
+--forward slashes copied from retail left the preview picture unloadable.
+local PREVIEW_PATH = "Interface\AddOns\DialogueUI\Art\PreviewPicture\\";
 
 local MainFrame;
 
@@ -281,6 +283,14 @@ function DUIDialogSettingsMixin:InitRightArea()
     for _, region in ipairs({self.Preview, self.PreviewBorder, self.Description}) do
         region:SetParent(f);
     end
+
+    --The preview picture itself: draw it from a region of this frame instead of the texture
+    --declared in the XML layer, which kept sorting under the parchment/window art.
+    local image = f:CreateTexture(nil, "ARTWORK", nil, 1);
+    image:SetPoint("TOPLEFT", self.Preview, "TOPLEFT", 0, 0);
+    image:SetPoint("BOTTOMRIGHT", self.Preview, "BOTTOMRIGHT", 0, 0);
+    image:Hide();
+    self.PreviewImage = image;
 end
 
 function DUIDialogSettingsMixin:LoadTheme()
@@ -404,7 +414,11 @@ end
 
 function DUIDialogSettingsMixin:SetPreviewTexture(optionData)
     if optionData.preview and (type(optionData.preview) == "string") then
-        self.Preview:SetTexture(PREVIEW_PATH..optionData.preview);
+        local file = PREVIEW_PATH..optionData.preview;
+        self.Preview:SetTexture(file);
+        if self.PreviewImage then
+            self.PreviewImage:SetTexture(file);
+        end
     end
 
     if optionData.ratio == 1 then
@@ -433,6 +447,9 @@ function DUIDialogSettingsMixin:DisplayOptionInfo(optionData, choiceTooltip)
 
     self.Preview:SetShown(hasPreview);
     self.PreviewBorder:SetShown(hasPreview);
+    if self.PreviewImage then
+        self.PreviewImage:SetShown(hasPreview);
+    end
 
     if hasPreview then
         if not self.hasPreview then
@@ -1588,6 +1605,34 @@ do  --Dropdown value report (debug)
 
         if shown == 0 then
             print("no dropdown rows built yet (open the settings window and the tab with the font first)");
+        end
+    end
+end
+
+
+do  --Preview report (debug)
+    SLASH_DUI_PREVIEW1 = "/duipreview";
+
+    SlashCmdList["DUI_PREVIEW"] = function()
+        local frame = MainFrame;
+        local preview = frame and frame.Preview;
+        local image = frame and frame.PreviewImage;
+
+        print("|cff00ff98Dialogue UI preview|r");
+        print(string.format("frame level: %s, right area level: %s",
+            tostring(frame:GetFrameLevel()), tostring(frame.RightArea and frame.RightArea:GetFrameLevel())));
+
+        if preview then
+            print(string.format("Preview: parent=%s level=%s size=%.0fx%.0f shown=%s alpha=%.2f texture=%s",
+                tostring(preview:GetParent()), tostring(preview:GetParent() and preview:GetParent():GetFrameLevel()),
+                preview:GetWidth(), preview:GetHeight(), tostring(preview:IsShown()), preview:GetAlpha(),
+                tostring(preview:GetTexture())));
+        end
+
+        if image then
+            print(string.format("PreviewImage: size=%.0fx%.0f shown=%s alpha=%.2f texture=%s",
+                image:GetWidth(), image:GetHeight(), tostring(image:IsShown()), image:GetAlpha(),
+                tostring(image:GetTexture())));
         end
     end
 end
