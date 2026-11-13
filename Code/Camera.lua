@@ -1186,41 +1186,136 @@ if UIModeUtil and UIModeUtil.RegisterMode and UIModeUtil.SetModeActive then
 end
 
 
---3.3.5a (Sirus): there is no GetCameraZoom, no ActionCam (test_camera* CVars) and no "pitchlimit" command.
---The retail code zoomed relative to a fake zoom value (a big CameraZoomIn that was never undone) and ran
---console commands every frame, which made the camera jump. Here: SaveView once per interaction, absolute zoom
---(fully in, then out by the goal in the same frame = one smooth move) and the exact camera is restored with SetView.
---
---Closing: the frame the dialog closes in is the heaviest one of the whole interaction (UIParent:Show() runs the OnShow
---of every frame, names and health bars come back, gossip/quest close events). SetView used to run in that same frame:
---the camera started moving back, the next frame came late and the first part of the way was skipped, the UI fade-in
---kept the frame time uneven => the camera jerked on the way back (the way in has no such frame).
---Now the UI comes back first and the camera starts moving once the frame time is back to normal (a few frames later).
+--3.3.5a (Sirus): the retail camera drives the client with the test_camera* CVars
+--(test_cameraTargetFocusInteractEnable turns the camera towards the NPC) and reads the zoom with
+--GetCameraZoom. This client has none of those. It does expose the saved-view API its own scripted
+--cameras use: SaveViewRaw(index, distance, yaw, pitch) + SetView(index), and C_Camera.GetViewAngles()
+--to read the live view back. So the camera is driven by writing an absolute view instead of nudging
+--CameraZoomIn/CameraZoomOut, which keeps the zoom exact and lets us turn the camera towards the NPC
+--the same way the retail code does.
 if addon.IS_335 then
-    local VIEW_INDEX = 4;
-    local MIN_ZOOM_335 = 3.5;
-    local MAX_ZOOM_335 = 28;
-    local SaveView, SetView = SaveView, SetView;
-    local UnitHasVehicleUI = UnitHasVehicleUI;
+    --Saved-view slots are 1-5 (1 is first person and cannot be saved); the client's FrameXML rejects
+    --anything higher, so the addon keeps using the same slots SetView accepts.
+    local VIEW_SLOT = 4;            --slot we write and apply
+    local ORIGINAL_SLOT = 3;        --slot holding the player's view when the raw read is unavailable
+    local SMOOTH_BLEND_STYLE = "1";
 
-    local VIEW_RESTORE_MIN_FRAMES = 2;          --Skip the frame that shows UIParent again and the one after it
-    local VIEW_RESTORE_SMOOTH_FRAME = 1/24;     --Then start on the first frame drawn faster than this...
+    local MIN_ZOOM_335 = 3.5;
+    local MAX_ZOOM_335 = 28.0;
+
+    local VIEW_RESTORE_MIN_FRAMES = 2;          --skip the frame that shows UIParent again and the one after it
+    local VIEW_RESTORE_SMOOTH_FRAME = 1/24;     --then start on the first frame drawn faster than this...
     local VIEW_RESTORE_MAX_DELAY = 0.35;        --...but never wait longer than this
     local VIEW_BLEND_TIME = 1.5;                --SetView needs about a second to bring the camera back
 
+    --Yaw convention of SaveViewRaw on this client. The camera sits opposite to where it looks, so a
+    --view computed from a world direction is stored rotated by PI. If the camera turns away from the
+    --NPC instead of towards it, flip YAW_SIGN (/duicam prints the live values).
+    local YAW_OFFSET = math.pi;
+    local YAW_SIGN = 1;
+
+    local PAN_ANGLE = 0.30;         --radians of sideways camera pan for the "Pan Camera" mode
+    local FOCUS_ZOOM_335 = 4.5;     --yards between camera and player while focusing an NPC
+
+    local SaveView = SaveView;
+    local SaveViewRaw = SaveViewRaw;
+    local SetView = SetView;
+    local CameraZoomIn = CameraZoomIn;
+    local CameraZoomOut = CameraZoomOut;
+    local UnitHasVehicleUI = UnitHasVehicleUI;
+    local C_Camera = C_Camera;
+
     local function IsInVehicle()
         return UnitHasVehicleUI and UnitHasVehicleUI("player")
+    end
+
+    local function GetView()
+        --distance, yaw, pitch (+ altitude) of the live camera
+        if not (C_Camera and C_Camera.GetViewAngles) then return end;
+
+        local distance, yaw, pitch = C_Camera.GetViewAngles();
+
+        if type(distance) ~= "number" or type(yaw) ~= "number" or type(pitch) ~= "number" then return end;
+
+        local altitude;
+        if C_Camera.GetAltitude then
+            altitude = C_Camera.GetAltitude();
+        end
+
+        return { distance = distance, yaw = yaw, pitch = pitch, altitude = altitude }
+    end
+
+    local function CanWriteView()
+        return type(SaveViewRaw) == "function" and type(SetView) == "function";
+    end
+
+    local function WriteView(view)
+        if not (view and CanWriteView()) then return false end;
+
+        local blendStyle = GetCVar("cameraViewBlendStyle");
+        if blendStyle and blendStyle ~= SMOOTH_BLEND_STYLE then
+            SetCVar("cameraViewBlendStyle", SMOOTH_BLEND_STYLE);
+        end
+
+        local ok = pcall(SaveViewRaw, VIEW_SLOT, view.distance, view.yaw, view.pitch);
+        if not ok then return false end;
+
+        if C_Camera then
+            if view.altitude then
+                if C_Camera.SetAltitude then C_Camera.SetAltitude(view.altitude) end;
+            elseif C_Camera.ResetAltitude then
+                C_Camera.ResetAltitude();
+            end
+        end
+
+        if not pcall(SetView, VIEW_SLOT) then return false end;
+
+        if blendStyle and blendStyle ~= SMOOTH_BLEND_STYLE then
+            SetCVar("cameraViewBlendStyle", blendStyle);
+        end
+
+        return true
+    end
+
+    local function ClampZoom(zoom)
+        if not zoom then return end;
+        if zoom < MIN_ZOOM_335 then return MIN_ZOOM_335 end;
+        if zoom > MAX_ZOOM_335 then return MAX_ZOOM_335 end;
+        return zoom
+    end
+
+    local function GetUnitWorldXY(unit)
+        if not UnitPosition then return end;
+
+        local y, x = UnitPosition(unit);
+
+        if type(x) == "number" and type(y) == "number" then
+            return x, y
+        end
+    end
+
+    local function GetYawTowards(unit)
+        --Compass angle (0 = north, positive = east) from the player to the unit
+        local x, y = GetUnitWorldXY(unit);
+        local px, py = GetUnitWorldXY("player");
+
+        if not (x and y and px and py) then return end;
+
+        local dx, dy = x - px, y - py;
+
+        if (dx*dx + dy*dy) < 0.01 then return end;
+
+        return math.atan2(dx, dy) * YAW_SIGN
     end
 
     local ViewRestorer = CreateFrame("Frame");
     ViewRestorer:Hide();
 
     function ViewRestorer:ForceSmoothBlend()
-        --If the client has "cameraViewBlendStyle" (1 = smooth, 2 = instant) make sure our SetView is a smooth move
         local style = GetCVar("cameraViewBlendStyle");
-        if style and style ~= "1" and not self.blendStyleBackup then
+        if style and style ~= SMOOTH_BLEND_STYLE and not self.blendStyleBackup then
             self.blendStyleBackup = style;
-            SetCVar("cameraViewBlendStyle", "1");
+            SetCVar("cameraViewBlendStyle", SMOOTH_BLEND_STYLE);
         end
     end
 
@@ -1233,21 +1328,21 @@ if addon.IS_335 then
 
     function ViewRestorer:OnUpdate(elapsed)
         self.t = self.t + elapsed;
+
         if self.pending then
             self.frames = self.frames + 1;
             if (self.frames >= VIEW_RESTORE_MIN_FRAMES and elapsed < VIEW_RESTORE_SMOOTH_FRAME) or (self.t >= VIEW_RESTORE_MAX_DELAY) then
                 self.pending = nil;
                 self.t = 0;
+
                 if IsInVehicle() then
                     self:Stop();
                 else
                     self:ForceSmoothBlend();
-                    if addon.HasNativeCameraZoom and GetUnitSpeed and GetUnitSpeed("player") > 0 and self.restoreZoom then
-                        -- Do not restore saved yaw/pitch against the moving follow camera.
-                        local delta = self.restoreZoom - GetCameraZoom();
-                        if delta > 0 then CameraZoomOut(delta) else CameraZoomIn(-delta) end;
-                    else
-                        SetView(VIEW_INDEX);
+                    if self.restoreView then
+                        WriteView(self.restoreView);
+                    elseif type(SetView) == "function" then
+                        pcall(SetView, ORIGINAL_SLOT);
                     end
                 end
             end
@@ -1256,8 +1351,8 @@ if addon.IS_335 then
         end
     end
 
-    function ViewRestorer:Start(zoom)
-        self.restoreZoom = zoom;
+    function ViewRestorer:Start(view)
+        self.restoreView = view;
         self.pending = true;
         self.t = 0;
         self.frames = 0;
@@ -1267,38 +1362,33 @@ if addon.IS_335 then
 
     function ViewRestorer:Stop()
         self.pending = nil;
+        self.restoreView = nil;
         self:SetScript("OnUpdate", nil);
         self:Hide();
         self:RestoreBlendStyle();
+    end
+
+    function ViewRestorer:IsRestoring()
+        return self.pending or self:IsShown()
     end
 
     local function SaveCameraOnce(self)
         if self.view335Saved then return end;
         self.view335Saved = true;
 
-        if ViewRestorer:IsShown() then
-            --The previous dialog has just closed (next quest of the same NPC, a gossip option that opens a quest...)
-            --and the camera hasn't returned yet or is still on its way. The slot still holds the original view: keep it.
-            --No back-and-forth between the two dialogs, and the last close brings the camera all the way back.
+        if ViewRestorer:IsRestoring() then
+            --The previous dialog has just closed (next quest of the same NPC, a gossip option that opens
+            --a quest...) and the camera is still on its way back. The saved view is the original one: keep it.
             ViewRestorer:Stop();
             return
         end
 
-        self.view335Zoom = GetCameraZoom();
-        SaveView(VIEW_INDEX);
-    end
+        self.view335View = GetView();
 
-    local function ZoomToAbsolute(goal)
-        if not goal then return end;
-        if UnitHasVehicleUI and UnitHasVehicleUI("player") then return end;
-        if goal < MIN_ZOOM_335 then
-            goal = MIN_ZOOM_335;
-        elseif goal > MAX_ZOOM_335 then
-            goal = MAX_ZOOM_335;
+        if not self.view335View and type(SaveView) == "function" then
+            --No raw read on this client: let the game store the exact view in a slot instead
+            pcall(SaveView, ORIGINAL_SLOT);
         end
-        CameraZoomIn(50);
-        CameraZoomIn(50);
-        CameraZoomOut(goal);
     end
 
     function CameraUtil:GetShoulderOffsetForCurrentZoom()
@@ -1306,13 +1396,51 @@ if addon.IS_335 then
     end
 
     function CameraUtil:MoveCameraToFinalPosition()
-        --No over-shoulder camera on 3.3.5a
+        --No over-the-shoulder CVar on 3.3.5a
     end
 
-    function CameraUtil:ZoomTo(goal)
+    function CameraUtil:GetLiveZoom()
+        local view = GetView();
+        if view then return view.distance end;
+        return tonumber(GetCVar("cameraDistanceMax")) or 15
+    end
+
+    function CameraUtil:ZoomTo(goal, noZoomOut)
         if not self.isActive then return end;
+
         SaveCameraOnce(self);
-        ZoomToAbsolute(goal);
+
+        goal = ClampZoom(goal);
+        if not goal then return end;
+
+        local view = GetView();
+
+        if noZoomOut and view and goal > view.distance then return end;
+
+        if view and CanWriteView() then
+            local yaw = view.yaw;
+
+            if self.cameraMode == 1 then
+                --Focus the NPC like test_cameraTargetFocusInteractEnable does on retail
+                local yawTowards = GetYawTowards("npc");
+                if yawTowards then
+                    yaw = yawTowards + YAW_OFFSET;
+                end
+            end
+
+            if WriteView({ distance = goal, yaw = yaw, pitch = view.pitch, altitude = view.altitude }) then
+                self.currentZoom335 = goal;
+                return
+            end
+        end
+
+        --Fallback for clients without the saved-view API
+        if type(CameraZoomIn) == "function" then
+            CameraZoomIn(50);
+            CameraZoomIn(50);
+            CameraZoomOut(goal);
+            self.currentZoom335 = goal;
+        end
     end
 
     function CameraUtil:Intro_FocusNPC()
@@ -1320,6 +1448,25 @@ if addon.IS_335 then
         self.t = 0;
         self.oldZoom = nil;
         SaveCameraOnce(self);
+
+        --One camera move: turn towards the NPC and zoom to a talking distance. The retail code lets the
+        --client auto-frame the target through the test_camera CVars, which this client does not have.
+        --The model based distance below only refines this later.
+        local view = GetView();
+        if view and CanWriteView() then
+            local yawTowards = GetYawTowards("npc");
+            local distance = ClampZoom(FOCUS_ZOOM_335 * ZOOM_MUTIPLIER) or view.distance;
+
+            if WriteView({
+                distance = distance,
+                yaw = yawTowards and (yawTowards + YAW_OFFSET) or view.yaw,
+                pitch = view.pitch,
+                altitude = view.altitude,
+            }) then
+                self.currentZoom335 = distance;
+            end
+        end
+
         local success = API.EvaluateNPCSize();
         if not success then
             self:OnModelEvaluationComplete(3);
@@ -1327,11 +1474,25 @@ if addon.IS_335 then
     end
 
     function CameraUtil:Intro_PanCamera()
-        --No over-shoulder offset on 3.3.5a: keep the camera where it is
         self.cameraMode = 2;
         self.t = 0;
         self.shoulderOffset = 0;
         self.shoulderBlend = 0.1;
+
+        local view = GetView();
+
+        if not (view and CanWriteView()) then return end;
+
+        --Retail pans sideways with test_cameraOverShoulder. The closest equivalent here is rotating the
+        --view a little, which frames the NPC off-centre the same way.
+        local pan = PAN_ANGLE * (self.offsetMultiplier or 1);
+
+        WriteView({
+            distance = view.distance,
+            yaw = view.yaw + pan * YAW_SIGN,
+            pitch = view.pitch,
+            altitude = view.altitude,
+        });
     end
 
     function CameraUtil:Intro_ZoomToObject()
@@ -1349,14 +1510,58 @@ if addon.IS_335 then
 
         if self.view335Saved then
             self.view335Saved = nil;
-            ViewRestorer:Start(self.view335Zoom); -- Restore after the UI has settled.
+            ViewRestorer:Start(self.view335View);   --restore once the UI has settled
+            self.view335View = nil;
         end
 
         if not cvarRestored then return end;
 
         self.fovChanged = nil;
         self.oldZoom = nil;
+        self.currentZoom335 = nil;
         FadeHelper:FadeInUI(addon.DialogueUI);
         self:OnInteractionStop();
+    end
+end
+
+
+do  --Camera capability report (3.3.5a calibration helper)
+    local function Flag(value)
+        if value then return "yes" end;
+        return "no"
+    end
+
+    SLASH_DUI_CAMERA1 = "/duicam";
+
+    SlashCmdList["DUI_CAMERA"] = function()
+        local C_Camera = C_Camera;
+
+        local function CVar(name)
+            local value = GetCVar(name);
+            if value == nil then return "nil" end;
+            return tostring(value)
+        end
+
+        print("|cff00ff98Dialogue UI camera|r");
+        print("C_Camera:", Flag(C_Camera), "GetViewAngles:", Flag(C_Camera and C_Camera.GetViewAngles),
+            "SetAltitude:", Flag(C_Camera and C_Camera.SetAltitude), "GetAltitude:", Flag(C_Camera and C_Camera.GetAltitude));
+        print("SaveViewRaw:", Flag(type(SaveViewRaw) == "function"), "SaveView:", Flag(type(SaveView) == "function"),
+            "SetView:", Flag(type(SetView) == "function"), "ResetView:", Flag(type(ResetView) == "function"));
+        print("GetCameraZoom:", Flag(type(GetCameraZoom) == "function"), "CameraZoomIn:", Flag(type(CameraZoomIn) == "function"),
+            "UnitPosition:", Flag(type(UnitPosition) == "function"), "GetPlayerFacing:", Flag(type(GetPlayerFacing) == "function"));
+        print("cameraView:", CVar("cameraView"), "blend:", CVar("cameraViewBlendStyle"),
+            "distMax:", CVar("cameraDistanceMax"), "fov:", CVar("cameraFov"), "overShoulder:", CVar("test_cameraOverShoulder"));
+
+        if C_Camera and C_Camera.GetViewAngles then
+            local distance, yaw, pitch = C_Camera.GetViewAngles();
+            print("view:", tostring(distance), tostring(yaw), tostring(pitch),
+                "altitude:", tostring(C_Camera.GetAltitude and C_Camera.GetAltitude()));
+        end
+
+        if type(UnitPosition) == "function" then
+            local py, px = UnitPosition("player");
+            local ny, nx = UnitPosition("npc");
+            print("player:", tostring(px), tostring(py), "npc:", tostring(nx), tostring(ny));
+        end
     end
 end
