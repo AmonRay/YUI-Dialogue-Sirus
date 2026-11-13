@@ -297,7 +297,7 @@ do  --AsyncCallback
     end
 
 
-    if C_TooltipInfo then
+    if C_TooltipInfo and not rawget(C_TooltipInfo, "__dui335") then
         function CallbackRegistry:LoadNPC(creatureID, callback, isRequery)
             local tooltipData = addon.TooltipAPI.GetHyperlink("unit:Creature-0-0-0-0-"..creatureID);
             local dataInstanceID, newCallback;

@@ -14,6 +14,12 @@ local BUTTON_FORMAT = {
     TAB = "|TInterface/AddOns/DialogueUI/Art/Keys/PC-TAB:16:29:0:-4:64:32:0:58:0:32:|t";
 }
 
+local KEY_LABELS = {
+    TAB = "Tab",
+    SPACE = "Space",
+    ESC = "Esc",
+};
+
 local ProcessedString = {
 
 };
@@ -38,7 +44,12 @@ do
             device = arg1;
             button = arg2;
 
-            texture = BUTTON_FORMAT[button];
+            if addon.IS_335 then
+                --3.3.5a: inline key textures are not rendered by the client, write the key name instead
+                texture = ("|cffffd100[%s]|r"):format(KEY_LABELS[button] or button);
+            else
+                texture = BUTTON_FORMAT[button];
+            end
             if not texture then
                 texture = ("|T%s%s-%s:%s:%s:0:%s|t"):format(HOTKEY_PATH, device, button, iconSize, iconSize, offsetY);
             end

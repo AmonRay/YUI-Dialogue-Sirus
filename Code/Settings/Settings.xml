@@ -453,7 +453,7 @@
                     </Layer>
                 </Layers>
             </Frame>
-            <Frame parentKey="ScrollFrame" clipChildren="true">
+            <Frame parentKey="ScrollFrame" clipChildren="true" enableMouse="true">
                 <Frames>
                     <Frame parentKey="Reference">
                         <Size x="4" y="4"/>

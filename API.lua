@@ -2614,7 +2614,7 @@ do  -- Tooltip
     API.IsRewardItemUpgrade = IsRewardItemUpgrade;
 
 
-    if C_TooltipInfo then
+    if C_TooltipInfo and not rawget(C_TooltipInfo, "__dui335") then     --3.3.5: Compat_335 creates a no-op C_TooltipInfo stub; use the GameTooltip scanner below
         addon.TooltipAPI = C_TooltipInfo;
 
     else
@@ -2767,6 +2767,13 @@ do  -- Tooltip
             end
         end
 
+        --3.3.5 GameTooltip has no SetItemByID/SetSpellByID: emulate them through hyperlinks
+        if not TooltipAPI.GetItemByID and TooltipAPI.GetHyperlink then
+            TooltipAPI.GetItemByID = function(itemID) if itemID then return TooltipAPI.GetHyperlink("item:"..itemID) end end;
+        end
+        if not TooltipAPI.GetSpellByID and TooltipAPI.GetHyperlink then
+            TooltipAPI.GetSpellByID = function(spellID) if spellID then return TooltipAPI.GetHyperlink("spell:"..spellID) end end;
+        end
         addon.TooltipAPI = TooltipAPI;
 
 

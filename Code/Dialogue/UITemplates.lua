@@ -1178,10 +1178,50 @@ function ItemButtonSharedMixin:SetButtonWidth(width)
     self:SetWidth(width);
 end
 
+local SheenTimer;
+local SheenTimerActive;
+
+local function SheenTimer_OnUpdate(self, elapsed)
+    local now = GetTime();
+    for button, shownAt in pairs(SheenTimerActive) do
+        if (not button:IsShown()) or (now - shownAt) > 0.9 then
+            if button.HideSheen then button:HideSheen() end;
+            SheenTimerActive[button] = nil;
+        end
+    end
+    if next(SheenTimerActive) == nil then
+        self:Hide();
+    end
+end
+
+function ItemButtonSharedMixin:HideSheen()
+    if self.Sheen then
+        self.Sheen:Hide();
+        self.Sheen:SetAlpha(1);
+        self.Sheen:ClearAllPoints();
+        self.Sheen:SetPoint("LEFT", self, "LEFT", 0, 0);
+    end
+    if self.AnimSheen then
+        self.AnimSheen:Stop();
+    end
+end
+
 function ItemButtonSharedMixin:PlaySheen()
     self.AnimSheen:Stop();
+    self:HideSheen();
     self.Sheen:Show();
     self.AnimSheen:Play();
+
+    --3.3.5a does not finish the texture animation, so the light streak stayed on top
+    --of the item icon (a 64x64, almost opaque texture with ADD blending). Hide the
+    --sheen ourselves instead of waiting for the animation to end.
+    if not SheenTimer then
+        SheenTimer = CreateFrame("Frame", nil, UIParent);
+        SheenTimerActive = {};
+        SheenTimer:SetScript("OnUpdate", SheenTimer_OnUpdate);
+    end
+    SheenTimerActive[self] = GetTime();
+    SheenTimer:Show();
 end
 
 function ItemButtonSharedMixin:OnEnter()
@@ -1203,6 +1243,8 @@ end
 function ItemButtonSharedMixin:OnRelease()
     self:ClearAllPoints();
     self:Hide();
+    if self.HideSheen then self:HideSheen() end;
+    if SheenTimerActive then SheenTimerActive[self] = nil end;
     self:SetScript("OnUpdate", nil);
     self:RemoveButtonMarker();
 end

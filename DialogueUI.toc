@@ -1,5 +1,5 @@
 ## Interface: 30300
-## Version: 1.0.8
+## Version: 1.0.9
 
 ## Title: Dialogue UI
 ## Notes: Quest Dialogue UI
@@ -11,6 +11,7 @@
 
 
 ## X-GameType: Wrath
+# 1.0.9: settings - tab widths from real text metrics (+ deferred relayout), mouse wheel scrolling everywhere, description/preview above the window background, dropdown shows the current choice; quest rewards - sheen hidden after the animation (it stayed on top of the item icon), tooltip falls back to the game tooltip; key hints print the key name on 3.3.5a
 # 1.0.8 rebuild: self-contained DUI_C_Timer (C_Timer2 is hidden by SecureCapsule), PLAYER_ENTERING_WORLD instead of LOADING_SCREEN_DISABLED; all textures PNG -> uncompressed TGA (3.3.5a cannot load PNG)
 # 1.0.8 rebuild 2: XML OnEvent passes `event` explicitly (3.3.5a inline OnEvent is function(self, event, ...), so '...' dropped the event name and the dialog stayed deferred forever)
 # 1.0.8 rebuild 3: safety net - the initial-loading guard can no longer swallow NPC interactions after login

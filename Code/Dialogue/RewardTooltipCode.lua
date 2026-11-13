@@ -283,6 +283,14 @@ function RewardTooltipCode:OnEnter(itemButton)
         GameTooltip_OnEnter(itemButton);
     else
         CustomTooltip_OnEnter(itemButton);
+
+        if (not TooltipFrame:IsShown()) or (TooltipFrame:NumLines() == 0) then
+            --3.3.5a: the tooltip scanner can come back empty for a quest item.
+            --Fall back to the game tooltip so hovering a reward always shows a hint.
+            TooltipFrame:Hide();
+            self:TakeOutGameTooltip();
+            GameTooltip_OnEnter(itemButton);
+        end
     end
 end
 

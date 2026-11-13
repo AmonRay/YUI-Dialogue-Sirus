@@ -274,7 +274,15 @@ do  --Auto Downsize Font To Fit Into Region (Derivative of AutoScalingFontString
     end
 
     function FontUtil:SetAutoScalingText(fontString, text, minLineHeight)
-        AutoScalingFontStringMixin:SetText(fontString, text, minLineHeight)
+        if not fontString then return end;
+
+        --3.3.5a has no text scaling: the auto-scaling pass only shrank the text with
+        --SetTextScale(), which is a no-op there, so the plain text is written instead.
+        fontString:SetText(text);
+
+        if not addon.IS_335 then
+            AutoScalingFontStringMixin:ScaleTextToFit(fontString, minLineHeight);
+        end
     end
 end
 

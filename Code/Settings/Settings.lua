@@ -35,10 +35,31 @@ local ARROWOTPION_BAR_HEIGHT = 5;                       --Adaptive
 local ARROWOTPION_CYCLING = false;
 local HOTKEYFRAME_VALUETEXT_GAP = 4;
 local TAB_BUTTON_GAP = 4;
+local TAB_BUTTON_TEXT_PADDING = 8;
 
 local PREVIEW_PATH = "Interface/AddOns/DialogueUI/Art/PreviewPicture/";
 
 local MainFrame;
+
+--3.3.5a reports a FontString width only after the text has been laid out, and
+--GetWrappedWidth() is clamped by the region width. Both made the tab buttons
+--narrower than their labels, so the tab names were drawn on top of each other.
+local function GetTabButtonTextWidth(button)
+    local name = button.Name;
+    if not name then return 0 end;
+
+    local text = name:GetText() or "";
+    local width = name:GetStringWidth() or 0;
+
+    if width < 1 then
+        local _, fontSize = name:GetFont();
+        fontSize = fontSize or FONT_HEIGHT_LARGE;
+        local charCount = select(2, string.gsub(text, "[^\128-\191]", ""));   --utf8 characters
+        width = charCount * fontSize * 0.62;
+    end
+
+    return width
+end
 
 
 local function Reposition_OnDragStart(self)
@@ -76,6 +97,7 @@ function DUIDialogSettingsMixin:OnShow_First()
     end
     self:Layout();
     self:UpdatePixel();
+    self:DeferLayout();
     self:SetScript("OnShow", self.OnShow);
     self.tabID = 1;
     self:OnShow();
@@ -89,6 +111,26 @@ function DUIDialogSettingsMixin:OnShow()
     self:MoveToBestPosition();
     CallbackRegistry:Trigger("SettingsUI.Show");
     addon.SharedTooltip:Hide();
+end
+
+function DUIDialogSettingsMixin:DeferLayout()
+    --The tab names are set in the same frame as the first Layout, so their measured
+    --width can still be wrong; lay out once more after the fontstrings have metrics.
+    if self.layoutFixer then return end;
+
+    local fixer = CreateFrame("Frame", nil, self);
+    fixer.t = 0;
+    fixer:SetScript("OnUpdate", function(f, elapsed)
+        f.t = f.t + (elapsed or 0);
+        if f.t < 0.1 then return end;
+        f:SetScript("OnUpdate", nil);
+        f:Hide();
+        if MainFrame then MainFrame.layoutFixer = nil end;
+        if (not MainFrame) or MainFrame.Init then return end;
+        MainFrame:Layout();
+        MainFrame:UpdateCurrentTab();
+    end);
+    self.layoutFixer = fixer;
 end
 
 function DUIDialogSettingsMixin:MoveToBestPosition()
@@ -193,7 +235,27 @@ function DUIDialogSettingsMixin:StopRepeatingAction()
 end
 
 function DUIDialogSettingsMixin:OnMouseWheel(delta)
+    local ScrollFrame = self.ScrollFrame;
+    if not (ScrollFrame and delta) then return end;
+    if ScrollFrame.GetScrollRange and ScrollFrame:GetScrollRange() > 0 then
+        ScrollFrame:OnMouseWheel(delta);
+    end
+end
 
+function DUIDialogSettingsMixin:InitRightArea()
+    --The window background is drawn by a child frame, which is sorted above this
+    --frame's own OVERLAY regions on 3.3.5a: the preview and the option description
+    --were painted behind the parchment and never visible. Move them above it.
+    if self.RightArea then return end;
+
+    local f = CreateFrame("Frame", nil, self);
+    f:SetAllPoints(self);
+    f:SetFrameLevel(self:GetFrameLevel() + 8);
+    self.RightArea = f;
+
+    for _, region in ipairs({self.Preview, self.PreviewBorder, self.Description}) do
+        region:SetParent(f);
+    end
 end
 
 function DUIDialogSettingsMixin:LoadTheme()
@@ -926,6 +988,14 @@ function CloseButtonScripts:OnHide()
 end
 
 
+local function SettingsUI_Scroll_OnMouseWheel(self, delta)
+    local scrollTarget = self.scrollTarget or (MainFrame and MainFrame.ScrollFrame);
+    if (not scrollTarget) or (not delta) then return end;
+    if scrollTarget.GetScrollRange and scrollTarget:GetScrollRange() > 0 then
+        scrollTarget:OnMouseWheel(delta);
+    end
+end
+
 local function RemoveWidget(widget)
     widget:Hide();
     widget:ClearAllPoints();
@@ -964,6 +1034,9 @@ end
 
 local function OnAcquireDropdownButton(widget)
     widget:LoadTexture(ThemeUtil:GetTextureFile("Settings-DropdownButton"));
+    if widget.Background then
+        widget.Background:SetDrawLayer("BACKGROUND", 2);    --keep the current choice readable
+    end
 end
 
 local function CreateKeybinding()
@@ -973,6 +1046,9 @@ end
 
 local function OnAcquireKeybinding(widget)
     widget:LoadTexture(ThemeUtil:GetTextureFile("Settings-Keybinding"));
+    if widget.Background then
+        widget.Background:SetDrawLayer("BACKGROUND", 2);
+    end
     widget:ResetState();
 end
 
@@ -1146,6 +1222,7 @@ function DUIDialogSettingsMixin:Init()
     CloseButton.Icon:SetTexCoord(0.0625, 0.1875, 0.625, 0.875);
 
     API.Mixin(self.ScrollFrame, ScrollFrameMixin);
+    self.ScrollFrame:EnableMouseWheel(true);
     self.ScrollFrame:SetScript("OnMouseWheel", ScrollFrameMixin.OnMouseWheel);
 
     --ScrollBar
@@ -1156,6 +1233,8 @@ function DUIDialogSettingsMixin:Init()
     ScrollBar:SetAlwaysVisible(false);
     ScrollBar:ShowScrollToBottomButton(false);
     ScrollBar:Show();
+
+    self:InitRightArea();
 
     self.Init = nil;
 
@@ -1193,7 +1272,7 @@ function DUIDialogSettingsMixin:Layout()
     local tabButtonsSpan = 0;
 
     for i, button in ipairs(self.tabButtons) do
-        buttonWidth = API.Round(button.Name:GetWrappedWidth() + 2*FONT_HEIGHT_LARGE);
+        buttonWidth = API.Round(GetTabButtonTextWidth(button) + 2*FONT_HEIGHT_LARGE + TAB_BUTTON_TEXT_PADDING);
         if buttonWidth < minTabButtonWidth then
             buttonWidth = minTabButtonWidth;
         end
@@ -1416,6 +1495,7 @@ function DUIDialogSettingsMixin:SelectTabByID(tabID, forceUpdate)
             optionButton:SetParent(self.ScrollFrame);
             optionButton:SetSize(OPTIONBUTTON_WIDTH, OPTIONBUTTON_HEIGHT);
             optionButton:SetPoint("TOPLEFT", self.ScrollFrame.Reference, "TOPLEFT", 0, (1 - numShownOptions)*OPTIONBUTTON_HEIGHT);
+            optionButton:SetMouseWheelTarget(self.ScrollFrame);
             optionButton:SetData(optionData);
             if optionData.dbKey then
                 dbKeyToWidget[optionData.dbKey] = optionButton;
@@ -1577,6 +1657,11 @@ function DUIDialogSettingsOptionMixin:AttachWidget(widgetPool, rightOffsetRatio)
     self.widget:SetParent(self);
     self.widget:SetPoint("RIGHT", self, "RIGHT", -BUTTON_PADDING_LARGE -right, 0);
     self.widget:SetWidgetHeight(OPTION_WIDGET_SIZE);
+    if self.widget.EnableMouseWheel then
+        self.widget.scrollTarget = self.scrollTarget or (MainFrame and MainFrame.ScrollFrame);
+        self.widget:EnableMouseWheel(true);
+        self.widget:SetScript("OnMouseWheel", SettingsUI_Scroll_OnMouseWheel);
+    end
 end
 
 function DUIDialogSettingsOptionMixin:SetCheckbox(optionData)
@@ -1695,6 +1780,14 @@ end
 
 function DUIDialogSettingsOptionMixin:AdjustScroll()
     MainFrame:AdjustScrollToObject(self);
+end
+
+--3.3.5a does not bubble the mouse wheel from the option buttons to the scroll frame,
+--so every row and every widget inside a row forwards it explicitly.
+function DUIDialogSettingsOptionMixin:SetMouseWheelTarget(scrollTarget)
+    self.scrollTarget = scrollTarget;
+    self:EnableMouseWheel(true);
+    self:SetScript("OnMouseWheel", SettingsUI_Scroll_OnMouseWheel);
 end
 
 
@@ -2151,14 +2244,25 @@ do  --DropdownButton
     end
 
     function DUIDialogSettingsDropdownButtonMixin:SetValueTextByID(id)
+        local choiceData = self.choices and self.choices[id];
+        self.ValueText:SetText(nil);
+
         if self.valueTextFormatter then
-            if self.choices and self.choices[id] then
-                self.valueTextFormatter(self, self.choices[id].dbValue, INPUT_DEVICE_GAME_PAD);
+            if choiceData then
+                self.valueTextFormatter(self, choiceData.dbValue, INPUT_DEVICE_GAME_PAD);
             else
                 self.ValueText:SetText("-"); -- Invalid Choice
             end
         else
             self.ValueText:SetText(id);
+        end
+
+        if choiceData and (not self.ValueText:GetText() or self.ValueText:GetText() == "") then
+            --A formatter can leave the field empty on 3.3.5a; always show the current choice
+            local fallback = choiceData.name or choiceData.valueText or choiceData.dbValue;
+            if fallback ~= nil then
+                self.ValueText:SetText(tostring(fallback));
+            end
         end
     end
 
