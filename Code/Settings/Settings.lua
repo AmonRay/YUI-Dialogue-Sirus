@@ -280,16 +280,26 @@ function DUIDialogSettingsMixin:InitRightArea()
     f:SetFrameLevel(self:GetFrameLevel() + 8);
     self.RightArea = f;
 
-    for _, region in ipairs({self.Preview, self.PreviewBorder, self.Description}) do
+    for _, region in ipairs({self.Preview, self.Description}) do
         region:SetParent(f);
     end
 
-    --The preview picture itself: draw it from a region of this frame instead of the texture
-    --declared in the XML layer, which kept sorting under the parchment/window art.
-    local image = f:CreateTexture(nil, "ARTWORK", nil, 1);
-    image:SetPoint("TOPLEFT", self.Preview, "TOPLEFT", 0, 0);
-    image:SetPoint("BOTTOMRIGHT", self.Preview, "BOTTOMRIGHT", 0, 0);
-    image:Hide();
+    --The preview picture gets its own frame well above every piece of window art. Drawing it as a
+    --region of this frame was not enough: the texture declared in the XML layer has no size of its
+    --own and kept sorting below the parchment on this client.
+    local previewFrame = CreateFrame("Frame", nil, self);
+    previewFrame:SetFrameStrata(self:GetFrameStrata());
+    previewFrame:SetFrameLevel(self:GetFrameLevel() + 60);
+    previewFrame:Hide();
+
+    local image = previewFrame:CreateTexture(nil, "ARTWORK");
+    image:SetAllPoints(previewFrame);
+
+    --The border is drawn from nine sliced pieces, so it has to live in the same frame as the picture
+    --to stay on top of it (its pieces are created on the frame the border belongs to).
+    self.PreviewBorder:SetParent(previewFrame);
+
+    self.PreviewFrame = previewFrame;
     self.PreviewImage = image;
 end
 
@@ -447,8 +457,14 @@ function DUIDialogSettingsMixin:DisplayOptionInfo(optionData, choiceTooltip)
 
     self.Preview:SetShown(hasPreview);
     self.PreviewBorder:SetShown(hasPreview);
-    if self.PreviewImage then
-        self.PreviewImage:SetShown(hasPreview);
+    if self.PreviewFrame then
+        self.PreviewFrame:SetShown(hasPreview);
+    end
+
+    if hasPreview and not self.previewReported then
+        --One line per session: enough to tell a missing texture from a hidden or zero sized region
+        self.previewReported = true;
+        self:ReportPreviewState("first preview");
     end
 
     if hasPreview then
@@ -1379,8 +1395,20 @@ function DUIDialogSettingsMixin:Layout()
 
     local previewWidth = descriptionWidth - 2*previewShrink;
     local previewHeight = 0.5*previewWidth;
-    self.Preview:SetSize(previewWidth, 0.5*previewWidth);
+    self.Preview:SetSize(previewWidth, previewHeight);
     self.previewHeight = previewHeight;
+
+    local PreviewFrame = self.PreviewFrame;
+    if PreviewFrame then
+        PreviewFrame:ClearAllPoints();
+        PreviewFrame:SetPoint("TOP", self, "TOPRIGHT", -rightAreaWidth*0.5 -previewShrink, -(headerHeight + 2.5*FRAME_PADDING));
+        PreviewFrame:SetSize(previewWidth, previewHeight);
+
+        --The border frames the picture that is actually drawn, not the XML texture it was anchored to
+        self.PreviewBorder:ClearAllPoints();
+        self.PreviewBorder:SetPoint("TOPLEFT", PreviewFrame, "TOPLEFT", -1, 1);
+        self.PreviewBorder:SetPoint("BOTTOMRIGHT", PreviewFrame, "BOTTOMRIGHT", 1, -1);
+    end
 
     self.Description:SetWidth(descriptionWidth);
 
@@ -1610,6 +1638,31 @@ do  --Dropdown value report (debug)
 end
 
 
+function DUIDialogSettingsMixin:ReportPreviewState(why)
+    local PreviewFrame = self.PreviewFrame;
+    local image = self.PreviewImage;
+
+    print(string.format("|cff00ff98Dialogue UI preview|r (%s) window %s level %s", tostring(why),
+        tostring(self:GetFrameStrata()), tostring(self:GetFrameLevel())));
+
+    print(string.format("XML Preview: parent=%s level=%s size=%.0fx%.0f shown=%s alpha=%.2f texture=%s",
+        tostring(self.Preview:GetParent()),
+        tostring(self.Preview:GetParent() and self.Preview:GetParent():GetFrameLevel()),
+        self.Preview:GetWidth(), self.Preview:GetHeight(), tostring(self.Preview:IsShown()),
+        self.Preview:GetAlpha(), tostring(self.Preview:GetTexture())));
+
+    if PreviewFrame and image then
+        print(string.format("Picture frame: level=%s size=%.0fx%.0f shown=%s, texture=%s, alpha=%.2f",
+            tostring(PreviewFrame:GetFrameLevel()), PreviewFrame:GetWidth(), PreviewFrame:GetHeight(),
+            tostring(PreviewFrame:IsShown()), tostring(image:GetTexture()), image:GetAlpha()));
+    end
+
+    print(string.format("Border: size=%.0fx%.0f shown=%s texture=%s", self.PreviewBorder:GetWidth(),
+        self.PreviewBorder:GetHeight(), tostring(self.PreviewBorder:IsShown()),
+        tostring(self.PreviewBorder:GetTexture())));
+end
+
+
 do  --Preview report (debug)
     SLASH_DUI_PREVIEW1 = "/duipreview";
 
@@ -1633,6 +1686,10 @@ do  --Preview report (debug)
             print(string.format("PreviewImage: size=%.0fx%.0f shown=%s alpha=%.2f texture=%s",
                 image:GetWidth(), image:GetHeight(), tostring(image:IsShown()), image:GetAlpha(),
                 tostring(image:GetTexture())));
+        end
+
+        if frame and frame.ReportPreviewState then
+            frame:ReportPreviewState("report");
         end
     end
 end
