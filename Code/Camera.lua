@@ -1391,6 +1391,58 @@ if addon.IS_335 then
     end
     CameraUtil.GetNpcTurn = GetNpcTurn;
 
+    function CameraUtil:DebugNpcTurn()
+        --Prints every step of the native turn, so an empty step is visible in the chat log.
+        local function Show(value)
+            if value == nil then return "nil" end;
+            return tostring(value)
+        end
+
+        print("|cff00ff98Dialogue UI turn|r");
+        print("GetPlayerFacing:", Show(type(GetPlayerFacing) == "function" and GetPlayerFacing()));
+
+        if type(UnitExists) == "function" then
+            print("unit npc:", Show(UnitExists("npc")), "target:", Show(UnitExists("target")),
+                "mouseover:", Show(UnitExists("mouseover")));
+        else
+            print("unit npc: no UnitExists");
+        end
+
+        local unit = GetInteractUnit();
+        print("turn unit:", Show(unit));
+
+        if unit then
+            print("UnitPosition:", Show(type(UnitPosition) == "function"),
+                "coords:", Show(GetUnitWorldXY(unit)));
+            print("yaw towards:", Show(GetYawTowards(unit)));
+        end
+
+        local delta, duration = GetNpcTurn();
+        print("delta:", Show(delta), "duration:", Show(duration));
+        print("MoveViewLeftStart:", Show(type(MoveViewLeftStart) == "function"),
+            "MoveViewRightStart:", Show(type(MoveViewRightStart) == "function"),
+            "cameraYawMoveSpeed:", Show(GetCVar("cameraYawMoveSpeed")));
+    end
+
+    SLASH_DUI_TURN1 = "/duiturn";
+
+    SlashCmdList["DUI_TURN"] = function(msg)
+        --Manual check of the native controls: /duiturn left|right [seconds]
+        local direction, seconds = strsplit(" ", msg or "");
+        seconds = tonumber(seconds) or 0.5;
+
+        if direction ~= "left" and direction ~= "right" then
+            print("usage: /duiturn left|right [seconds]");
+            return
+        end
+
+        if PanDriver:Run(direction == "left", seconds) then
+            print("turning", direction, "for", seconds, "s");
+        else
+            print("|cffff4040move view controls are unavailable on this client|r");
+        end
+    end
+
     local PanDriver = CreateFrame("Frame");
     PanDriver:Hide();
 
@@ -1776,6 +1828,10 @@ do  --Camera capability report (3.3.5a calibration helper)
             "UnitPosition:", Flag(type(UnitPosition) == "function"), "GetPlayerFacing:", Flag(type(GetPlayerFacing) == "function"));
         print("MoveView:", Flag(type(MoveViewRightStart) == "function"), "MoveViewStop:", Flag(type(MoveViewRightStop) == "function"),
             "ZoomOut:", Flag(type(CameraZoomOut) == "function"));
+
+        if CameraUtil.DebugNpcTurn then
+            CameraUtil:DebugNpcTurn();
+        end;
         print("cameraView:", CVar("cameraView"), "blend:", CVar("cameraViewBlendStyle"),
             "distMax:", CVar("cameraDistanceMax"), "fov:", CVar("cameraFov"), "overShoulder:", CVar("test_cameraOverShoulder"));
 
