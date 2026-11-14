@@ -988,7 +988,9 @@ end
 
 
 local HotkeyIcons = {
-    SPACE = {file = "SPACE", ratio = 1, rightCoord = 1, tint = true},
+    --SPACE.blp is only the thin spacebar mark, so the themed keycap behind it came out empty on 3.3.5a.
+    --Use the client's own space keycap artwork instead, the way the keybinding hints do.
+    SPACE = {file = "PC-SPACE", ratio = 1, rightCoord = 1, noBackground = true, useFrameSize = true},
     ERROR = {file = "ERROR", ratio = 1, rightCoord = 1},
     DISABLED = {file = "DISABLED", ratio = 1, rightCoord = 1},
 
