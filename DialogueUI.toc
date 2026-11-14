@@ -2,7 +2,7 @@
 ## Version: 1.0.9
 
 ## Title: Dialogue UI
-## Notes: Quest Dialogue UI for Sirus 3.3.5a (dialogue, quests, gossip)
+## Notes: Quest Dialogue UI for Sirus 3.3.5a (dialogue, quests, camera)
 
 ## Author: Raenore, Peterodox
 ## SavedVariables: DialogueUI_DB, DialogueUI_Saves
