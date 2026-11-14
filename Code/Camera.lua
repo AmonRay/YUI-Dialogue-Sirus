@@ -1316,14 +1316,27 @@ if addon.IS_335 then
         return base * factor
     end
 
-    local function GetUnitWorldXY(unit)
-        if not UnitPosition then return end;
+    local function GetUnitPercentXY(unit)
+        --Fallback for clients without UnitPosition: map percentages are enough for a direction.
+        if type(GetPlayerMapPosition) ~= "function" then return end;
 
-        local y, x = UnitPosition(unit);
+        local x, y = GetPlayerMapPosition(unit);
 
-        if type(x) == "number" and type(y) == "number" then
+        if type(x) == "number" and type(y) == "number" and (x > 0 or y > 0) then
             return x, y
         end
+    end
+
+    local function GetUnitWorldXY(unit)
+        if type(UnitPosition) == "function" then
+            local y, x = UnitPosition(unit);
+
+            if type(x) == "number" and type(y) == "number" and (x ~= 0 or y ~= 0) then
+                return x, y
+            end
+        end
+
+        return GetUnitPercentXY(unit)
     end
 
     local function GetYawTowards(unit)
@@ -1339,6 +1352,44 @@ if addon.IS_335 then
 
         return math.atan2(dx, dy) * YAW_SIGN
     end
+
+    local YAW_SPEED_FALLBACK = 180;     --degrees per second, the client default of cameraYawMoveSpeed
+    local MAX_TURN_DURATION = 1.0;
+
+    local function GetInteractUnit()
+        if type(UnitExists) ~= "function" then return end;
+
+        if UnitExists("npc") then return "npc" end;
+        if UnitExists("target") then return "target" end;
+    end
+
+    local function GetNpcTurn()
+        --How far, and for how long, the native move-view controls have to run to face the NPC. The
+        --client turns the camera at cameraYawMoveSpeed degrees per second, so a duration is enough.
+        local facing = GetPlayerFacing and GetPlayerFacing();
+        if type(facing) ~= "number" then return end;
+
+        local unit = GetInteractUnit();
+        if not unit then return end;
+
+        local yawTowards = GetYawTowards(unit);
+        if not yawTowards then return end;
+
+        local delta = math.atan2(math.sin(yawTowards - facing), math.cos(yawTowards - facing));
+
+        if math.abs(delta) < 0.05 then return end;
+
+        local speed = tonumber(GetCVar("cameraYawMoveSpeed")) or YAW_SPEED_FALLBACK;
+        if speed <= 0 then speed = YAW_SPEED_FALLBACK end;
+
+        local duration = math.abs(math.deg(delta)) / speed;
+
+        if duration > MAX_TURN_DURATION then duration = MAX_TURN_DURATION end;
+        if duration < 0.05 then duration = 0.05 end;
+
+        return delta, duration
+    end
+    CameraUtil.GetNpcTurn = GetNpcTurn;
 
     local PanDriver = CreateFrame("Frame");
     PanDriver:Hide();
@@ -1377,6 +1428,70 @@ if addon.IS_335 then
 
         self:SetScript("OnUpdate", nil);
         self:Hide();
+    end
+
+
+    --Native zoom takes a distance, so zooming all the way in and back out produced a visible rush.
+    --Glide from the distance the player has right now to the goal instead, easing like the retail code.
+    local NativeZoomDriver = CreateFrame("Frame");
+    NativeZoomDriver:Hide();
+
+    local NATIVE_ZOOM_DURATION = 0.5;
+
+    function NativeZoomDriver:Run(goal)
+        if type(CameraZoomIn) ~= "function" or type(CameraZoomOut) ~= "function" then return false end;
+
+        local current = GetCameraZoom and tonumber(GetCameraZoom());
+
+        self.goal = goal;
+
+        if not current then
+            --No way to read the live distance: keep the old absolute trick (all the way in, then out).
+            CameraZoomIn(100);
+            CameraZoomOut(goal);
+            self:Stop();
+            return true
+        end
+
+        if math.abs(goal - current) < 0.05 then
+            self:Stop();
+            return true
+        end
+
+        self.from = current;
+        self.t = 0;
+        self:SetScript("OnUpdate", self.OnUpdate);
+        self:Show();
+
+        return true
+    end
+
+    function NativeZoomDriver:OnUpdate(elapsed)
+        self.t = self.t + elapsed;
+
+        local wanted = Esaing_OutSine(self.t, self.from, self.goal, NATIVE_ZOOM_DURATION);
+        if self.t >= NATIVE_ZOOM_DURATION then
+            wanted = self.goal;
+        end
+
+        local current = GetCameraZoom and tonumber(GetCameraZoom()) or wanted;
+        local diff = wanted - current;
+
+        if diff > 0.02 then
+            CameraZoomOut(diff);
+        elseif diff < -0.02 then
+            CameraZoomIn(-diff);
+        end
+
+        if self.t >= NATIVE_ZOOM_DURATION then
+            self:Stop();
+        end
+    end
+
+    function NativeZoomDriver:Stop()
+        self:SetScript("OnUpdate", nil);
+        self:Hide();
+        self.t = nil;
     end
 
     local ViewRestorer = CreateFrame("Frame");
@@ -1455,6 +1570,7 @@ if addon.IS_335 then
         end
 
         self.view335View = GetView();
+        self.nativeZoom335 = GetCameraZoom and tonumber(GetCameraZoom());
 
         if not self.view335View and type(SaveView) == "function" then
             --No raw read on this client: let the game store the exact view in a slot instead
@@ -1505,18 +1621,12 @@ if addon.IS_335 then
             end
         end
 
-        --No camera view API for addons on this client: zoom with the native controls. Zooming all the
-        --way in first makes the next step an absolute distance instead of a relative nudge.
-        if type(CameraZoomIn) == "function" then
-            local zoom = math.max(goalRetail or FOCUS_ZOOM_335, NATIVE_MIN_ZOOM);
+        --No camera view API for addons on this client: zoom with the native controls, glided from the
+        --live distance so the camera does not rush all the way in first.
+        local zoom = math.max(goalRetail or FOCUS_ZOOM_335, NATIVE_MIN_ZOOM);
 
-            CameraZoomIn(100);
-            if type(CameraZoomOut) == "function" then
-                CameraZoomOut(zoom);
-            end
-
-            self.currentZoom335 = zoom;
-        end
+        self.currentZoom335 = zoom;
+        NativeZoomDriver:Run(zoom);
     end
 
     function CameraUtil:Intro_FocusNPC()
@@ -1540,6 +1650,18 @@ if addon.IS_335 then
                 altitude = view.altitude,
             }) then
                 self.currentZoom335 = distance;
+            end
+        end
+
+        if not self.nativeYaw335 then
+            --Without the view API the camera is turned with the native move-view controls, timed by the
+            --angle to the NPC, and turned back the same amount on restore.
+            local delta, duration = GetNpcTurn();
+
+            --A positive delta means the NPC is clockwise from where the player looks, so the camera has to
+            --turn right; MoveViewLeft is the negative side, as in the pan mode above.
+            if delta and PanDriver:Run(delta < 0, duration) then
+                self.nativeYaw335 = { left = delta < 0, duration = PanDriver.duration };
             end
         end
 
@@ -1600,10 +1722,21 @@ if addon.IS_335 then
             PanDriver:Run(not pan.left, pan.duration);  --turn the camera back the way it came
         end
 
+        if self.nativeYaw335 then
+            local turn = self.nativeYaw335;
+            self.nativeYaw335 = nil;
+            PanDriver:Run(not turn.left, turn.duration);
+        end
+
         if self.view335Saved then
             self.view335Saved = nil;
             ViewRestorer:Start(self.view335View);   --restore once the UI has settled
             self.view335View = nil;
+        end
+
+        if self.nativeZoom335 then
+            NativeZoomDriver:Run(self.nativeZoom335);
+            self.nativeZoom335 = nil;
         end
 
         if not cvarRestored then return end;
@@ -1650,6 +1783,16 @@ do  --Camera capability report (3.3.5a calibration helper)
             local distance, yaw, pitch = C_Camera.GetViewAngles();
             print("view:", tostring(distance), tostring(yaw), tostring(pitch),
                 "altitude:", tostring(C_Camera.GetAltitude and C_Camera.GetAltitude()));
+        end
+
+        if CameraUtil.GetNpcTurn then
+            local delta, duration = CameraUtil.GetNpcTurn();
+            if delta then
+                print("facing:", tostring(GetPlayerFacing and GetPlayerFacing()),
+                    "turn:", string.format("%.2f rad, %.2f s", delta, duration));
+            else
+                print("facing:", tostring(GetPlayerFacing and GetPlayerFacing()), "turn: none");
+            end
         end
 
         if type(UnitPosition) == "function" then
