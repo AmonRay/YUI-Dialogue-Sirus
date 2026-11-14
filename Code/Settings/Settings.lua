@@ -41,6 +41,26 @@ local TAB_BUTTON_TEXT_PADDING = 8;
 --forward slashes copied from retail left the preview picture unloadable.
 local PREVIEW_PATH = "Interface\AddOns\DialogueUI\Art\PreviewPicture\\";
 
+--A texture the client could not load reports nil from GetTexture(), and not every spelling of the
+--same addon file resolves here. Try the usual variants once and keep the first one that loaded.
+local function SetPreviewFile(texture, name)
+    local candidates = {
+        PREVIEW_PATH..name,
+        PREVIEW_PATH..name..".blp",
+        PREVIEW_PATH..name..".BLP",
+        string.lower(PREVIEW_PATH..name),
+    };
+
+    for _, file in ipairs(candidates) do
+        texture:SetTexture(file);
+        if texture:GetTexture() then
+            return file
+        end
+    end
+
+    texture:SetTexture(nil);
+end
+
 local MainFrame;
 
 --3.3.5a reports a FontString width only after the text has been laid out, and
@@ -434,8 +454,9 @@ end
 
 function DUIDialogSettingsMixin:SetPreviewTexture(optionData)
     if optionData.preview and (type(optionData.preview) == "string") then
-        local file = PREVIEW_PATH..optionData.preview;
-        self.Preview:SetTexture(file);
+        local file = SetPreviewFile(self.Preview, optionData.preview);
+        self.previewFile = file;
+
         if self.PreviewImage then
             self.PreviewImage:SetTexture(file);
         end
@@ -1698,6 +1719,20 @@ function DUIDialogSettingsMixin:ReportPreviewState(why)
     print(string.format("Border: size=%.0fx%.0f shown=%s texture=%s", self.PreviewBorder:GetWidth(),
         self.PreviewBorder:GetHeight(), tostring(self.PreviewBorder:IsShown()),
         tostring(self.PreviewBorder:GetTexture())));
+
+    print("Preview file that resolved:", tostring(self.previewFile));
+
+    --Which spellings of the preview folder this client loads at all
+    if self.RightArea then
+        local probe = self.RightArea:CreateTexture(nil, "ARTWORK");
+
+        for _, name in ipairs({"Theme", "BookUI", "Theme.blp", "GameMenuImage"}) do
+            probe:SetTexture(PREVIEW_PATH..name);
+            print(string.format("  probe %s -> %s", name, tostring(probe:GetTexture())));
+        end
+
+        probe:Hide();
+    end
 end
 
 
