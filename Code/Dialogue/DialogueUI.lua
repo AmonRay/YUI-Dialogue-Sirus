@@ -2074,6 +2074,72 @@ function DUIDialogBaseMixin:UpdateGossipQuests()
     end
 end
 
+do  --Quest item data that arrives after the window was built
+    local function QuestItemInfoMissing()
+        local numRequired = GetNumQuestItems and GetNumQuestItems() or 0;
+        for index = 1, numRequired do
+            if not select(1, GetQuestItemInfo("required", index)) then return true end
+        end
+
+        local numRewards = GetNumQuestRewards and GetNumQuestRewards() or 0;
+        for index = 1, numRewards do
+            if not select(1, GetQuestItemInfo("reward", index)) then return true end
+        end
+
+        local numChoices = GetNumQuestChoices and GetNumQuestChoices() or 0;
+        for index = 1, numChoices do
+            if not select(1, GetQuestItemInfo("choice", index)) then return true end
+        end
+
+        return false
+    end
+
+    local REFRESH_INTERVAL = 0.2;
+    local REFRESH_TIMEOUT = 8;
+
+    function DUIDialogBaseMixin:RefreshQuestViewWhenItemInfoArrives()
+        if self.itemInfoPoller or not self.handler then return end;
+        if not QuestItemInfoMissing() then return end;
+
+        --The client hands out quest item names and icons a moment after the window opens, so the rows
+        --that need them are drawn empty and stay empty. Poll until the data is there, then rebuild the
+        --view once, so the quest shows its requirements instead of a blank area.
+        local poller = CreateFrame("Frame");
+        poller.t = 0;
+        poller.elapsed = 0;
+
+        poller:SetScript("OnUpdate", function(self, elapsed)
+            self.t = self.t + elapsed;
+            self.elapsed = self.elapsed + elapsed;
+
+            if self.t < REFRESH_INTERVAL then return end;
+            self.t = 0;
+
+            if QuestItemInfoMissing() and self.elapsed < REFRESH_TIMEOUT then return end;
+
+            self:SetScript("OnUpdate", nil);
+            self:Hide();
+
+            local owner = poller.owner;
+            if owner then
+                owner.itemInfoPoller = nil;
+            end
+
+            local handler = poller.handler;
+            if not (handler and owner and owner:IsShown() and owner.handler == handler and owner[handler]) then return end;
+
+            if handler == "HandleQuestProgress" or handler == "HandleQuestComplete" or handler == "HandleQuestDetail" then
+                owner[handler](owner);
+            end
+        end);
+
+        poller.owner = self;
+        poller.handler = self.handler;
+        self.itemInfoPoller = poller;
+    end
+end
+
+
 function DUIDialogBaseMixin:HandleGossipConfirm(gossipID, warningText, cost)
     self.hasActiveGossipQuests = false;
     self.numAvailableQuests = 0;
@@ -2408,6 +2474,7 @@ function DUIDialogBaseMixin:ShowUI(event, ...)
         self.handler = handler;
         self.handlerArgs = { ... };
         shouldShowUI = self[handler](self, playFadeIn);
+        self:RefreshQuestViewWhenItemInfoArrives();
     end
 
     if not shouldShowUI then
