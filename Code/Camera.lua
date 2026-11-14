@@ -1354,7 +1354,15 @@ if addon.IS_335 then
     end
 
     local YAW_SPEED_FALLBACK = 180;     --degrees per second, the client default of cameraYawMoveSpeed
+    local PITCH_SPEED_FALLBACK = 90;    --degrees per second, the client default of cameraPitchMoveSpeed
     local MAX_TURN_DURATION = 1.0;
+
+    --UnitPosition returns nothing on this client, so the bearing to the NPC is usually unknown. The
+    --retail focus does not orbit around the player either: it tilts the camera up to the NPC and
+    --shifts it sideways. Both are done with the native move-view controls, so they work here too.
+    local FOCUS_PITCH = 0.28;           --radians the camera tilts up, about 16 degrees
+    local FOCUS_PAN = 0.35;             --radians the camera shifts sideways, about 20 degrees
+    local FOCUS_PAN_TURNED = 0.10;      --no sideways shift once the camera already faces the NPC
 
     local function GetInteractUnit()
         if type(UnitExists) ~= "function" then return end;
@@ -1391,6 +1399,54 @@ if addon.IS_335 then
     end
     CameraUtil.GetNpcTurn = GetNpcTurn;
 
+    local function GetTurnDuration(angle)
+        local speed = tonumber(GetCVar("cameraYawMoveSpeed")) or YAW_SPEED_FALLBACK;
+        if speed <= 0 then speed = YAW_SPEED_FALLBACK end;
+
+        local duration = math.abs(math.deg(angle)) / speed;
+
+        if duration > MAX_TURN_DURATION then duration = MAX_TURN_DURATION end;
+        if duration < 0.05 then duration = 0.05 end;
+
+        return duration
+    end
+
+    local function GetPitchDuration(angle)
+        local speed = tonumber(GetCVar("cameraPitchMoveSpeed")) or PITCH_SPEED_FALLBACK;
+        if speed <= 0 then speed = PITCH_SPEED_FALLBACK end;
+
+        local duration = math.abs(math.deg(angle)) / speed;
+
+        if duration > MAX_TURN_DURATION then duration = MAX_TURN_DURATION end;
+        if duration < 0.05 then duration = 0.05 end;
+
+        return duration
+    end
+
+    local function GetFocusTurn()
+        --Camera shift for the focus mode: towards the NPC when the client reports a bearing, otherwise
+        --the sideways shift the retail focus does, so the conversation leaves the player off-centre.
+        local facing = GetPlayerFacing and GetPlayerFacing();
+        if type(facing) ~= "number" then return end;
+
+        local unit = GetInteractUnit();
+        local yawTowards = unit and GetYawTowards(unit);
+
+        if yawTowards then
+            local delta = math.atan2(math.sin(yawTowards - facing), math.cos(yawTowards - facing));
+
+            if math.abs(delta) > 0.05 then
+                return delta, GetTurnDuration(delta)
+            end
+
+            --Already facing the NPC: only the small sideways shift keeps the conversation framing.
+            return FOCUS_PAN_TURNED, GetTurnDuration(FOCUS_PAN_TURNED)
+        end
+
+        return FOCUS_PAN, GetTurnDuration(FOCUS_PAN)
+    end
+    CameraUtil.GetFocusTurn = GetFocusTurn;
+
     function CameraUtil:DebugNpcTurn()
         --Prints every step of the native turn, so an empty step is visible in the chat log.
         local function Show(value)
@@ -1422,6 +1478,13 @@ if addon.IS_335 then
         print("MoveViewLeftStart:", Show(type(MoveViewLeftStart) == "function"),
             "MoveViewRightStart:", Show(type(MoveViewRightStart) == "function"),
             "cameraYawMoveSpeed:", Show(GetCVar("cameraYawMoveSpeed")));
+        print("MoveViewUpStart:", Show(type(MoveViewUpStart) == "function"),
+            "MoveViewDownStart:", Show(type(MoveViewDownStart) == "function"),
+            "cameraPitchMoveSpeed:", Show(GetCVar("cameraPitchMoveSpeed")));
+
+        local focusDelta, focusDuration = GetFocusTurn();
+        print("focus turn:", Show(focusDelta), "duration:", Show(focusDuration),
+            "tilt:", Show(FOCUS_PITCH), "tilt duration:", Show(GetPitchDuration(FOCUS_PITCH)));
     end
 
     SLASH_DUI_TURN1 = "/duiturn";
@@ -1473,6 +1536,46 @@ if addon.IS_335 then
     end
 
     function PanDriver:Stop()
+        if self.finish then
+            self.finish();
+            self.finish = nil;
+        end
+
+        self:SetScript("OnUpdate", nil);
+        self:Hide();
+    end
+
+
+    local PitchDriver = CreateFrame("Frame");
+    PitchDriver:Hide();
+
+    function PitchDriver:Run(up, duration)
+        self:Stop();
+
+        local start = up and MoveViewUpStart or MoveViewDownStart;
+        local finish = up and MoveViewUpStop or MoveViewDownStop;
+
+        if type(start) ~= "function" or type(finish) ~= "function" then return false end;
+
+        self.finish = finish;
+        self.t = 0;
+        self.duration = duration or PAN_DURATION;
+
+        start();
+        self:SetScript("OnUpdate", self.OnUpdate);
+        self:Show();
+
+        return true
+    end
+
+    function PitchDriver:OnUpdate(elapsed)
+        self.t = self.t + elapsed;
+        if self.t >= self.duration then
+            self:Stop();
+        end
+    end
+
+    function PitchDriver:Stop()
         if self.finish then
             self.finish();
             self.finish = nil;
@@ -1706,14 +1809,17 @@ if addon.IS_335 then
         end
 
         if not self.nativeYaw335 then
-            --Without the view API the camera is turned with the native move-view controls, timed by the
-            --angle to the NPC, and turned back the same amount on restore.
-            local delta, duration = GetNpcTurn();
+            --The camera is turned and tilted with the native move-view controls and undone on restore.
+            --A positive delta means the NPC is clockwise from where the player looks, so the camera has
+            --to turn right; MoveViewLeft is the negative side, as in the pan mode above.
+            local delta, duration = GetFocusTurn();
 
-            --A positive delta means the NPC is clockwise from where the player looks, so the camera has to
-            --turn right; MoveViewLeft is the negative side, as in the pan mode above.
             if delta and PanDriver:Run(delta < 0, duration) then
                 self.nativeYaw335 = { left = delta < 0, duration = PanDriver.duration };
+            end
+
+            if PitchDriver:Run(true, GetPitchDuration(FOCUS_PITCH)) then
+                self.nativePitch335 = { up = true, duration = PitchDriver.duration };
             end
         end
 
@@ -1778,6 +1884,12 @@ if addon.IS_335 then
             local turn = self.nativeYaw335;
             self.nativeYaw335 = nil;
             PanDriver:Run(not turn.left, turn.duration);
+        end
+
+        if self.nativePitch335 then
+            local tilt = self.nativePitch335;
+            self.nativePitch335 = nil;
+            PitchDriver:Run(not tilt.up, tilt.duration);
         end
 
         if self.view335Saved then
