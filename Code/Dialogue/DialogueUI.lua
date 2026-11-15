@@ -2143,40 +2143,41 @@ end
 do  --Client panels opened from a gossip option
     --A vendor, trainer or transmogrifier option ends the gossip on the client, but 3.3.5a does not
     --always send GOSSIP_CLOSED for it: the client just shows its own panel. Both signals come from the
-    --client itself - the panel events, and the ShowUIPanel call every panel is opened through - so no
-    --polling is needed.
+    --client itself - the panel events, and the OnShow script of the panels that have no event - so no
+    --polling and no replaced client function are needed.
     local PANEL_EVENTS = {
         "MERCHANT_SHOW", "TRAINER_SHOW", "BANKFRAME_OPENED", "AUCTION_HOUSE_SHOW",
         "MAIL_SHOW", "PET_STABLE_SHOW", "BARBER_SHOP_OPEN",
+    };
+    local PANEL_FRAMES = {   --panels without an event of their own, the transmogrifier included
+        "WardrobeFrame", "CollectionsJournal", "TabardFrame",
     };
 
     local manager = CreateFrame("Frame");
     manager:Hide();
 
-    for _, event in ipairs(PANEL_EVENTS) do
-        manager:RegisterEvent(event);
-    end
-
     local function OnClientPanel()
         local owner = manager.owner;
         if owner and owner:IsShown() then
-            owner:HideUI();
+            --Never let a bug here break the client's own panel: it is being opened right now.
+            pcall(owner.HideUI, owner);
         end
     end
 
+    for _, event in ipairs(PANEL_EVENTS) do
+        pcall(manager.RegisterEvent, manager, event);
+    end
     manager:SetScript("OnEvent", OnClientPanel);
 
-    do  --Wardrobe and other custom panels send no event of their own, but they open through ShowUIPanel
-        local original = _G.ShowUIPanel;
-        if addon.IS_335 and type(original) == "function" then
-            _G.ShowUIPanel = function(frame, ...)
-                local result = original(frame, ...);
-                if frame and frame ~= GossipFrame and frame ~= QuestFrame then
-                    OnClientPanel();
-                end
-                return result
-            end
-        end
+    local function WatchPanel(name)
+        local frame = _G[name];
+        if not (frame and frame.HookScript) then return end;
+
+        frame:HookScript("OnShow", OnClientPanel);
+    end
+
+    for _, name in ipairs(PANEL_FRAMES) do
+        WatchPanel(name);
     end
 
     function DUIDialogBaseMixin:WatchClientInteraction()

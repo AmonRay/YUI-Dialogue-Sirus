@@ -1872,7 +1872,7 @@ if addon.IS_335 then
         self:SetScript("OnUpdate", nil);
         self:StopUpdatingForm();
 
-        local cvarRestored = self:RestoreCVars();
+        self:RestoreCVars();
 
         if self.pannedNative335 then
             local pan = self.pannedNative335;
@@ -1903,11 +1903,12 @@ if addon.IS_335 then
             self.nativeZoom335 = nil;
         end
 
-        if not cvarRestored then return end;
-
         self.fovChanged = nil;
         self.oldZoom = nil;
         self.currentZoom335 = nil;
+
+        --HideUI hides UIParent itself on this client, so the interface has to come back even when there
+        --was nothing to restore; otherwise the player is left with no windows at all.
         FadeHelper:FadeInUI(addon.DialogueUI);
         self:OnInteractionStop();
     end
