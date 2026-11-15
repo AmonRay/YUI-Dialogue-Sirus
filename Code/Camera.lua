@@ -1236,6 +1236,13 @@ if addon.IS_335 then
     local PAN_DURATION = 0.35;      --seconds the native camera turn stays engaged for "Horizontal"
     local NATIVE_MIN_ZOOM = 1.5;    --yards, the closest the native zoom goes
 
+    --The retail focus keeps the camera 3 yards from the player because the client leans it towards the
+    --NPC's head and shifts it over the shoulder. Neither exists here, so the same 3 yards orbited
+    --around the player left their back filling the screen. Come as close as this share of the distance
+    --the player had before the dialogue, but no closer than FOCUS_MIN_DISTANCE.
+    local FOCUS_MIN_FACTOR = 0.65;
+    local FOCUS_MIN_DISTANCE = 8.0;
+
     local SaveView = SaveView;
     local SaveViewRaw = SaveViewRaw;
     local SetView = SetView;
@@ -1628,8 +1635,19 @@ if addon.IS_335 then
         end
 
         --No camera view API for addons on this client: zoom with the native controls, glided from the
-        --live distance so the camera does not rush all the way in first.
-        local zoom = math.max(goalRetail or FOCUS_ZOOM_335, NATIVE_MIN_ZOOM);
+        --live distance so the camera does not rush all the way in first. The retail goal is a distance
+        --with the client focus on the NPC; here it is scaled to the player's own distance instead.
+        local base = self.nativeZoom335 or tonumber(GetCameraZoom and GetCameraZoom()) or RETAIL_CAMERA_DISTANCE;
+        local goalYards = goalRetail or FOCUS_ZOOM_335;
+
+        local zoom = base * (goalYards / RETAIL_CAMERA_DISTANCE);
+        local closest = math.max(base * FOCUS_MIN_FACTOR, FOCUS_MIN_DISTANCE);
+
+        if zoom < closest then zoom = closest end;
+        if zoom > base then zoom = base end;
+        if zoom < NATIVE_MIN_ZOOM then zoom = NATIVE_MIN_ZOOM end;
+
+        if noZoomOut and zoom > base - 0.05 then return end;
 
         self.currentZoom335 = zoom;
         NativeZoomDriver:Run(zoom);
