@@ -2153,6 +2153,7 @@ do  --Client panels opened from a gossip option
     local PANEL_EVENTS = {
         "MERCHANT_SHOW", "TRAINER_SHOW", "BANKFRAME_OPENED", "AUCTION_HOUSE_SHOW",
         "MAIL_SHOW", "PET_STABLE_SHOW", "BARBER_SHOP_OPEN",
+        "TRANSMOGRIFY_OPEN",  --Sirus shows the transmogrifier from this event, before the panel itself
     };
     local PANEL_FRAMES = {   --panels without an event of their own, the transmogrifier included
         "WardrobeFrame", "CollectionsJournal", "TabardFrame",
@@ -2161,29 +2162,81 @@ do  --Client panels opened from a gossip option
     local manager = CreateFrame("Frame");
     manager:Hide();
 
-    local function OnClientPanel()
+    local watchedPanels = {};
+
+    local function GetOwner()
         local owner = manager.owner;
         if owner and owner:IsShown() then
-            --Never let a bug here break the client's own panel: it is being opened right now.
-            pcall(owner.HideUI, owner);
+            return owner
         end
+
+        --The dialogue may have been recorded by another layout: fall back to the frame itself so a
+        --client panel still closes it.
+        owner = addon.DialogueUI;
+        if owner and owner.IsShown and owner:IsShown() then
+            return owner
+        end
+    end
+
+    local function OnClientPanel()
+        local owner = GetOwner();
+        if not owner then return end;
+
+        --Never let a bug here break the client's own panel: it is being opened right now.
+        local ok, err = pcall(owner.HideUI, owner);
+        if not ok then
+            print("|cffff4040Dialogue UI|r: the dialogue could not be closed:", tostring(err));
+        end
+    end
+
+    local function IsClientPanelOpen()
+        for _, name in ipairs(PANEL_FRAMES) do
+            local frame = _G[name];
+            if frame and frame.IsShown and frame:IsShown() then
+                return true
+            end
+        end
+
+        return false
+    end
+
+    function addon.IsClientPanelOpen335()
+        return IsClientPanelOpen()
+    end
+
+    local function WatchPanel(name)
+        local frame = _G[name];
+        if not (frame and frame.HookScript) then return end;
+        if watchedPanels[frame] then return end;
+
+        watchedPanels[frame] = true;
+        frame:HookScript("OnShow", OnClientPanel);
+    end
+
+    local function WatchAllPanels()
+        for _, name in ipairs(PANEL_FRAMES) do
+            WatchPanel(name);
+        end
+    end
+
+    WatchAllPanels();
+
+    local function OnManagerEvent(_, event)
+        if event == "ADDON_LOADED" or event == "PLAYER_ENTERING_WORLD" then
+            --A collections addon can arrive after this file: hook its frames when it does.
+            WatchAllPanels();
+            return
+        end
+
+        OnClientPanel();
     end
 
     for _, event in ipairs(PANEL_EVENTS) do
         pcall(manager.RegisterEvent, manager, event);
     end
-    manager:SetScript("OnEvent", OnClientPanel);
-
-    local function WatchPanel(name)
-        local frame = _G[name];
-        if not (frame and frame.HookScript) then return end;
-
-        frame:HookScript("OnShow", OnClientPanel);
-    end
-
-    for _, name in ipairs(PANEL_FRAMES) do
-        WatchPanel(name);
-    end
+    pcall(manager.RegisterEvent, manager, "ADDON_LOADED");
+    pcall(manager.RegisterEvent, manager, "PLAYER_ENTERING_WORLD");
+    manager:SetScript("OnEvent", OnManagerEvent);
 
     function DUIDialogBaseMixin:WatchClientInteraction()
         if not addon.IS_335 then return end;
@@ -2521,6 +2574,13 @@ function DUIDialogBaseMixin:ShowUI(event, ...)
         --For case: triggering cutscene when accepting quest and the quest is immediately flagged as complete
         self:Hide();
         self:CloseDialogInteraction();
+        return
+    end
+
+    if addon.IS_335 and addon.IsClientPanelOpen335 and addon.IsClientPanelOpen335() then
+        --The client opened its own window for this option and kept the gossip alive (the transmogrifier
+        --does this): the dialogue must not come back on top of that window.
+        self:Hide();
         return
     end
 
