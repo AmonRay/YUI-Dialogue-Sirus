@@ -573,6 +573,11 @@ function CameraUtil:OnInteractionStart()
     --Reserved for DynamicCam
 end
 
+function CameraUtil:DoesGameSupportRoleset()
+    --UI modes and the retail "Enhanced Mode" of Hide UI do not exist on 3.3.5a
+    return false
+end
+
 function CameraUtil:OnInteractionStop()
     --Reserved for DynamicCam
 end

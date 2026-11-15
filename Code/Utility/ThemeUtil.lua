@@ -295,6 +295,11 @@ function ThemeUtil:UpdateMultiLanguageFontColor(showOriginal)
     SetFontColor(_G[fontName], colors[colorIndex]);
 end
 
+function ThemeUtil:PrependWarningIcon(text)
+    --Resolved through the theme so 3.3.5a gets the BLP that the converter builds from the PNG
+    return string.format("|T%s:0:0:0:-6|t %s", self:GetTextureFile("WarningIcon"), text);
+end
+
 
 do
     ThemeUtil:SetThemeByID(1);

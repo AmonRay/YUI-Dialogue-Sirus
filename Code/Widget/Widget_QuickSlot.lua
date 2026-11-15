@@ -134,7 +134,7 @@ function QuickSlotManager:OnItemLooted(itemLink)
 
     local shouldAddItem = itemClassification and SupportedItemTypes[itemClassification];
     if itemClassification == "equipment" then
-        shouldAddItem = API.IsItemAnUpgrade_External(itemLink);
+        shouldAddItem = addon.ItemEvaluator:IsUpgrade(itemLink);
     end
 
     if shouldAddItem then

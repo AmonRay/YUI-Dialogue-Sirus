@@ -156,6 +156,7 @@ end
 -- DialogueUI.lua quest layouts: no quest currencies, hidden quest items or quest portraits on 3.3.5a
 if not GetNumQuestCurrencies then function P.GetNumQuestCurrencies() return 0 end end
 if not IsQuestItemHidden then function P.IsQuestItemHidden() return 0 end end       --callers test "hidden == 0"
+if not IsCurrentQuestFailed then function P.IsCurrentQuestFailed() return false end end   --3.3.5a has no failed-quest state
 if not GetQuestPortraitGiver then function P.GetQuestPortraitGiver() return 0 end end
 if not GetQuestCurrencyInfo then P.GetQuestCurrencyInfo = noop end
 if not GetQuestCurrencyID then P.GetQuestCurrencyID = noop end

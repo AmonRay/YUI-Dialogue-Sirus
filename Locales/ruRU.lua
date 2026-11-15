@@ -1,3 +1,30 @@
+
+L["Restart Quest"] = "Начать заново";
+L["Show EXP Bar"] = "Полоса опыта";
+L["Show EXP Bar Desc"] = "Показывать полосу опыта внизу экрана.";
+L["Hide UI Enhanced Mode"] = "Улучшенный режим";
+L["Hide UI Enhanced Mode Desc"] = "Интерфейс скрывается так же, как по Alt+Z: вместе с 3D-портретами, полосками имён и подсветкой под NPC.";
+L["Hide UI Enhanced Mode Warning"] = "Этот режим может конфликтовать с базовой игрой и аддонами, которые полагаются на \"UI.TopLevelParentShown\".";
+L["QuestDifficultyStyle Off"] = "ВЫКЛ";
+L["QuestDifficultyStyle Off Desc"] = "Уровень и сложность задания скрыты.";
+L["QuestDifficultyStyle Level"] = "Уровень";
+L["QuestDifficultyStyle Level Desc"] = "Уровень задания показывается слева от названия.";
+L["QuestDifficultyStyle Name"] = "Сложность";
+L["QuestDifficultyStyle Name Desc"] = "Сложность задания показывается справа от кнопки задания.";
+L["Distinguish Forever Quest"] = "Отмечать вечные задания";
+L["Distinguish Forever Quest Desc"] = "Показывать особый значок для новых заданий в WoW: Forever.";
+L["Evaluate Item Rewards"] = "Стрелка улучшения";
+L["Evaluate Item Rewards Desc Format"] = "Показывать зелёную стрелку %s, если предмет может улучшить экипировку.";
+L["Format Functionality Handled By"] = "Эту функцию выполняет \"%s\".";
+L["ItemEvaluator Off Desc"] = "Сейчас выключено.";
+L["ItemEvaluator ItemLevel Desc"] = "Предмет считается улучшением, если его уровень выше.";
+L["ItemEvaluator ThirdParty Missing Format"] = "Не удалось найти ранее использованный \"%s\".";
+L["ItemEvaluator ThirdParty None"] = "Совместимые сторонние аддоны не найдены.";
+L["ItemEvaluator ThirdParty Found Format"] = "Найден совместимый аддон: %s";
+L["Camera Movement Invalid Due To Gamepad UI"] = "Камера не может двигаться горизонтально при включённом геймпад-интерфейсе Blizzard.";
+L["Show Chat Window Left Desc"] = "Показывать окно чата с NPC внизу слева.";
+L["Show Chat Window Right Desc"] = "Показывать окно чата с NPC внизу справа.";
+
 setfenv(1, select(2, ...).Env or _G) -- DUI335_ENV
 --Contributors: Voopie
 if not (GetLocale() == "ruRU") then return end;
