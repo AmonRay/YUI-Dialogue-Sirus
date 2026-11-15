@@ -2378,6 +2378,10 @@ function DUIDialogInputBoxMixin:SetGossipID(gossipID)
 end
 
 function DUIDialogInputBoxMixin:ConfirmGossip()
+    if addon.IS_335 and type(StaticPopup_Hide) == "function" then
+        pcall(StaticPopup_Hide, "GOSSIP_ENTER_CODE");
+    end
+
     C_GossipInfo.SelectOption(self.gossipID, self.EditBox:GetText(), true);
 end
 

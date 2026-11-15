@@ -2140,6 +2140,85 @@ do  --Quest item data that arrives after the window was built
 end
 
 
+do  --Client panels opened from a gossip option
+    --A vendor, trainer or transmogrifier option ends the gossip on the client, but 3.3.5a does not
+    --always send GOSSIP_CLOSED for it, so the addon window stayed on screen behind or above the
+    --client's own panel. Close it when the client shows a panel that was hidden when we opened, or
+    --when the NPC's gossip options are gone.
+    local PANELS = {
+        "MerchantFrame", "TrainerFrame", "BankFrame", "AuctionFrame", "MailFrame", "TabardFrame",
+        "PetStableFrame", "BarberShopFrame", "WardrobeFrame", "CollectionsJournal",
+    };
+    local CHECK_INTERVAL = 0.25;
+    local EMPTY_TICKS = 2;      --ignore a single frame where the client is rebuilding the option list
+
+    local function PanelOpened(baseline)
+        for _, name in ipairs(PANELS) do
+            local frame = _G[name];
+            if frame and frame.IsShown and not baseline[name] and frame:IsShown() then
+                return true
+            end
+        end
+    end
+
+    function DUIDialogBaseMixin:WatchClientInteraction()
+        if not addon.IS_335 then return end;
+        if self.interactionWatcher then return end;
+
+        local baseline = {};
+        for _, name in ipairs(PANELS) do
+            local frame = _G[name];
+            baseline[name] = (frame and frame.IsShown and frame:IsShown()) and true or false;
+        end
+
+        local watcher = CreateFrame("Frame");
+        watcher.t = 0;
+        watcher.emptyTicks = 0;
+
+        watcher:SetScript("OnUpdate", function(self, elapsed)
+            self.t = self.t + elapsed;
+            if self.t < CHECK_INTERVAL then return end;
+            self.t = 0;
+
+            local owner = watcher.owner;
+            if not (owner and owner:IsShown()) then
+                self:SetScript("OnUpdate", nil);
+                self:Hide();
+                if owner then owner.interactionWatcher = nil end;
+                return
+            end
+
+            if PanelOpened(baseline) then
+                self:SetScript("OnUpdate", nil);
+                self:Hide();
+                owner.interactionWatcher = nil;
+                owner:HideUI();
+                return
+            end
+
+            if owner.handler == "HandleGossip" and type(GetGossipOptions) == "function" then
+                if select("#", GetGossipOptions()) == 0 then
+                    self.emptyTicks = self.emptyTicks + 1;
+                    if self.emptyTicks >= EMPTY_TICKS then
+                        self:SetScript("OnUpdate", nil);
+                        self:Hide();
+                        owner.interactionWatcher = nil;
+                        owner:HideUI();
+                    end
+                    return
+                end
+            end
+
+            self.emptyTicks = 0;
+        end);
+
+        watcher.owner = self;
+        self.interactionWatcher = watcher;
+        watcher:Show();
+    end
+end
+
+
 function DUIDialogBaseMixin:HandleGossipConfirm(gossipID, warningText, cost)
     self.hasActiveGossipQuests = false;
     self.numAvailableQuests = 0;
@@ -2192,6 +2271,11 @@ function DUIDialogBaseMixin:HideGossipConfirm()
 end
 
 function DUIDialogBaseMixin:HandleGossipEnterCode(gossipID)
+    --The client shows its own code dialog for the same gossip option; the addon asks for it in place.
+    if addon.IS_335 and type(StaticPopup_Hide) == "function" then
+        pcall(StaticPopup_Hide, "GOSSIP_ENTER_CODE");
+    end
+
     self.inputboxShown = true;
     self.InputBox:Show();
     self.InputBox:SetGossipID(gossipID);
@@ -2475,6 +2559,7 @@ function DUIDialogBaseMixin:ShowUI(event, ...)
         self.handlerArgs = { ... };
         shouldShowUI = self[handler](self, playFadeIn);
         self:RefreshQuestViewWhenItemInfoArrives();
+        self:WatchClientInteraction();
     end
 
     if not shouldShowUI then
