@@ -1712,7 +1712,14 @@ if addon.IS_335 then
 
         if self.view335Saved then
             self.view335Saved = nil;
-            ViewRestorer:Start(self.view335View);   --restore once the UI has settled
+
+            --Only the view API can put the exact view back. Without it SaveCameraOnce stored the view in
+            --a client slot and SetView would apply that whole view while the native zoom is still
+            --gliding home: the camera then flew out and back in again.
+            if self.view335View then
+                ViewRestorer:Start(self.view335View);   --restore once the UI has settled
+            end
+
             self.view335View = nil;
         end
 
@@ -1776,6 +1783,12 @@ do  --Camera capability report (3.3.5a calibration helper)
             local py, px = UnitPosition("player");
             local ny, nx = UnitPosition("npc");
             print("player:", tostring(px), tostring(py), "npc:", tostring(nx), tostring(ny));
+        end
+
+        if type(GetPlayerMapPosition) == "function" then
+            local px, py = GetPlayerMapPosition("player");
+            local nx, ny = GetPlayerMapPosition("npc");
+            print("map player:", tostring(px), tostring(py), "map npc:", tostring(nx), tostring(ny));
         end
     end
 end
