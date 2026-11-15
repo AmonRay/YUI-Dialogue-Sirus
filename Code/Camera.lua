@@ -1243,6 +1243,12 @@ if addon.IS_335 then
     local FOCUS_MIN_FACTOR = 0.65;
     local FOCUS_MIN_DISTANCE = 8.0;
 
+    --A turn towards the NPC is timed against the client's own camera yaw speed, so the angle decides
+    --how long the move-view keys stay down. Never spin for long, and ignore a few degrees.
+    local TURN_DEADZONE = math.rad(3);
+    local TURN_MAX_DURATION = 0.8;
+    local TURN_DEFAULT_SPEED = 180;     --degrees per second, the client default
+
     local SaveView = SaveView;
     local SaveViewRaw = SaveViewRaw;
     local SetView = SetView;
@@ -1377,6 +1383,7 @@ if addon.IS_335 then
 
         print("|cff00ff98Dialogue UI focus|r");
         print("GetPlayerFacing:", Show(type(GetPlayerFacing) == "function" and GetPlayerFacing()));
+        print("yawToNPC:", Show(GetYawTowards("npc")), "yawMoveSpeed:", Show(GetCVar("cameraYawMoveSpeed")));
         print("UnitPosition:", Show(type(UnitPosition) == "function"),
             "coords:", Show(GetUnitWorldXY("player")));
         print("GetCameraZoom:", Show(GetCameraZoom and GetCameraZoom()),
@@ -1605,10 +1612,62 @@ if addon.IS_335 then
         return tonumber(GetCVar("cameraDistanceMax")) or 15
     end
 
+    --Neither C_Camera nor SaveViewRaw reaches addons on this client, so the yaw of the camera is not
+    --readable. The player's facing is the closest stand-in: the camera orbits the player and looks the
+    --same way until the mouse turns it, which is the usual state when a dialog opens.
+    local function GetCameraYaw()
+        if type(GetPlayerFacing) ~= "function" then return end;
+
+        local facing = GetPlayerFacing();
+        if type(facing) == "number" then
+            return facing
+        end
+    end
+
+    local function GetYawSpeed()
+        local speed = tonumber(GetCVar("cameraYawMoveSpeed"));
+        if not speed or speed <= 0 then
+            speed = TURN_DEFAULT_SPEED
+        end
+
+        return math.rad(speed)
+    end
+
+    local function TurnTowardsNPC(self)
+        if self.turnedNative335 then return end;
+
+        local cameraYaw = GetCameraYaw();
+        local targetYaw = GetYawTowards("npc");
+
+        --No coordinates for the NPC or no facing to compare with: the client gives no direction, so the
+        --camera keeps the view the player chose.
+        if not (cameraYaw and targetYaw) then return end;
+
+        local delta = targetYaw - cameraYaw;
+        delta = math.atan2(math.sin(delta), math.cos(delta));
+
+        if math.abs(delta) < TURN_DEADZONE then return end;
+
+        local duration = math.abs(delta) / GetYawSpeed();
+        if duration > TURN_MAX_DURATION then
+            duration = TURN_MAX_DURATION
+        end
+
+        if PanDriver:Run(delta < 0, duration) then
+            self.turnedNative335 = true;
+            --Restore turns the camera back the way it came, like the pan of the other mode
+            self.pannedNative335 = { left = delta < 0, duration = duration };
+        end
+    end
+
     function CameraUtil:ZoomTo(goal, noZoomOut)
         if not self.isActive then return end;
 
         SaveCameraOnce(self);
+
+        if self.cameraMode == 1 then
+            TurnTowardsNPC(self);
+        end
 
         local goalRetail = tonumber(goal);
         local view = GetView();
@@ -1731,6 +1790,7 @@ if addon.IS_335 then
         self.fovChanged = nil;
         self.oldZoom = nil;
         self.currentZoom335 = nil;
+        self.turnedNative335 = nil;
 
         --HideUI hides UIParent itself on this client, so the interface has to come back even when there
         --was nothing to restore; otherwise the player is left with no windows at all.
