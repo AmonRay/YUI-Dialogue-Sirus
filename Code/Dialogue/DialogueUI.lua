@@ -2142,79 +2142,46 @@ end
 
 do  --Client panels opened from a gossip option
     --A vendor, trainer or transmogrifier option ends the gossip on the client, but 3.3.5a does not
-    --always send GOSSIP_CLOSED for it, so the addon window stayed on screen behind or above the
-    --client's own panel. Close it when the client shows a panel that was hidden when we opened, or
-    --when the NPC's gossip options are gone.
-    local PANELS = {
-        "MerchantFrame", "TrainerFrame", "BankFrame", "AuctionFrame", "MailFrame", "TabardFrame",
-        "PetStableFrame", "BarberShopFrame", "WardrobeFrame", "CollectionsJournal",
+    --always send GOSSIP_CLOSED for it: the client just shows its own panel. Both signals come from the
+    --client itself - the panel events, and the ShowUIPanel call every panel is opened through - so no
+    --polling is needed.
+    local PANEL_EVENTS = {
+        "MERCHANT_SHOW", "TRAINER_SHOW", "BANKFRAME_OPENED", "AUCTION_HOUSE_SHOW",
+        "MAIL_SHOW", "PET_STABLE_SHOW", "BARBER_SHOP_OPEN",
     };
-    local CHECK_INTERVAL = 0.25;
-    local EMPTY_TICKS = 2;      --ignore a single frame where the client is rebuilding the option list
 
-    local function PanelOpened(baseline)
-        for _, name in ipairs(PANELS) do
-            local frame = _G[name];
-            if frame and frame.IsShown and not baseline[name] and frame:IsShown() then
-                return true
+    local manager = CreateFrame("Frame");
+    manager:Hide();
+
+    for _, event in ipairs(PANEL_EVENTS) do
+        manager:RegisterEvent(event);
+    end
+
+    local function OnClientPanel()
+        local owner = manager.owner;
+        if owner and owner:IsShown() then
+            owner:HideUI();
+        end
+    end
+
+    manager:SetScript("OnEvent", OnClientPanel);
+
+    do  --Wardrobe and other custom panels send no event of their own, but they open through ShowUIPanel
+        local original = _G.ShowUIPanel;
+        if addon.IS_335 and type(original) == "function" then
+            _G.ShowUIPanel = function(frame, ...)
+                local result = original(frame, ...);
+                if frame and frame ~= GossipFrame and frame ~= QuestFrame then
+                    OnClientPanel();
+                end
+                return result
             end
         end
     end
 
     function DUIDialogBaseMixin:WatchClientInteraction()
         if not addon.IS_335 then return end;
-        if self.interactionWatcher then return end;
-
-        local baseline = {};
-        for _, name in ipairs(PANELS) do
-            local frame = _G[name];
-            baseline[name] = (frame and frame.IsShown and frame:IsShown()) and true or false;
-        end
-
-        local watcher = CreateFrame("Frame");
-        watcher.t = 0;
-        watcher.emptyTicks = 0;
-
-        watcher:SetScript("OnUpdate", function(self, elapsed)
-            self.t = self.t + elapsed;
-            if self.t < CHECK_INTERVAL then return end;
-            self.t = 0;
-
-            local owner = watcher.owner;
-            if not (owner and owner:IsShown()) then
-                self:SetScript("OnUpdate", nil);
-                self:Hide();
-                if owner then owner.interactionWatcher = nil end;
-                return
-            end
-
-            if PanelOpened(baseline) then
-                self:SetScript("OnUpdate", nil);
-                self:Hide();
-                owner.interactionWatcher = nil;
-                owner:HideUI();
-                return
-            end
-
-            if owner.handler == "HandleGossip" and type(GetGossipOptions) == "function" then
-                if select("#", GetGossipOptions()) == 0 then
-                    self.emptyTicks = self.emptyTicks + 1;
-                    if self.emptyTicks >= EMPTY_TICKS then
-                        self:SetScript("OnUpdate", nil);
-                        self:Hide();
-                        owner.interactionWatcher = nil;
-                        owner:HideUI();
-                    end
-                    return
-                end
-            end
-
-            self.emptyTicks = 0;
-        end);
-
-        watcher.owner = self;
-        self.interactionWatcher = watcher;
-        watcher:Show();
+        manager.owner = self;
     end
 end
 
